@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.commandBased;
+package org.firstinspires.ftc.teamcode.commandBased.Subsystems;
 
 import com.arcrobotics.ftclib.command.SubsystemBase;
 import com.arcrobotics.ftclib.drivebase.MecanumDrive;
@@ -15,6 +15,6 @@ public class DriveSubsystem extends SubsystemBase {
         drive = new MecanumDrive(frontLeft, frontRight, backLeft, backRight);
     }
     public void drive(double strafeSpeed, double forwardSpeed, double turnSpeed){
-//        drive.driveRobotCentric(strafeSpeed, forwardSpeed, turnSpeed);
+        drive.driveRobotCentric(strafeSpeed, forwardSpeed, turnSpeed);
     }
 }

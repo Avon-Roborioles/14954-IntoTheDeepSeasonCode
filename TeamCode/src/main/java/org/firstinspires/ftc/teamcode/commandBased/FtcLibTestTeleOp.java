@@ -5,6 +5,8 @@ import com.arcrobotics.ftclib.gamepad.GamepadEx;
 import com.arcrobotics.ftclib.hardware.motors.Motor;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
+import org.firstinspires.ftc.teamcode.commandBased.Subsystems.DriveSubsystem;
+
 
 @TeleOp(name = "FtcLibTest")
 public class FtcLibTestTeleOp extends CommandOpMode {
@@ -28,5 +30,9 @@ public class FtcLibTestTeleOp extends CommandOpMode {
 
         register(driveSubsystem);
         driveSubsystem.setDefaultCommand(driveCommand);
+    }
+
+    public void run() {
+
     }
 }
