@@ -4,13 +4,20 @@ import com.arcrobotics.ftclib.command.CommandOpMode;
 import com.arcrobotics.ftclib.gamepad.GamepadEx;
 import com.arcrobotics.ftclib.hardware.motors.Motor;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.IMU;
 
+import org.firstinspires.ftc.teamcode.commandBased.Commands.DriveCommand;
+import org.firstinspires.ftc.teamcode.commandBased.Commands.ImuCommand;
 import org.firstinspires.ftc.teamcode.commandBased.Subsystems.DriveSubsystem;
+import org.firstinspires.ftc.teamcode.commandBased.Subsystems.ImuSubsystem;
 
 
 @TeleOp(name = "FtcLibTest")
 public class FtcLibTestTeleOp extends CommandOpMode {
     private Motor frontLeft, frontRight, backLeft, backRight;
+    private IMU imu;
+    private ImuSubsystem imuSubsystem;
+    private ImuCommand imuCommand;
     private DriveSubsystem driveSubsystem;
     private DriveCommand driveCommand;
 
@@ -21,18 +28,17 @@ public class FtcLibTestTeleOp extends CommandOpMode {
         frontRight = new Motor(hardwareMap, "frontRight");
         backLeft = new Motor(hardwareMap, "backLeft");
         backRight = new Motor(hardwareMap, "backRight");
-
         driverOp = new GamepadEx(gamepad1);
         operatorOp = new GamepadEx(gamepad2);
-
-        driveSubsystem = new DriveSubsystem(frontLeft, frontRight, backLeft, backRight);
-        driveCommand = new DriveCommand(driveSubsystem, driverOp::getLeftX, driverOp::getLeftY, driverOp::getRightX);
-
-        register(driveSubsystem);
+        imuSubsystem = new ImuSubsystem(imu,hardwareMap, telemetry);
+        imuCommand = new ImuCommand(imuSubsystem, imu, hardwareMap);
+        driveSubsystem = new DriveSubsystem(frontLeft, frontRight, backLeft, backRight, telemetry);
+        telemetry.addLine("test1");
+        telemetry.update();
+        driveCommand = new DriveCommand(driveSubsystem, driverOp::getLeftX, driverOp::getLeftY, driverOp::getRightX , imuSubsystem::getImuYawDeg, telemetry);
+        telemetry.addLine("test2");
+        telemetry.update();
+        register(driveSubsystem, imuSubsystem);
         driveSubsystem.setDefaultCommand(driveCommand);
-    }
-
-    public void run() {
-
     }
 }
