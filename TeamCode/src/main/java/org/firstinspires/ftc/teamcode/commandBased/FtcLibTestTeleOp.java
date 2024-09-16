@@ -28,6 +28,10 @@ public class FtcLibTestTeleOp extends CommandOpMode {
         frontRight = new Motor(hardwareMap, "frontRight");
         backLeft = new Motor(hardwareMap, "backLeft");
         backRight = new Motor(hardwareMap, "backRight");
+        frontLeft.setInverted(true);
+        frontRight.setInverted(true);
+        backLeft.setInverted(true);
+        backRight.setInverted(true);
         driverOp = new GamepadEx(gamepad1);
         operatorOp = new GamepadEx(gamepad2);
         imuSubsystem = new ImuSubsystem(imu,hardwareMap, telemetry);
