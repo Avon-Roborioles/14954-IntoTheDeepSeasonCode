@@ -11,9 +11,11 @@ import org.firstinspires.ftc.robotcore.external.navigation.YawPitchRollAngles;
 
 public class ImuSubsystem extends SubsystemBase {
     private IMU imu;
+    private Telemetry telemetry;
     public ImuSubsystem(IMU imu1, HardwareMap hardwareMap, Telemetry telemetry){
         imu = imu1;
         imu = hardwareMap.get(IMU.class, "imu");
+        this.telemetry = telemetry;
         RevHubOrientationOnRobot.LogoFacingDirection logoDirection = RevHubOrientationOnRobot.LogoFacingDirection.UP;
         RevHubOrientationOnRobot.UsbFacingDirection  usbDirection  = RevHubOrientationOnRobot.UsbFacingDirection.FORWARD;
         RevHubOrientationOnRobot orientationOnRobot = new RevHubOrientationOnRobot(logoDirection, usbDirection);
@@ -25,6 +27,8 @@ public class ImuSubsystem extends SubsystemBase {
         return imu.getRobotYawPitchRollAngles();
     }
     public double getImuYawDeg(){
+        telemetry.addData("yaw" ,getImuValues().getYaw(AngleUnit.DEGREES));
+        telemetry.update();
         return getImuValues().getYaw(AngleUnit.DEGREES);
     }
 
