@@ -20,7 +20,6 @@ public class ImuSubsystem extends SubsystemBase {
         imu.initialize(new IMU.Parameters(orientationOnRobot));
         telemetry.addLine("ImuInit");
         telemetry.update();
-
     }
     public YawPitchRollAngles getImuValues(){
         return imu.getRobotYawPitchRollAngles();

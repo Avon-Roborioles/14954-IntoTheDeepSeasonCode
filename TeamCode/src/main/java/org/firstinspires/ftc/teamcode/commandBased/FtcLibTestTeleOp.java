@@ -17,7 +17,7 @@ public class FtcLibTestTeleOp extends CommandOpMode {
     private Motor frontLeft, frontRight, backLeft, backRight;
     private IMU imu;
     private ImuSubsystem imuSubsystem;
-    private ImuCommand imuCommand;
+
     private DriveSubsystem driveSubsystem;
     private DriveCommand driveCommand;
 
@@ -35,7 +35,7 @@ public class FtcLibTestTeleOp extends CommandOpMode {
         driverOp = new GamepadEx(gamepad1);
         operatorOp = new GamepadEx(gamepad2);
         imuSubsystem = new ImuSubsystem(imu,hardwareMap, telemetry);
-        imuCommand = new ImuCommand(imuSubsystem, imu, hardwareMap);
+//        imuCommand = new ImuCommand(imuSubsystem, imu, hardwareMap); // not used for this case
         driveSubsystem = new DriveSubsystem(frontLeft, frontRight, backLeft, backRight, telemetry);
         telemetry.addLine("test1");
         telemetry.update();
