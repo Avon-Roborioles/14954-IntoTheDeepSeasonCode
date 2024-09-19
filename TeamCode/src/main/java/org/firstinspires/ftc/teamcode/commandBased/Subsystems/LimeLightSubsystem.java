@@ -26,6 +26,7 @@ public class LimeLightSubsystem extends SubsystemBase {
                 telemetry.addData("ty", result.getTy());
                 telemetry.addData("Botpose", botpose.toString());
                 telemetry.addData("tags", result.getBotposeTagCount());
+                telemetry.update();
             }
         }
     }

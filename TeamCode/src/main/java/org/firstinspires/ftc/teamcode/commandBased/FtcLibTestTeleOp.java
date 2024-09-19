@@ -60,9 +60,10 @@ public class FtcLibTestTeleOp extends CommandOpMode {
         limeLightCommand = new LimelightCommand(limelight, limeLightSubsystem, telemetry, 0);
         aButton = (new GamepadButton(driverOp, GamepadKeys.Button.A))
                 .whenPressed(imuResetCommand);//should reset Imu's yaw when a is pressed
+        bButton = (new GamepadButton(driverOp, GamepadKeys.Button.B))
+                .toggleWhenPressed(limeLightCommand);//should reset Imu's yaw when a is pressed
         driveCommand = new DriveCommand(driveSubsystem, driverOp::getLeftX, driverOp::getLeftY, driverOp::getRightX , imuSubsystem::getImuYawDeg, telemetry);
         register(driveSubsystem, imuSubsystem, limeLightSubsystem);
-        limeLightSubsystem.setDefaultCommand(limeLightCommand);
         driveSubsystem.setDefaultCommand(driveCommand);
 
     }

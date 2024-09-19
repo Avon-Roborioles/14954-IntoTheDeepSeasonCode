@@ -24,7 +24,7 @@ public class ImuSubsystem extends SubsystemBase {
         return imu.getRobotYawPitchRollAngles();
     }
     public double getImuYawDeg(){
-        telemetry.addData("yaw" ,getImuValues().getYaw(AngleUnit.DEGREES));
+//        telemetry.addData("yaw" ,getImuValues().getYaw(AngleUnit.DEGREES));
         return getImuValues().getYaw(AngleUnit.DEGREES);
     }
     public void resetYaw(){
