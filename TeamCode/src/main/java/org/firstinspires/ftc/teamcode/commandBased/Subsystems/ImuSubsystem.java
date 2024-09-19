@@ -25,7 +25,6 @@ public class ImuSubsystem extends SubsystemBase {
     }
     public double getImuYawDeg(){
         telemetry.addData("yaw" ,getImuValues().getYaw(AngleUnit.DEGREES));
-//        telemetry.update();
         return getImuValues().getYaw(AngleUnit.DEGREES);
     }
     public void resetYaw(){
