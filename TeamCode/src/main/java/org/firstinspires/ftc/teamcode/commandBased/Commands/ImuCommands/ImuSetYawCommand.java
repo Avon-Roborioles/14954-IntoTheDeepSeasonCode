@@ -9,20 +9,18 @@ import org.firstinspires.ftc.teamcode.commandBased.Subsystems.ImuSubsystem;
 public class ImuSetYawCommand extends CommandBase {
     private ImuSubsystem imuSubsystem;
     private ImuResetCommand imuResetCommand;
-    private IMU imu;
     private double currentYaw;
     private Telemetry telemetry;
-    public ImuSetYawCommand(ImuSubsystem imuSubsystem,IMU imu, ImuResetCommand imuResetCommand, double currentYaw, Telemetry telemetry){
+    public ImuSetYawCommand(ImuSubsystem imuSubsystem, ImuResetCommand imuResetCommand, double currentYaw, Telemetry telemetry){
         this.imuSubsystem = imuSubsystem;
-        this.imu = imu;
         this.imuResetCommand = imuResetCommand;
         this.currentYaw = currentYaw;
         this.telemetry = telemetry;
+        addRequirements(imuSubsystem);
     }
     @Override
     public void execute(){
         telemetry.addData("current Yaw", currentYaw);
-        telemetry.addLine("test");
         telemetry.update();
     }
     @Override

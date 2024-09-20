@@ -30,9 +30,9 @@ public class FtcLibTest1 extends CommandOpMode {
         driverOp = new GamepadEx(gamepad1);
         imu = hardwareMap.get(IMU.class, "imu");
         imuSubsystem = new ImuSubsystem(imu, orientationOnRobot, telemetry);
-        getYawCommand = new GetYawCommand(imuSubsystem, imu);
-        imuResetCommand = new ImuResetCommand(imuSubsystem, imu, telemetry);
-        imuSetYawCommand = new ImuSetYawCommand(imuSubsystem, imu, imuResetCommand, 43, telemetry);
+        getYawCommand = new GetYawCommand(imuSubsystem);
+        imuResetCommand = new ImuResetCommand(imuSubsystem);
+        imuSetYawCommand = new ImuSetYawCommand(imuSubsystem, imuResetCommand, 43, telemetry);
         aButton = (new GamepadButton(driverOp, GamepadKeys.Button.A))
                 .whenPressed(imuResetCommand);//should reset Imu's yaw when a is pressed
         bButton = (new GamepadButton(driverOp, GamepadKeys.Button.B))

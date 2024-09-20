@@ -11,14 +11,12 @@ public class DriveCommand extends CommandBase {
     private DriveSubsystem driveSubsystem;
     private DoubleSupplier strafe, forward, turn, heading;
 
-    public DriveCommand(DriveSubsystem driveSubsystem, DoubleSupplier strafe, DoubleSupplier forward, DoubleSupplier turn, DoubleSupplier heading, Telemetry telemetry){
+    public DriveCommand(DriveSubsystem driveSubsystem, DoubleSupplier strafe, DoubleSupplier forward, DoubleSupplier turn, DoubleSupplier heading){
         this.driveSubsystem = driveSubsystem;
         this.strafe = strafe;
         this.forward = forward;
         this.turn = turn;
         this.heading = heading;
-        telemetry.addLine("drive command");
-        telemetry.update();
         addRequirements(driveSubsystem);
     }
     @Override

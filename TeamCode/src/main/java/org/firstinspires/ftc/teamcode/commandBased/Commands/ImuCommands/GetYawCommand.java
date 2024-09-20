@@ -8,11 +8,8 @@ import org.firstinspires.ftc.teamcode.commandBased.Subsystems.ImuSubsystem;
 
 public class GetYawCommand extends CommandBase {
     private final ImuSubsystem imuSubsystem;
-    private final IMU imu;
-
-    public GetYawCommand(ImuSubsystem imuSubsystem, IMU imu){
+    public GetYawCommand(ImuSubsystem imuSubsystem){
         this.imuSubsystem = imuSubsystem;
-        this.imu = imu;
         addRequirements(imuSubsystem);
     }
     public void initialize(){

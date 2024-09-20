@@ -8,12 +8,8 @@ import org.firstinspires.ftc.teamcode.commandBased.Subsystems.ImuSubsystem;
 
 public class ImuResetCommand extends CommandBase {
     private final ImuSubsystem imuSubsystem;
-    private final IMU imu;
-    private Telemetry telemetry;
-    public ImuResetCommand(ImuSubsystem imuSubsystem, IMU imu, Telemetry telemetry){
-        this.telemetry = telemetry;
+       public ImuResetCommand(ImuSubsystem imuSubsystem){
         this.imuSubsystem = imuSubsystem;
-        this.imu = imu;
         addRequirements(imuSubsystem);
     }
     @Override

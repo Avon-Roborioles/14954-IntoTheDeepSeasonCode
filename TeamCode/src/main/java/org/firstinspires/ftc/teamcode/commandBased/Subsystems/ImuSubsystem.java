@@ -24,13 +24,13 @@ public class ImuSubsystem extends SubsystemBase {
         return imu.getRobotYawPitchRollAngles();
     }
     public double getImuYawDeg(){
-//        telemetry.addData("yaw" ,getImuValues().getYaw(AngleUnit.DEGREES));
         return getImuValues().getYaw(AngleUnit.DEGREES);
     }
     public void resetYaw(){
         imu.resetYaw();
-        telemetry.addData("yaw" ,getImuValues().getYaw(AngleUnit.DEGREES));
-        telemetry.update();
+    }
+    public void imuTelemetry(){
+        telemetry.addData("yaw", getImuYawDeg());
     }
 
 }
