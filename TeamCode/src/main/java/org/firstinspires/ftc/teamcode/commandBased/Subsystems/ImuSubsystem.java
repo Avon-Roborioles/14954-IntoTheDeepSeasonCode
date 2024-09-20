@@ -29,7 +29,7 @@ public class ImuSubsystem extends SubsystemBase {
     public void resetYaw(){
         imu.resetYaw();
     }
-    public void imuTelemetry(){
+    public void getImuTelemetry(){
         telemetry.addData("yaw", getImuYawDeg());
     }
 

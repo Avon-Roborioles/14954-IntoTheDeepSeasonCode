@@ -35,8 +35,8 @@ public class LimelightSubsystem extends SubsystemBase {
         }
         return result;
     }
-    public void readAprilTagToTelemetry(){
-        getResult();
+    public void getLimelightTelemetry(){
+        readAprilTag();
         if (result != null) {
             if (result.isValid()) {
                 Pose3D botpose = result.getBotpose();
