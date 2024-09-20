@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.commandBased.Commands.VisionCommands;
 
 import com.arcrobotics.ftclib.command.CommandBase;
+import com.qualcomm.hardware.limelightvision.LLResult;
 import com.qualcomm.hardware.limelightvision.Limelight3A;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
@@ -11,6 +12,7 @@ public class LimelightCommand extends CommandBase {
     private LimeLightSubsystem limeLightSubsystem;
     private double pipeline;
     private Telemetry telemetry;
+    private LLResult lastResult;
 
     public LimelightCommand(Limelight3A limelight, LimeLightSubsystem limeLightSubsystem, Telemetry telemetry, double pipeline){
         this.limelight = limelight;
@@ -21,7 +23,9 @@ public class LimelightCommand extends CommandBase {
     }
     @Override
     public void execute(){
-        limeLightSubsystem.readAprilTagToTelemetry();
+        lastResult = limeLightSubsystem.readAprilTag();
+        telemetry.addData("lastResult", lastResult);
+        telemetry.update();
     }
 
 }

@@ -6,6 +6,7 @@ import com.qualcomm.hardware.limelightvision.Limelight3A;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.robotcore.external.navigation.Pose3D;
+import org.firstinspires.ftc.robotcore.external.navigation.YawPitchRollAngles;
 
 public class LimeLightSubsystem extends SubsystemBase {
     private Limelight3A limelight;
@@ -16,6 +17,23 @@ public class LimeLightSubsystem extends SubsystemBase {
         limeLight.pipelineSwitch(pipeline);
         limeLight.start();
         this.telemetry = telemetry;
+    }
+    public LLResult readAprilTag(){
+        getResult();
+        if (result != null) {
+            if (result.isValid()) {
+                Pose3D botpose = result.getBotpose();
+                telemetry.addData("tx", result.getTx());
+                telemetry.addData("ty", result.getTy());
+                telemetry.addData("Botpose", botpose.toString());
+                telemetry.addData("tags", result.getBotposeTagCount());
+                return result;
+            }
+        }else {
+            telemetry.addLine("null result");
+            return null;
+        }
+        return result;
     }
     public void readAprilTagToTelemetry(){
         getResult();
