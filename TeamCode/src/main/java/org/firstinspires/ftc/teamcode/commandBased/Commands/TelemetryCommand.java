@@ -9,11 +9,9 @@ public class TelemetryCommand extends CommandBase {
 
     public TelemetryCommand(TelemetrySubsystem telemetrySubsystem){
         this.telemetrySubsystem = telemetrySubsystem;
+        addRequirements(telemetrySubsystem);
     }
     @Override
     public void execute(){telemetrySubsystem.getTelemetry();}
-    @Override
-    public boolean isFinished() {
-        return true;
-    }
+
 }
