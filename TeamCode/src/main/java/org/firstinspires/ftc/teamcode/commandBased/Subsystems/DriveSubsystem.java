@@ -22,6 +22,5 @@ public class DriveSubsystem extends SubsystemBase {
         drive.driveFieldCentric(strafeSpeed, forwardSpeed, turnSpeed, gyroAngle);
     }
     public void getDriveTelemetry(){
-        telemetry.addLine("");
     }
 }

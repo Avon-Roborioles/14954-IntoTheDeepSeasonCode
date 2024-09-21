@@ -17,7 +17,7 @@ import org.firstinspires.ftc.teamcode.commandBased.Subsystems.ImuSubsystem;
 
 @Disabled
 @TeleOp(name = "ImuTest1")
-public class FtcLibTest1 extends CommandOpMode {
+public class ImuTest extends CommandOpMode {
     private IMU imu;
     private RevHubOrientationOnRobot orientationOnRobot = new RevHubOrientationOnRobot(RevHubOrientationOnRobot.LogoFacingDirection.UP, RevHubOrientationOnRobot.UsbFacingDirection.FORWARD);;
     private ImuSubsystem imuSubsystem;

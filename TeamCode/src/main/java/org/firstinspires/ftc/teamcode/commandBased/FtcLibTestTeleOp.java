@@ -65,17 +65,17 @@ public class FtcLibTestTeleOp extends CommandOpMode {
         limelight = hardwareMap.get(Limelight3A.class, "limelight");
         limelightSubsystem = new LimelightSubsystem(limelight, telemetry);
         limeLightCommand = new LimelightAprilTagCommand(limelightSubsystem);
-        driveSubsystem = new DriveSubsystem(frontLeft, frontRight, backLeft, backRight, telemetry);
-        driveCommand = new DriveCommand(driveSubsystem, driverOp::getLeftX, driverOp::getLeftY, driverOp::getRightX , imuSubsystem::getImuYawDeg);
-        localizerSubsystem = new LocalizerSubsystem(telemetry, imuSubsystem);
+        localizerSubsystem = new LocalizerSubsystem(telemetry, imuSubsystem, limelightSubsystem);
         localizerCommand = new LocalizerCommand(imuSubsystem, localizerSubsystem);
+        driveSubsystem = new DriveSubsystem(frontLeft, frontRight, backLeft, backRight, telemetry);
+        driveCommand = new DriveCommand(driveSubsystem, driverOp::getLeftX, driverOp::getLeftY, driverOp::getRightX , localizerSubsystem::getImuHeading);
         telemetrySubsystem = new TelemetrySubsystem(telemetry, imuSubsystem, limelightSubsystem, driveSubsystem, localizerSubsystem);
         telemetryCommand= new TelemetryCommand(telemetrySubsystem);
         aButton = (new GamepadButton(driverOp, GamepadKeys.Button.A))
                 .whenPressed(imuResetCommand);//should reset Imu's yaw when a is pressed
         bButton = (new GamepadButton(driverOp, GamepadKeys.Button.B))
                 .toggleWhenPressed(limeLightCommand);
-        register(driveSubsystem, imuSubsystem, limelightSubsystem);
+        register(driveSubsystem, imuSubsystem, limelightSubsystem, localizerSubsystem);
         telemetrySubsystem.setDefaultCommand(telemetryCommand);
         driveSubsystem.setDefaultCommand(driveCommand);
     }
