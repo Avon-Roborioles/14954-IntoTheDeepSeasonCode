@@ -12,11 +12,11 @@ public class ImuSubsystem extends SubsystemBase {
     private IMU imu;
     private Telemetry telemetry;
     private RevHubOrientationOnRobot orientationOnRobot;
-    public ImuSubsystem(IMU imu1, RevHubOrientationOnRobot orientationOnRobot, Telemetry telemetry){
-        imu = imu1;
+    public ImuSubsystem(IMU imu, RevHubOrientationOnRobot orientationOnRobot, Telemetry telemetry){
+        this.imu = imu;
         this.orientationOnRobot = orientationOnRobot;
         this.telemetry = telemetry;
-        imu.initialize(new IMU.Parameters(orientationOnRobot));
+        this.imu.initialize(new IMU.Parameters(orientationOnRobot));
     }
     public YawPitchRollAngles getImuValues(){
         return imu.getRobotYawPitchRollAngles();

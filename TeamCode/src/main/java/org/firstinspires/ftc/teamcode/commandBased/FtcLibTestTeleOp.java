@@ -58,20 +58,19 @@ public class FtcLibTestTeleOp extends CommandOpMode {
         orientationOnRobot = new RevHubOrientationOnRobot(logoDirection, usbDirection);
         imuSubsystem = new ImuSubsystem(imu, orientationOnRobot, telemetry);
         imuResetCommand = new ImuResetCommand(imuSubsystem);
-        driveSubsystem = new DriveSubsystem(frontLeft, frontRight, backLeft, backRight, telemetry);
         limelight = hardwareMap.get(Limelight3A.class, "limelight");
         limelightSubsystem = new LimelightSubsystem(limelight, telemetry);
         limeLightCommand = new LimelightAprilTagCommand(limelightSubsystem);
+        driveSubsystem = new DriveSubsystem(frontLeft, frontRight, backLeft, backRight, telemetry);
+        driveCommand = new DriveCommand(driveSubsystem, driverOp::getLeftX, driverOp::getLeftY, driverOp::getRightX , imuSubsystem::getImuYawDeg);
         telemetrySubsystem = new TelemetrySubsystem(telemetry, imuSubsystem, limelightSubsystem, driveSubsystem);
         telemetryCommand= new TelemetryCommand(telemetrySubsystem);
         aButton = (new GamepadButton(driverOp, GamepadKeys.Button.A))
                 .whenPressed(imuResetCommand);//should reset Imu's yaw when a is pressed
         bButton = (new GamepadButton(driverOp, GamepadKeys.Button.B))
                 .toggleWhenPressed(limeLightCommand);
-        driveCommand = new DriveCommand(driveSubsystem, driverOp::getLeftX, driverOp::getLeftY, driverOp::getRightX , imuSubsystem::getImuYawDeg);
         register(driveSubsystem, imuSubsystem, limelightSubsystem);
         telemetrySubsystem.setDefaultCommand(telemetryCommand);
         driveSubsystem.setDefaultCommand(driveCommand);
-
     }
 }
