@@ -9,18 +9,21 @@ public class TelemetrySubsystem extends SubsystemBase {
     private ImuSubsystem imuSubsystem;
     private LimelightSubsystem limelightSubsystem;
     private DriveSubsystem driveSubsystem;
+    private LocalizerSubsystem localizerSubsystem;
 
-    public TelemetrySubsystem(Telemetry telemetry, ImuSubsystem imuSubsystem, LimelightSubsystem limelightSubsystem, DriveSubsystem driveSubsystem ){
+    public TelemetrySubsystem(Telemetry telemetry, ImuSubsystem imuSubsystem, LimelightSubsystem limelightSubsystem, DriveSubsystem driveSubsystem, LocalizerSubsystem localizerSubsystem){
         this.telemetry = telemetry;
         this.imuSubsystem = imuSubsystem;
         this.limelightSubsystem = limelightSubsystem;
         this.driveSubsystem = driveSubsystem;
+        this.localizerSubsystem = localizerSubsystem;
         telemetry.setMsTransmissionInterval(12);
 
     }
     public void getTelemetry(){
         clearTelemetry();
         imuSubsystem.getImuTelemetry();
+        localizerSubsystem.getLocalizerTelemetry();
         limelightSubsystem.getLimelightTelemetry();
         driveSubsystem.getDriveTelemetry();
         updateTelemetry();

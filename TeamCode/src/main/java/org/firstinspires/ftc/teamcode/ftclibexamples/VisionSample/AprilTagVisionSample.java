@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode.ftclibexamples.VisionSample;
 
 import com.arcrobotics.ftclib.vision.AprilTagDetector;
 import com.arcrobotics.ftclib.vision.DetectorState;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.openftc.easyopencv.OpenCvCamera;
@@ -10,7 +11,7 @@ import org.openftc.easyopencv.OpenCvCameraRotation;
 import java.text.DecimalFormat;
 import java.util.List;
 import java.util.Map;
-
+@Disabled
 public class AprilTagVisionSample extends LinearOpMode {
 
     AprilTagDetector aprilTagDetector;

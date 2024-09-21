@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.OpModes;
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
@@ -7,6 +8,7 @@ import org.firstinspires.ftc.teamcode.Call_Upon_Classes.Imu;
 import org.firstinspires.ftc.teamcode.Call_Upon_Classes.LimeLight;
 
 @TeleOp
+@Disabled
 public class TestOpMode1 extends LinearOpMode {
     public final Imu imu = new Imu();
     public final LimeLight limeLight = new LimeLight();

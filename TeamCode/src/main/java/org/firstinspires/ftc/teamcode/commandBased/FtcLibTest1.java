@@ -6,6 +6,7 @@ import com.arcrobotics.ftclib.command.button.GamepadButton;
 import com.arcrobotics.ftclib.gamepad.GamepadEx;
 import com.arcrobotics.ftclib.gamepad.GamepadKeys;
 import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.IMU;
 
@@ -14,7 +15,7 @@ import org.firstinspires.ftc.teamcode.commandBased.Commands.ImuCommands.ImuReset
 import org.firstinspires.ftc.teamcode.commandBased.Commands.ImuCommands.ImuSetYawCommand;
 import org.firstinspires.ftc.teamcode.commandBased.Subsystems.ImuSubsystem;
 
-
+@Disabled
 @TeleOp(name = "ImuTest1")
 public class FtcLibTest1 extends CommandOpMode {
     private IMU imu;
