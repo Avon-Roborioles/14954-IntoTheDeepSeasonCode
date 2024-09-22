@@ -17,6 +17,6 @@ public class LocalizerCommand extends CommandBase {
     }
     @Override
     public void execute(){
-        localizerSubsystem.getImuHeading();
+        localizerSubsystem.getLocalizerHeadingTele(false);
     }
 }

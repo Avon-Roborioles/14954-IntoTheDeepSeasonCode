@@ -17,7 +17,7 @@ public class TelemetrySubsystem extends SubsystemBase {
         this.limelightSubsystem = limelightSubsystem;
         this.driveSubsystem = driveSubsystem;
         this.localizerSubsystem = localizerSubsystem;
-        telemetry.setMsTransmissionInterval(12);
+        telemetry.setMsTransmissionInterval(20);
 
     }
     public void getTelemetry(){

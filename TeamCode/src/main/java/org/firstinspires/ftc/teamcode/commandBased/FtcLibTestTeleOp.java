@@ -76,6 +76,7 @@ public class FtcLibTestTeleOp extends CommandOpMode {
         bButton = (new GamepadButton(driverOp, GamepadKeys.Button.B))
                 .toggleWhenPressed(limeLightCommand);
         register(driveSubsystem, imuSubsystem, limelightSubsystem, localizerSubsystem);
+        localizerSubsystem.setDefaultCommand(localizerCommand);
         telemetrySubsystem.setDefaultCommand(telemetryCommand);
         driveSubsystem.setDefaultCommand(driveCommand);
     }
