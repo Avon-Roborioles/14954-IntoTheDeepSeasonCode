@@ -68,7 +68,7 @@ public class FtcLibTestTeleOp extends CommandOpMode {
         localizerSubsystem = new LocalizerSubsystem(telemetry, imuSubsystem, limelightSubsystem);
         localizerCommand = new LocalizerCommand(imuSubsystem, localizerSubsystem);
         driveSubsystem = new DriveSubsystem(frontLeft, frontRight, backLeft, backRight, telemetry);
-        driveCommand = new DriveCommand(driveSubsystem, driverOp::getLeftX, driverOp::getLeftY, driverOp::getRightX , localizerSubsystem::getImuHeading);
+        driveCommand = new DriveCommand(driveSubsystem, driverOp::getLeftX, driverOp::getLeftY, driverOp::getRightX , localizerSubsystem::getLocalizerHeadingTele);
         telemetrySubsystem = new TelemetrySubsystem(telemetry, imuSubsystem, limelightSubsystem, driveSubsystem, localizerSubsystem);
         telemetryCommand= new TelemetryCommand(telemetrySubsystem);
         aButton = (new GamepadButton(driverOp, GamepadKeys.Button.A))

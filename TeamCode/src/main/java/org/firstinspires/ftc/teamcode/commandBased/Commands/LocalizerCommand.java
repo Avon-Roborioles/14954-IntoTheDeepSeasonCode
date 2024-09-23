@@ -17,6 +17,6 @@ public class LocalizerCommand extends CommandBase {
     }
     @Override
     public void execute(){
-        localizerSubsystem.getLocalizerHeadingTele(false);
+        localizerSubsystem.getLocalizerHeadingTele();
     }
 }

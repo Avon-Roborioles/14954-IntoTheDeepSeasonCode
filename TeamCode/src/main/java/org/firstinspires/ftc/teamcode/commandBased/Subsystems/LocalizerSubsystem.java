@@ -20,7 +20,7 @@ public class LocalizerSubsystem extends SubsystemBase {
 
     }
     public double getImuHeading(){
-        return imuSubsystem.getImuYawDeg();
+        return imuSubsystem.getImuYawDeg() - imuYawCorrection;
     }
     public void getLocalizerTelemetry(){
         telemetry.addData("Imu Localizer Heading", getImuHeading());
@@ -30,23 +30,23 @@ public class LocalizerSubsystem extends SubsystemBase {
     public double getLimelightHeading(){
         return limelightSubsystem.getYawAprilTag();
     }
-    public double getLocalizerHeadingTele(Boolean redAlliance){
-        if(redAlliance){
-            driveEaseCorrection = -90;
-        }else {
-            driveEaseCorrection = 90;
-        }
+    public double getLocalizerHeadingTele(){
+//        if(redAlliance){
+//            driveEaseCorrection = -90;
+//        }else {
+//            driveEaseCorrection = 90;
+//        }
         if(limelightSubsystem.readAprilTag().getBotposeTagCount() >= 2){
             imuSubsystem.resetYaw();
-            imuYawCorrection = limelightSubsystem.getYawAprilTag();
+            imuYawCorrection = limelightSubsystem.getYawAprilTag() - getImuHeading();
             yawCorrectionSet =true;
             yaw = limelightSubsystem.getYawAprilTag();
         }else if(limelightSubsystem.readAprilTag().getBotposeTagCount() == 1 && yawCorrectionSet){
-            yaw = ((imuSubsystem.getImuYawDeg() + imuYawCorrection) + limelightSubsystem.getYawAprilTag())/2;
+            yaw = (((imuSubsystem.getImuYawDeg() + imuYawCorrection)*20 + 80* limelightSubsystem.getYawAprilTag())/2)/100;
         }else if(limelightSubsystem.readAprilTag().getBotposeTagCount() == 1) {
             yaw = limelightSubsystem.getYawAprilTag();
         }else{
-            yaw = imuSubsystem.getImuYawDeg() + driveEaseCorrection;
+            yaw = imuSubsystem.getImuYawDeg();
         }
         return yaw;
     }
