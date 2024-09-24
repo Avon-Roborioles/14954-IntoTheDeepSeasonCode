@@ -32,8 +32,7 @@ public class OdometrySubsystem extends SubsystemBase {
         return odometry.getPosition();
     }
     public double getHeadingOdo(){
-        getOdometryPose();
-        return odometry.getHeading();
+        return getOdometryPose().getHeading(AngleUnit.DEGREES);
     }
     public void resetOdometry(){
         odometry.resetPosAndIMU();
@@ -41,6 +40,13 @@ public class OdometrySubsystem extends SubsystemBase {
     public void resetOdoImu(){
         odometry.recalibrateIMU();
     }
+    public void setOdoImuYaw(double yaw){
+        odometry.setPosition(new Pose2D( DistanceUnit.INCH, odometry.getPosition().getX(DistanceUnit.INCH) ,(odometry.getPosition().getY(DistanceUnit.INCH)), AngleUnit.DEGREES, yaw));
+    }
+    public void setOdoPos(Pose2D pos){
+        odometry.setPosition(pos);
+    }
+
     public void getTelemetryOdo(){
         Pose2D pos = odometry.getPosition();
         telemetry.addData("X", pos.getX(DistanceUnit.INCH));

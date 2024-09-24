@@ -21,15 +21,9 @@ public class LimelightSubsystem extends SubsystemBase {
     }
     public LLResult readAprilTag(){
         getResult();
-        if (result != null) {
-            if (result.isValid()) {
-                Pose3D botpose = result.getBotpose();
-                return result;
-            }
-        }else {
-            return null;
-        }
+        result = limelight.getLatestResult();
         return result;
+
     }
     public void getLimelightTelemetry(){
         readAprilTag();

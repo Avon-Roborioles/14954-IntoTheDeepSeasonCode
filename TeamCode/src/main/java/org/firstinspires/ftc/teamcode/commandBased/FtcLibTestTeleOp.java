@@ -75,7 +75,7 @@ public class FtcLibTestTeleOp extends CommandOpMode {
         limeLightCommand = new LimelightAprilTagCommand(limelightSubsystem);
         odometry = hardwareMap.get(GoBildaPinpointDriver.class, "odometry");
         odometrySubsystem = new OdometrySubsystem(odometry,telemetry);
-        localizerSubsystem = new LocalizerSubsystem(telemetry, imuSubsystem, limelightSubsystem, odometrySubsystem);
+        localizerSubsystem = new LocalizerSubsystem(telemetry, limelightSubsystem, odometrySubsystem);
         localizerCommand = new LocalizerCommand(imuSubsystem, localizerSubsystem, limelightSubsystem, odometrySubsystem);
         driveSubsystem = new DriveSubsystem(frontLeft, frontRight, backLeft, backRight, telemetry);
         driveCommand = new DriveCommand(driveSubsystem, driverOp::getLeftX, driverOp::getLeftY, driverOp::getRightX , localizerSubsystem::getLocalizerHeadingTele);
