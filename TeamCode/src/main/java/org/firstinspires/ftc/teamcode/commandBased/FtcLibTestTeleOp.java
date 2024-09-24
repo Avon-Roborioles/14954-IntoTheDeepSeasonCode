@@ -11,6 +11,7 @@ import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.IMU;
 
+import org.firstinspires.ftc.teamcode.GobuildaSample.GoBildaPinpointDriver;
 import org.firstinspires.ftc.teamcode.commandBased.Commands.DriveCommand;
 import org.firstinspires.ftc.teamcode.commandBased.Commands.ImuCommands.ImuResetCommand;
 import org.firstinspires.ftc.teamcode.commandBased.Commands.LocalizerCommand;
@@ -20,6 +21,7 @@ import org.firstinspires.ftc.teamcode.commandBased.Subsystems.DriveSubsystem;
 import org.firstinspires.ftc.teamcode.commandBased.Subsystems.ImuSubsystem;
 import org.firstinspires.ftc.teamcode.commandBased.Subsystems.LimelightSubsystem;
 import org.firstinspires.ftc.teamcode.commandBased.Subsystems.LocalizerSubsystem;
+import org.firstinspires.ftc.teamcode.commandBased.Subsystems.OdometrySubsystem;
 import org.firstinspires.ftc.teamcode.commandBased.Subsystems.TelemetrySubsystem;
 
 
@@ -42,6 +44,8 @@ public class FtcLibTestTeleOp extends CommandOpMode {
     private LocalizerCommand localizerCommand;
     private TelemetrySubsystem telemetrySubsystem;
     private TelemetryCommand telemetryCommand;
+    private OdometrySubsystem odometrySubsystem;
+    private GoBildaPinpointDriver odometry;
 
     private GamepadEx driverOp, operatorOp;
     @Override
@@ -65,11 +69,13 @@ public class FtcLibTestTeleOp extends CommandOpMode {
         limelight = hardwareMap.get(Limelight3A.class, "limelight");
         limelightSubsystem = new LimelightSubsystem(limelight, telemetry);
         limeLightCommand = new LimelightAprilTagCommand(limelightSubsystem);
-        localizerSubsystem = new LocalizerSubsystem(telemetry, imuSubsystem, limelightSubsystem);
+        odometry = hardwareMap.get(GoBildaPinpointDriver.class, "odometry");
+        odometrySubsystem = new OdometrySubsystem(odometry,telemetry);
+        localizerSubsystem = new LocalizerSubsystem(telemetry, imuSubsystem, limelightSubsystem, odometrySubsystem);
         localizerCommand = new LocalizerCommand(imuSubsystem, localizerSubsystem);
         driveSubsystem = new DriveSubsystem(frontLeft, frontRight, backLeft, backRight, telemetry);
         driveCommand = new DriveCommand(driveSubsystem, driverOp::getLeftX, driverOp::getLeftY, driverOp::getRightX , localizerSubsystem::getLocalizerHeadingTele);
-        telemetrySubsystem = new TelemetrySubsystem(telemetry, imuSubsystem, limelightSubsystem, driveSubsystem, localizerSubsystem);
+        telemetrySubsystem = new TelemetrySubsystem(telemetry, imuSubsystem, limelightSubsystem, driveSubsystem, localizerSubsystem, odometrySubsystem);
         telemetryCommand= new TelemetryCommand(telemetrySubsystem);
         aButton = (new GamepadButton(driverOp, GamepadKeys.Button.A))
                 .whenPressed(imuResetCommand);//should reset Imu's yaw when a is pressed

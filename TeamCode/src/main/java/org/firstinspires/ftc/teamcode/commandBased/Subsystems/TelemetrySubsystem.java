@@ -10,13 +10,15 @@ public class TelemetrySubsystem extends SubsystemBase {
     private LimelightSubsystem limelightSubsystem;
     private DriveSubsystem driveSubsystem;
     private LocalizerSubsystem localizerSubsystem;
+    private OdometrySubsystem odometrySubsystem;
 
-    public TelemetrySubsystem(Telemetry telemetry, ImuSubsystem imuSubsystem, LimelightSubsystem limelightSubsystem, DriveSubsystem driveSubsystem, LocalizerSubsystem localizerSubsystem){
+    public TelemetrySubsystem(Telemetry telemetry, ImuSubsystem imuSubsystem, LimelightSubsystem limelightSubsystem, DriveSubsystem driveSubsystem, LocalizerSubsystem localizerSubsystem, OdometrySubsystem odometrySubsystem){
         this.telemetry = telemetry;
         this.imuSubsystem = imuSubsystem;
         this.limelightSubsystem = limelightSubsystem;
         this.driveSubsystem = driveSubsystem;
         this.localizerSubsystem = localizerSubsystem;
+        this.odometrySubsystem = odometrySubsystem;
         telemetry.setMsTransmissionInterval(20);
 
     }
@@ -26,6 +28,7 @@ public class TelemetrySubsystem extends SubsystemBase {
         localizerSubsystem.getLocalizerTelemetry();
         limelightSubsystem.getLimelightTelemetry();
         driveSubsystem.getDriveTelemetry();
+        odometrySubsystem.getTelemetryOdo();
         updateTelemetry();
     }
     public void updateTelemetry(){
