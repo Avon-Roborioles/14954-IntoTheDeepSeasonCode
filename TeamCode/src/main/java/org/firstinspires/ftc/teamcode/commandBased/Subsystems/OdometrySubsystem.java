@@ -18,8 +18,8 @@ public class OdometrySubsystem extends SubsystemBase {
         this.odometry = odometry;
         this.telemetry = telemetry;
         odometry.setOffsets(-84.0, -168.0);
-        odometry.setEncoderResolution(GoBildaPinpointDriver.GoBildaOdometryPods.goBILDA_SWINGARM_POD);
-        odometry.setEncoderDirections(GoBildaPinpointDriver.EncoderDirection.FORWARD, GoBildaPinpointDriver.EncoderDirection.REVERSED);
+        odometry.setEncoderResolution(GoBildaPinpointDriver.GoBildaOdometryPods.goBILDA_4_BAR_POD);
+        odometry.setEncoderDirections(GoBildaPinpointDriver.EncoderDirection.REVERSED, GoBildaPinpointDriver.EncoderDirection.FORWARD);
         odometry.resetPosAndIMU();
         telemetry.addData("Status", odometry.getDeviceStatus());
         telemetry.update();
@@ -46,8 +46,11 @@ public class OdometrySubsystem extends SubsystemBase {
         telemetry.addData("X", pos.getX(DistanceUnit.INCH));
         telemetry.addData("Y", pos.getY(DistanceUnit.INCH));
         telemetry.addData("Heading", pos.getHeading(AngleUnit.DEGREES));
+        Pose2D odometryPosition = odometry.getPosition();
+        String data = String.format(Locale.US, "{X: %.3f, Y: %.3f, H: %.3f}", odometryPosition.getX(DistanceUnit.INCH), odometryPosition.getY(DistanceUnit.INCH), odometryPosition.getHeading(AngleUnit.DEGREES));
+        telemetry.addData("Position", data);
         Pose2D vel = odometry.getVelocity();
-        String velocity = String.format(Locale.US,"{XVel: %.3f, YVel: %.3f, HVel: %.3f}", vel.getX(DistanceUnit.MM), vel.getY(DistanceUnit.MM), vel.getHeading(AngleUnit.DEGREES));
+        String velocity = String.format(Locale.US,"{XVel: %.3f, YVel: %.3f, HVel: %.3f}", vel.getX(DistanceUnit.INCH), vel.getY(DistanceUnit.INCH), vel.getHeading(AngleUnit.DEGREES));
         telemetry.addData("Velocity", velocity);
         telemetry.addData("X Encoder:", odometry.getEncoderX()); //gets the raw data from the X encoder
         telemetry.addData("Y Encoder:",odometry.getEncoderY()); //gets the raw data from the Y encoder

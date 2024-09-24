@@ -19,7 +19,7 @@ public class DriveSubsystem extends SubsystemBase {
         this.telemetry = telemetry;
     }
     public void drive(double strafeSpeed, double forwardSpeed, double turnSpeed, double gyroAngle){
-        drive.driveFieldCentric(strafeSpeed, forwardSpeed, turnSpeed, gyroAngle);
+        drive.driveFieldCentric(strafeSpeed, forwardSpeed, turnSpeed/2, gyroAngle);
     }
     public void getDriveTelemetry(){
     }

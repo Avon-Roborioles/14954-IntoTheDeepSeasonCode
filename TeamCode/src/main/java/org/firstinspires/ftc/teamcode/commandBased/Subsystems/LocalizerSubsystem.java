@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode.commandBased.Subsystems;
 import com.arcrobotics.ftclib.command.SubsystemBase;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
+import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 
 public class LocalizerSubsystem extends SubsystemBase {
     private Telemetry telemetry;
@@ -24,32 +25,14 @@ public class LocalizerSubsystem extends SubsystemBase {
         return imuSubsystem.getImuYawDeg() - imuYawCorrection;
     }
     public void getLocalizerTelemetry(){
-        telemetry.addData("Imu Localizer Heading", getImuHeading());
         telemetry.addData("Limelight Localizer Heading", getLimelightHeading());
-        telemetry.addData("Local Yaw", yaw);
+        telemetry.addData("Localizer Yaw", getLocalizerHeadingTele());
     }
     public double getLimelightHeading(){
         return limelightSubsystem.getYawAprilTag();
     }
     public double getLocalizerHeadingTele(){
-//        if(redAlliance){
-//            driveEaseCorrection = -90;
-//        }else {
-//            driveEaseCorrection = 90;
-//        }
         odometrySubsystem.updateOdometry();
-        if(limelightSubsystem.readAprilTag().getBotposeTagCount() >= 2){
-            imuSubsystem.resetYaw();
-            imuYawCorrection = limelightSubsystem.getYawAprilTag() - getImuHeading();
-            yawCorrectionSet =true;
-            yaw = limelightSubsystem.getYawAprilTag();
-        }else if(limelightSubsystem.readAprilTag().getBotposeTagCount() == 1 && yawCorrectionSet){
-            yaw = (((imuSubsystem.getImuYawDeg() + imuYawCorrection)*20 + 80* limelightSubsystem.getYawAprilTag())/2)/100;
-        }else if(limelightSubsystem.readAprilTag().getBotposeTagCount() == 1) {
-            yaw = limelightSubsystem.getYawAprilTag();
-        }else{
-            yaw = imuSubsystem.getImuYawDeg();
-        }
-        return yaw;
+        return odometrySubsystem.getOdometryPose().getHeading(AngleUnit.DEGREES);
     }
 }

@@ -54,6 +54,10 @@ public class FtcLibTestTeleOp extends CommandOpMode {
         frontRight = new Motor(hardwareMap, "frontRight");
         backLeft = new Motor(hardwareMap, "backLeft");
         backRight = new Motor(hardwareMap, "backRight");
+        frontLeft.setZeroPowerBehavior(Motor.ZeroPowerBehavior.BRAKE);
+        frontRight.setZeroPowerBehavior(Motor.ZeroPowerBehavior.BRAKE);
+        backRight.setZeroPowerBehavior(Motor.ZeroPowerBehavior.BRAKE);
+        backLeft.setZeroPowerBehavior(Motor.ZeroPowerBehavior.BRAKE);
         frontLeft.setInverted(true);
         frontRight.setInverted(true);
         backLeft.setInverted(true);
@@ -72,7 +76,7 @@ public class FtcLibTestTeleOp extends CommandOpMode {
         odometry = hardwareMap.get(GoBildaPinpointDriver.class, "odometry");
         odometrySubsystem = new OdometrySubsystem(odometry,telemetry);
         localizerSubsystem = new LocalizerSubsystem(telemetry, imuSubsystem, limelightSubsystem, odometrySubsystem);
-        localizerCommand = new LocalizerCommand(imuSubsystem, localizerSubsystem);
+        localizerCommand = new LocalizerCommand(imuSubsystem, localizerSubsystem, limelightSubsystem, odometrySubsystem);
         driveSubsystem = new DriveSubsystem(frontLeft, frontRight, backLeft, backRight, telemetry);
         driveCommand = new DriveCommand(driveSubsystem, driverOp::getLeftX, driverOp::getLeftY, driverOp::getRightX , localizerSubsystem::getLocalizerHeadingTele);
         telemetrySubsystem = new TelemetrySubsystem(telemetry, imuSubsystem, limelightSubsystem, driveSubsystem, localizerSubsystem, odometrySubsystem);
