@@ -98,7 +98,8 @@ public final class TwoDeadWheelLocalizer implements Localizer {
         Twist2dDual<Time> twist = new Twist2dDual<>(
                 new Vector2dDual<>(
                         new DualNum<Time>(new double[] {
-                                parPosDelta - PARAMS.parYTicks * headingDelta,
+                                parPosDelta - PARAMS.parYTicks * headingDelta,//  (parPosVel- lastParPos) - PARAMS.parYTicks * (heading.minus(lastHeading))
+                                //change in perpendicular encoder - the change due to turning
                                 parPosVel.velocity - PARAMS.parYTicks * headingVel,
                         }).times(inPerTick),
                         new DualNum<Time>(new double[] {
