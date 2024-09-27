@@ -44,7 +44,7 @@ import org.firstinspires.ftc.teamcode.pedroPathing.util.NanoTimer;
  * @version 1.0, 7/9/2024
  */
 @Config
-public class ThreeWheelIMULocalizer extends Localizer {
+public class  ThreeWheelIMULocalizer extends Localizer {
     private HardwareMap hardwareMap;
     private Pose startPose;
     private Pose displacementPose;
