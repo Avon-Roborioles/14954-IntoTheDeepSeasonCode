@@ -35,6 +35,9 @@ public class GoBuildaOdometryLocalizer extends Localizer {
     public GoBuildaOdometryLocalizer(HardwareMap map, Pose setStartPose) {
         hardwareMap = map;
         odometry = hardwareMap.get(GoBildaPinpointDriver.class, "odometry");
+        odometry.setOffsets(-84.0, -168.0);
+        odometry.setEncoderResolution(GoBildaPinpointDriver.GoBildaOdometryPods.goBILDA_4_BAR_POD);
+        odometry.setEncoderDirections(GoBildaPinpointDriver.EncoderDirection.REVERSED, GoBildaPinpointDriver.EncoderDirection.FORWARD);
         odometry.resetPosAndIMU();
         setStartPose(setStartPose);
         totalHeading = 0;
@@ -47,7 +50,8 @@ public class GoBuildaOdometryLocalizer extends Localizer {
      */
     @Override
     public Pose getPose() {
-        return new Pose(odometry.getPosX(), odometry.getPosY(), odometry.getHeading());
+        odometry.bulkUpdate();
+        return new Pose(odometry.getPosition().getX(DistanceUnit.INCH), odometry.getPosition().getY(DistanceUnit.INCH), odometry.getPosition().getHeading(AngleUnit.RADIANS));
     }
 
     /**
@@ -57,8 +61,8 @@ public class GoBuildaOdometryLocalizer extends Localizer {
      */
     @Override
     public Pose getVelocity() {
-
-        return new Pose(odometry.getVelX(), odometry.getVelY(), odometry.getVelocity().getHeading(AngleUnit.RADIANS));
+        odometry.bulkUpdate();
+        return new Pose(odometry.getVelocity().getX(DistanceUnit.INCH), odometry.getVelocity().getY(DistanceUnit.INCH), odometry.getVelocity().getHeading(AngleUnit.RADIANS));
     }
 
     /**
@@ -79,6 +83,7 @@ public class GoBuildaOdometryLocalizer extends Localizer {
      */
     @Override
     public void setStartPose(Pose setStart) {
+
         startPose = setStart;
     }
 
@@ -100,7 +105,7 @@ public class GoBuildaOdometryLocalizer extends Localizer {
     @Override
     public void update() {
        totalHeading += MathFunctions.getSmallestAngleDifference(odometry.getHeading(), previousHeading);
-       previousHeading = odometry.getHeading();
+       previousHeading = odometry.getPosition().getHeading(AngleUnit.RADIANS);
     }
     /**
      * This returns how far the robot has turned in radians, in a number not clamped between 0 and
