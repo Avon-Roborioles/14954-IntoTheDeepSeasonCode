@@ -1,10 +1,12 @@
 package org.firstinspires.ftc.teamcode.OpModesAndTests;
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.ColorSensor;
 
 @TeleOp(name = "Sensor: Color", group = "Sensor")
+@Disabled
 public class colorTestGemini extends LinearOpMode {
 
     ColorSensor colorSensor;
