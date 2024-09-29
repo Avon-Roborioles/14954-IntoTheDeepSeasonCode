@@ -1,12 +1,11 @@
 package org.firstinspires.ftc.teamcode.pedroPathing.localization.localizers;
 
-import com.qualcomm.hardware.sparkfun.SparkFunOTOS;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
-import org.firstinspires.ftc.teamcode.GobuildaSample.GoBildaPinpointDriver;
-import org.firstinspires.ftc.teamcode.GobuildaSample.Pose2D;
+import org.firstinspires.ftc.teamcode.Examples.GobuildaSample.GoBildaPinpointDriver;
+import org.firstinspires.ftc.teamcode.Examples.GobuildaSample.Pose2D;
 import org.firstinspires.ftc.teamcode.pedroPathing.localization.Localizer;
 import org.firstinspires.ftc.teamcode.pedroPathing.localization.Pose;
 import org.firstinspires.ftc.teamcode.pedroPathing.pathGeneration.MathFunctions;
