@@ -17,6 +17,6 @@ public abstract class AutoBase extends LinearOpMode {
 
     }
     public void runOpMode() throws InterruptedException {
-
+        //
     }
 }
