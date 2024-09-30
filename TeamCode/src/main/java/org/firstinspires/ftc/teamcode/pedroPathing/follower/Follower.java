@@ -141,14 +141,16 @@ public class Follower {
     public static boolean useCentripetal = true;
     public static boolean useHeading = true;
     public static boolean useDrive = true;
+    private Telemetry telemetry;
 
     /**
      * This creates a new Follower given a HardwareMap.
      *
      * @param hardwareMap HardwareMap required
      */
-    public Follower(HardwareMap hardwareMap) {
+    public Follower(HardwareMap hardwareMap, Telemetry telemetry) {
         this.hardwareMap = hardwareMap;
+        this.telemetry = telemetry;
         initialize();
     }
 
@@ -160,7 +162,7 @@ public class Follower {
      */
     public void initialize() {
         driveVectorScaler = new DriveVectorScaler(FollowerConstants.frontLeftVector);
-        poseUpdater = new PoseUpdater(hardwareMap);
+        poseUpdater = new PoseUpdater(hardwareMap, telemetry);
 
         leftFront = hardwareMap.get(DcMotorEx.class, leftFrontMotorName);
         leftRear = hardwareMap.get(DcMotorEx.class, leftRearMotorName);

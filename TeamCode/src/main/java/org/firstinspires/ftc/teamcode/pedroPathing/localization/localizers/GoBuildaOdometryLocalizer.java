@@ -1,11 +1,16 @@
 package org.firstinspires.ftc.teamcode.pedroPathing.localization.localizers;
 
+import com.qualcomm.hardware.limelightvision.Limelight3A;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
+import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.teamcode.Examples.GobuildaSample.GoBildaPinpointDriver;
 import org.firstinspires.ftc.teamcode.Examples.GobuildaSample.Pose2D;
+import org.firstinspires.ftc.teamcode.commandBased.Subsystems.LimelightSubsystem;
+import org.firstinspires.ftc.teamcode.commandBased.Subsystems.LocalizerSubsystem;
+import org.firstinspires.ftc.teamcode.commandBased.Subsystems.OdometrySubsystem;
 import org.firstinspires.ftc.teamcode.pedroPathing.localization.Localizer;
 import org.firstinspires.ftc.teamcode.pedroPathing.localization.Pose;
 import org.firstinspires.ftc.teamcode.pedroPathing.pathGeneration.MathFunctions;
@@ -15,8 +20,13 @@ public class GoBuildaOdometryLocalizer extends Localizer {
     private HardwareMap hardwareMap;
     private Pose startPose;
     private GoBildaPinpointDriver odometry;
+    private OdometrySubsystem odometrySubsystem;
+    private Limelight3A limelight3A;
+    private LimelightSubsystem limelightSubsystem;
+    private LocalizerSubsystem localizerSubsystem;
     private double previousHeading;
     private double totalHeading;
+    private Telemetry telemetry;
 
     /**
      *
@@ -24,20 +34,22 @@ public class GoBuildaOdometryLocalizer extends Localizer {
      */
 
 
-    public GoBuildaOdometryLocalizer(HardwareMap map) {this(map, new Pose());}
+    public GoBuildaOdometryLocalizer(Telemetry telemetry, HardwareMap map) {this(telemetry, map, new Pose());}
 
     /**
      *
      * @param map
      * @param setStartPose
+     * @param telemetry
      */
-    public GoBuildaOdometryLocalizer(HardwareMap map, Pose setStartPose) {
+    public GoBuildaOdometryLocalizer( Telemetry telemetry, HardwareMap map, Pose setStartPose) {
         hardwareMap = map;
+        this.telemetry = telemetry;
         odometry = hardwareMap.get(GoBildaPinpointDriver.class, "odometry");
-        odometry.setOffsets(-84.0, -168.0);
-        odometry.setEncoderResolution(GoBildaPinpointDriver.GoBildaOdometryPods.goBILDA_4_BAR_POD);
-        odometry.setEncoderDirections(GoBildaPinpointDriver.EncoderDirection.REVERSED, GoBildaPinpointDriver.EncoderDirection.FORWARD);
-        odometry.resetPosAndIMU();
+        odometrySubsystem = new OdometrySubsystem(odometry, this.telemetry);
+        limelight3A = hardwareMap.get(Limelight3A.class, "limelight");
+        limelightSubsystem = new LimelightSubsystem(limelight3A,this.telemetry);
+        localizerSubsystem = new LocalizerSubsystem(this.telemetry, limelightSubsystem, odometrySubsystem);
         setStartPose(setStartPose);
         totalHeading = 0;
         previousHeading = startPose.getHeading();
@@ -49,8 +61,7 @@ public class GoBuildaOdometryLocalizer extends Localizer {
      */
     @Override
     public Pose getPose() {
-        odometry.bulkUpdate();
-        return new Pose(odometry.getPosition().getX(DistanceUnit.INCH), odometry.getPosition().getY(DistanceUnit.INCH), odometry.getPosition().getHeading(AngleUnit.RADIANS));
+        return new Pose(odometrySubsystem.getOdometryPose().getX(DistanceUnit.INCH), odometrySubsystem.getOdometryPose().getY(DistanceUnit.INCH), odometrySubsystem.getOdometryPose().getHeading(AngleUnit.RADIANS));
     }
 
     /**
@@ -60,8 +71,7 @@ public class GoBuildaOdometryLocalizer extends Localizer {
      */
     @Override
     public Pose getVelocity() {
-        odometry.bulkUpdate();
-        return new Pose(odometry.getVelocity().getX(DistanceUnit.INCH), odometry.getVelocity().getY(DistanceUnit.INCH), odometry.getVelocity().getHeading(AngleUnit.RADIANS));
+        return new Pose(odometrySubsystem.getOdometryVelocity().getX(DistanceUnit.INCH), odometrySubsystem.getOdometryVelocity().getY(DistanceUnit.INCH), odometrySubsystem.getOdometryVelocity().getHeading(AngleUnit.RADIANS));
     }
 
     /**
@@ -94,16 +104,16 @@ public class GoBuildaOdometryLocalizer extends Localizer {
      */
     @Override
     public void setPose(Pose setPose) {
-        odometry.resetPosAndIMU();
+        odometrySubsystem.resetOdometry();
         Pose setOdoPose = setPose.copy();// had start pos added to set pos may need to add it back
-        odometry.setPosition(new Pose2D(DistanceUnit.INCH, setOdoPose.getX(), setOdoPose.getY(), AngleUnit.RADIANS,setOdoPose.getHeading()));
+        odometrySubsystem.setOdoPos(new Pose2D(DistanceUnit.INCH, setOdoPose.getX(), setOdoPose.getY(), AngleUnit.RADIANS,setOdoPose.getHeading()));
     }
     /**
      * This updates the total heading of the robot.
      */
     @Override
     public void update() {
-       totalHeading += MathFunctions.getSmallestAngleDifference(odometry.getHeading(), previousHeading);
+       totalHeading += MathFunctions.getSmallestAngleDifference(odometry.getPosition().getHeading(AngleUnit.RADIANS), previousHeading);
        previousHeading = odometry.getPosition().getHeading(AngleUnit.RADIANS);
     }
     /**

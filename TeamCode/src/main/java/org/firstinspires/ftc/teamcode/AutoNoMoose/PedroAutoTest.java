@@ -19,7 +19,7 @@ public class PedroAutoTest extends AutoBase{
 
         initializeAuto(telemetry, hardwareMap);
 
-        follower = new Follower(hardwareMap);
+        follower = new Follower(hardwareMap, telemetry);
         path1 = new Path(new BezierCurve(new Point(startPose), new Point(pose1), new Point(new Pose(40,-20, PI))));
         path1.setConstantHeadingInterpolation(0);
         path1.setPathEndTimeoutConstraint(6);
