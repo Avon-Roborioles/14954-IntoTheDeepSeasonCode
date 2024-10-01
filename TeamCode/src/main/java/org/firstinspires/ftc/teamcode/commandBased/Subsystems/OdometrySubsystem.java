@@ -17,7 +17,7 @@ public class OdometrySubsystem extends SubsystemBase {
     public OdometrySubsystem(GoBildaPinpointDriver odometry, Telemetry telemetry) {
         this.odometry = odometry;
         this.telemetry = telemetry;
-        odometry.setOffsets(-120, -132);
+        odometry.setOffsets(-119, -135);
         odometry.setEncoderResolution(GoBildaPinpointDriver.GoBildaOdometryPods.goBILDA_4_BAR_POD);
         odometry.setEncoderDirections(GoBildaPinpointDriver.EncoderDirection.REVERSED, GoBildaPinpointDriver.EncoderDirection.FORWARD);
         odometry.resetPosAndIMU();

@@ -60,7 +60,7 @@ public class GoBildaPinpointDriver extends I2cDeviceSynchDevice<I2cDeviceSynch> 
     private float hVelocity    = 0;
 
     private static final float goBILDA_SWINGARM_POD = 13.26291192f; //ticks-per-mm for the goBILDA Swingarm Pod
-    private static final float goBILDA_4_BAR_POD    = 19.89436789f; //ticks-per-mm for the goBILDA 4-Bar Pod
+    private static final float goBILDA_4_BAR_POD    = 20.0433233351f;//19.89436789f; //ticks-per-mm for the goBILDA 4-Bar Pod
 
 
     public GoBildaPinpointDriver(I2cDeviceSynch deviceClient, boolean deviceClientIsOwned) {

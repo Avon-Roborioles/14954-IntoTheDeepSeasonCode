@@ -9,6 +9,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import org.firstinspires.ftc.teamcode.pedroPathing.follower.Follower;
 import org.firstinspires.ftc.teamcode.pedroPathing.localization.Pose;
 import org.firstinspires.ftc.teamcode.pedroPathing.pathGeneration.BezierCurve;
+import org.firstinspires.ftc.teamcode.pedroPathing.pathGeneration.BezierLine;
 import org.firstinspires.ftc.teamcode.pedroPathing.pathGeneration.Path;
 import org.firstinspires.ftc.teamcode.pedroPathing.pathGeneration.Point;
 
@@ -20,15 +21,25 @@ public class PedroAutoTest extends AutoBase{
         initializeAuto(telemetry, hardwareMap);
 
         follower = new Follower(hardwareMap, telemetry);
-        path1 = new Path(new BezierCurve(new Point(startPose), new Point(pose1), new Point(new Pose(40,-20, PI))));
+        follower.initialize();
+        follower.setMaxPower(0.5);
+        follower.setStartingPose(startPose);
+        path1 = new Path((new BezierCurve(new Point(startPose), new Point(pose1), new Point(new Pose(40,-20, 0)))));
         path1.setConstantHeadingInterpolation(0);
-        path1.setPathEndTimeoutConstraint(6);
-        follower.setPose(startPose);
+        path1.setPathEndTimeoutConstraint(3000);
+        path2 = new Path((new BezierCurve(new Point(new Pose(40,-20, 0)), new Point(pose1), new Point(new Pose(0,0, 0)))));
+        path2.setConstantHeadingInterpolation(0);
+        path2.setPathEndTimeoutConstraint(3000);
         waitForStart();
         follower.followPath(path1);
         while (follower.isBusy() && !isStopRequested()){
-            follower.telemetryDebug(mTelemetry);
             follower.update();
+            follower.telemetryDebug(mTelemetry);
+        }
+        follower.followPath(path2);
+        while (follower.isBusy() && !isStopRequested()){
+            follower.update();
+            follower.telemetryDebug(mTelemetry);
         }
 
 

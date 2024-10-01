@@ -61,7 +61,8 @@ public class GoBuildaOdometryLocalizer extends Localizer {
      */
     @Override
     public Pose getPose() {
-        return new Pose(odometrySubsystem.getOdometryPose().getX(DistanceUnit.INCH), odometrySubsystem.getOdometryPose().getY(DistanceUnit.INCH), odometrySubsystem.getOdometryPose().getHeading(AngleUnit.RADIANS));
+        localizerSubsystem.update();
+        return new Pose(localizerSubsystem.getLocalizerPose().getX(DistanceUnit.INCH), localizerSubsystem.getLocalizerPose().getY(DistanceUnit.INCH), localizerSubsystem.getLocalizerPose().getHeading(AngleUnit.RADIANS));
     }
 
     /**
@@ -71,7 +72,8 @@ public class GoBuildaOdometryLocalizer extends Localizer {
      */
     @Override
     public Pose getVelocity() {
-        return new Pose(odometrySubsystem.getOdometryVelocity().getX(DistanceUnit.INCH), odometrySubsystem.getOdometryVelocity().getY(DistanceUnit.INCH), odometrySubsystem.getOdometryVelocity().getHeading(AngleUnit.RADIANS));
+        localizerSubsystem.update();
+        return new Pose(localizerSubsystem.getLocalizerVelocity().getX(DistanceUnit.INCH), localizerSubsystem.getLocalizerVelocity().getY(DistanceUnit.INCH), localizerSubsystem.getLocalizerVelocity().getHeading(AngleUnit.RADIANS));
     }
 
     /**
