@@ -8,6 +8,7 @@ import static org.firstinspires.ftc.teamcode.pedroPathing.tuning.FollowerConstan
 import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.config.Config;
 import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -49,7 +50,7 @@ public class LocalizationTest extends OpMode {
      */
     @Override
     public void init() {
-        poseUpdater = new PoseUpdater(hardwareMap);
+        poseUpdater = new PoseUpdater(hardwareMap, telemetry);
 
         dashboardPoseTracker = new DashboardPoseTracker(poseUpdater);
 

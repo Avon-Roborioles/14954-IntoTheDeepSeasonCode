@@ -4,7 +4,9 @@ import com.qualcomm.hardware.lynx.LynxModule;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.IMU;
 
+import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
+import org.firstinspires.ftc.teamcode.pedroPathing.localization.localizers.GoBuildaOdometryLocalizer;
 import org.firstinspires.ftc.teamcode.pedroPathing.localization.localizers.ThreeWheelIMULocalizer;
 import org.firstinspires.ftc.teamcode.pedroPathing.localization.localizers.ThreeWheelLocalizer;
 import org.firstinspires.ftc.teamcode.pedroPathing.localization.localizers.TwoWheelLocalizer;
@@ -45,6 +47,7 @@ public class PoseUpdater {
 
     private long previousPoseTime;
     private long currentPoseTime;
+    private Telemetry telemetry;
 
     /**
      * Creates a new PoseUpdater from a HardwareMap and a Localizer.
@@ -52,13 +55,13 @@ public class PoseUpdater {
      * @param hardwareMap the HardwareMap
      * @param localizer the Localizer
      */
-    public PoseUpdater(HardwareMap hardwareMap, Localizer localizer) {
+    public PoseUpdater(HardwareMap hardwareMap, Localizer localizer, Telemetry telemetry) {
         this.hardwareMap = hardwareMap;
+        this.telemetry = telemetry;
 
         for (LynxModule module : hardwareMap.getAll(LynxModule.class)) {
             module.setBulkCachingMode(LynxModule.BulkCachingMode.AUTO);
         }
-
         this.localizer = localizer;
     }
 
@@ -67,9 +70,9 @@ public class PoseUpdater {
      *
      * @param hardwareMap the HardwareMap
      */
-    public PoseUpdater(HardwareMap hardwareMap) {
+    public PoseUpdater(HardwareMap hardwareMap, Telemetry telemetry) {
         // TODO: replace the second argument with your preferred localizer
-        this(hardwareMap, new ThreeWheelLocalizer(hardwareMap));
+        this(hardwareMap, new GoBuildaOdometryLocalizer(telemetry ,hardwareMap), telemetry);
     }
 
     /**

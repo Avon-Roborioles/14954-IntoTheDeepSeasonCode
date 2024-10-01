@@ -6,7 +6,7 @@ import com.qualcomm.hardware.limelightvision.LLResult;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
-import org.firstinspires.ftc.teamcode.GobuildaSample.Pose2D;
+import org.firstinspires.ftc.teamcode.Examples.GobuildaSample.Pose2D;
 
 public class LocalizerSubsystem extends SubsystemBase {
     private Telemetry telemetry;
@@ -35,21 +35,26 @@ public class LocalizerSubsystem extends SubsystemBase {
         return odometrySubsystem.getHeadingOdo();
     }
     public Pose2D getLocalizerPose(){
-        Pose2D odoPos = odometrySubsystem.getOdometryPose();
-        LLResult llResult = limelightSubsystem.readAprilTag();
-        Pose2D localPos = null;
-        if (llResult == null) {
-        }else if (llResult.getBotposeTagCount() == 2) {
-            posCorrectionSet = true;
-            localPos = new Pose2D(DistanceUnit.INCH, llResult.getBotpose().getPosition().x, llResult.getBotpose().getPosition().y, AngleUnit.DEGREES, llResult.getBotpose().getOrientation().getYaw(AngleUnit.DEGREES));
-            odometrySubsystem.setOdoPos(localPos);
-        }else if (llResult.getBotposeTagCount() == 1 && !yawCorrectionSet) {
-            localPos = new Pose2D(DistanceUnit.INCH, llResult.getBotpose().getPosition().x, llResult.getBotpose().getPosition().y, AngleUnit.DEGREES, llResult.getBotpose().getOrientation().getYaw(AngleUnit.DEGREES));
-            odometrySubsystem.setOdoPos(localPos);
-        }else {
-            localPos = odometrySubsystem.getOdometryPose();
-        }
-        return localPos;
+//        Pose2D odoPos = odometrySubsystem.getOdometryPose();
+//        LLResult llResult = limelightSubsystem.readAprilTag();
+//        Pose2D localPos = null;
+//        if (llResult == null) {
+//        }else if (llResult.getBotposeTagCount() == 2) {
+//            posCorrectionSet = true;
+//            localPos = new Pose2D(DistanceUnit.INCH, llResult.getBotpose().getPosition().x, llResult.getBotpose().getPosition().y, AngleUnit.RADIANS, llResult.getBotpose().getOrientation().getYaw(AngleUnit.RADIANS));
+//            odometrySubsystem.setOdoPos(localPos);
+//        }else if (llResult.getBotposeTagCount() == 1 && !yawCorrectionSet) {
+//            localPos = new Pose2D(DistanceUnit.INCH, llResult.getBotpose().getPosition().x, llResult.getBotpose().getPosition().y, AngleUnit.RADIANS, llResult.getBotpose().getOrientation().getYaw(AngleUnit.RADIANS));
+//            odometrySubsystem.setOdoPos(localPos);
+//        }else {
+//            localPos = odometrySubsystem.getOdometryPose();
+//        }
+//        return localPos;
+        odometrySubsystem.updateOdometry();
+        return odometrySubsystem.getOdometryPose();
+    }
+    public Pose2D getLocalizerVelocity(){
+        return odometrySubsystem.getOdometryVelocity();
     }
     public double getLocalizerHeadingTele(){
         LLResult llResult = limelightSubsystem.readAprilTag();
@@ -68,5 +73,8 @@ public class LocalizerSubsystem extends SubsystemBase {
             yaw = pos.getHeading(AngleUnit.DEGREES);
         }
         return yaw;
+    }
+    public void update(){
+        odometrySubsystem.updateOdometry();
     }
 }

@@ -9,6 +9,7 @@ import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.config.Config;
 import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
@@ -41,6 +42,7 @@ import java.util.List;
  */
 @Config
 @Autonomous (name = "Strafe Velocity Tuner", group = "Autonomous Pathing Tuning")
+@Disabled
 public class StrafeVelocityTuner extends OpMode {
     private ArrayList<Double> velocities = new ArrayList<>();
 
@@ -65,7 +67,7 @@ public class StrafeVelocityTuner extends OpMode {
      */
     @Override
     public void init() {
-        poseUpdater = new PoseUpdater(hardwareMap);
+        poseUpdater = new PoseUpdater(hardwareMap, telemetry);
 
         leftFront = hardwareMap.get(DcMotorEx.class, leftFrontMotorName);
         leftRear = hardwareMap.get(DcMotorEx.class, leftRearMotorName);

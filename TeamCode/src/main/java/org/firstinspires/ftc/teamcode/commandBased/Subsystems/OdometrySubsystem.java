@@ -5,8 +5,8 @@ import com.arcrobotics.ftclib.command.SubsystemBase;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
-import org.firstinspires.ftc.teamcode.GobuildaSample.GoBildaPinpointDriver;
-import org.firstinspires.ftc.teamcode.GobuildaSample.Pose2D;
+import org.firstinspires.ftc.teamcode.Examples.GobuildaSample.GoBildaPinpointDriver;
+import org.firstinspires.ftc.teamcode.Examples.GobuildaSample.Pose2D;
 
 import java.util.Locale;
 
@@ -17,7 +17,7 @@ public class OdometrySubsystem extends SubsystemBase {
     public OdometrySubsystem(GoBildaPinpointDriver odometry, Telemetry telemetry) {
         this.odometry = odometry;
         this.telemetry = telemetry;
-        odometry.setOffsets(-84.0, -168.0);
+        odometry.setOffsets(-119, -135);
         odometry.setEncoderResolution(GoBildaPinpointDriver.GoBildaOdometryPods.goBILDA_4_BAR_POD);
         odometry.setEncoderDirections(GoBildaPinpointDriver.EncoderDirection.REVERSED, GoBildaPinpointDriver.EncoderDirection.FORWARD);
         odometry.resetPosAndIMU();
@@ -30,6 +30,10 @@ public class OdometrySubsystem extends SubsystemBase {
     public Pose2D getOdometryPose(){
         odometry.bulkUpdate();
         return odometry.getPosition();
+    }
+    public Pose2D getOdometryVelocity(){
+        odometry.bulkUpdate();
+        return odometry.getVelocity();
     }
     public double getHeadingOdo(){
         return getOdometryPose().getHeading(AngleUnit.DEGREES);
