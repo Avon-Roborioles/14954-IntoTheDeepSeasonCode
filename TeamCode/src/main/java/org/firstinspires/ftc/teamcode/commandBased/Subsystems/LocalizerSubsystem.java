@@ -50,6 +50,7 @@ public class LocalizerSubsystem extends SubsystemBase {
 //            localPos = odometrySubsystem.getOdometryPose();
 //        }
 //        return localPos;
+        odometrySubsystem.updateOdometry();
         return odometrySubsystem.getOdometryPose();
     }
     public Pose2D getLocalizerVelocity(){
