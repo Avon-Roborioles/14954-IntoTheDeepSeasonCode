@@ -30,17 +30,17 @@ public class FollowerConstants {
 
     // This section is for setting the actual drive vector for the front left wheel, if the robot
     // is facing a heading of 0 radians with the wheel centered at (0,0)
-    private static double xMovement = 61.6839;
-    private static double yMovement = 52.2534;
+    private static double xMovement = 66.3944;
+    private static double yMovement = 52.7662;
     private static double[] convertToPolar = Point.cartesianToPolar(xMovement, -yMovement);
     public static Vector frontLeftVector = MathFunctions.normalizeVector(new Vector(convertToPolar[0],convertToPolar[1]));
 
 
     // Translational PIDF coefficients (don't use integral)
     public static CustomPIDFCoefficients translationalPIDFCoefficients = new CustomPIDFCoefficients(
-            0.101,
-            0,
-            0.01,
+            0.107,
+            0.00001125,
+            0.0115,
             0);
 
     // Translational Integral
@@ -56,9 +56,9 @@ public class FollowerConstants {
 
     // Heading error PIDF coefficients
     public static CustomPIDFCoefficients headingPIDFCoefficients = new CustomPIDFCoefficients(
-            1.45,
-            0,
-            0.1,
+            1.4,
+            0.00001,
+            0.0969,
             0);
 
     // Feed forward constant added on to the heading PIDF
@@ -91,11 +91,11 @@ public class FollowerConstants {
 
     // Acceleration of the drivetrain when power is cut in inches/second^2 (should be negative)
     // if not negative, then the robot thinks that its going to go faster under 0 power
-    public static double forwardZeroPowerAcceleration = -43.7830;
+    public static double forwardZeroPowerAcceleration = -44.88604286;
 
     // Acceleration of the drivetrain when power is cut in inches/second^2 (should be negative)
     // if not negative, then the robot thinks that its going to go faster under 0 power
-    public static double lateralZeroPowerAcceleration = -65.9711;
+    public static double lateralZeroPowerAcceleration = -62.52051429;
 
     // A multiplier for the zero power acceleration to change the speed the robot decelerates at
     // the end of paths.
