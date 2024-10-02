@@ -1,38 +1,81 @@
 package org.firstinspires.ftc.teamcode.commandBased.Subsystems;
 
+import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
 import com.arcrobotics.ftclib.command.SubsystemBase;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.pedroPathing.follower.Follower;
 import org.firstinspires.ftc.teamcode.pedroPathing.localization.Pose;
+import org.firstinspires.ftc.teamcode.pedroPathing.pathGeneration.BezierPoint;
 import org.firstinspires.ftc.teamcode.pedroPathing.pathGeneration.Path;
+import org.firstinspires.ftc.teamcode.pedroPathing.pathGeneration.PathBuilder;
+import org.firstinspires.ftc.teamcode.pedroPathing.pathGeneration.PathChain;
 
 public class AutoDriveSubsystem extends SubsystemBase {
     private Follower follower;
-    private Path path;
     private Telemetry telemetry;
 
-    public AutoDriveSubsystem(Follower follower, Path path, Telemetry telemetry, Pose startPose){
+    public AutoDriveSubsystem(Follower follower, Telemetry telemetry){
         this.follower = follower;
-        this.path = path;
         this.telemetry = telemetry;
-        follower.setStartingPose(startPose);
     }
 
-    public void followPath(){
-        follower.followPath(path);
+    public void followPath(Path path, boolean holdEnd){
+        follower.followPath(path, holdEnd);
+    }
+    public void followPathChain(PathChain pathChain, boolean holdEnd){
+        follower.followPath(pathChain, holdEnd);
+    }
+    public void setMaxPower(double maxPower){
+        follower.setMaxPower(maxPower);
+    }
+    public void setPose(Pose pose){
+        follower.setPose(pose);
+    }
+    public void setStartingPose(Pose pose){
+        follower.setStartingPose(pose);
+    }
+    public void holdPoint(BezierPoint point, double heading){
+        follower.holdPoint(point, heading);
+    }
+    public void update(){
         follower.update();
     }
-
-    public void setPath(Path path){
-        this.path = path;
+    public boolean isBusy(){
+        return follower.isBusy();
     }
-
-    public void getFollowerTelemetry(){
+    public void breakFollowing(){
+        follower.breakFollowing();
+    }
+    public PathBuilder pathBuilder(){
+        return follower.pathBuilder();
+    }
+    public void telemetryDebug(MultipleTelemetry telemetry){
         follower.telemetryDebug(telemetry);
     }
-    public void setPosition(Pose pose){
-        follower.setPose(pose);
+    public Path getCurrentPath(){
+        return follower.getCurrentPath();
+    }
+    public boolean atParametricEnd(){
+        return follower.atParametricEnd();
+    }
+    public void setCurrentPoseWithOffset(Pose pose){
+        follower.setCurrentPoseWithOffset(pose);
+    }
+    public void setXOffset(double xOffset){
+        follower.setXOffset(xOffset);
+    }
+    public void setYOffset(double yOffset){
+        follower.setYOffset(yOffset);
+    }
+    public void setHeadingOffset(double headingOffset){
+        follower.setHeadingOffset(headingOffset);
+    }
+    public Pose getPose(){
+        return follower.getPose();
+    }
+    public void resetOffset(){
+        follower.resetOffset();
     }
 
 

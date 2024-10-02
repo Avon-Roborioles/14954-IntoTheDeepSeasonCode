@@ -6,15 +6,13 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 
 public class TelemetrySubsystem extends SubsystemBase {
     private Telemetry telemetry;
-    private ImuSubsystem imuSubsystem;
     private LimelightSubsystem limelightSubsystem;
     private DriveSubsystem driveSubsystem;
     private LocalizerSubsystem localizerSubsystem;
     private OdometrySubsystem odometrySubsystem;
 
-    public TelemetrySubsystem(Telemetry telemetry, ImuSubsystem imuSubsystem, LimelightSubsystem limelightSubsystem, DriveSubsystem driveSubsystem, LocalizerSubsystem localizerSubsystem, OdometrySubsystem odometrySubsystem){
+    public TelemetrySubsystem(Telemetry telemetry, LimelightSubsystem limelightSubsystem, DriveSubsystem driveSubsystem, LocalizerSubsystem localizerSubsystem, OdometrySubsystem odometrySubsystem){
         this.telemetry = telemetry;
-        this.imuSubsystem = imuSubsystem;
         this.limelightSubsystem = limelightSubsystem;
         this.driveSubsystem = driveSubsystem;
         this.localizerSubsystem = localizerSubsystem;
@@ -24,7 +22,6 @@ public class TelemetrySubsystem extends SubsystemBase {
     }
     public void getTelemetry(){
         clearTelemetry();
-        imuSubsystem.getImuTelemetry();
         localizerSubsystem.getLocalizerTelemetry();
         limelightSubsystem.getLimelightTelemetry();
         driveSubsystem.getDriveTelemetry();
