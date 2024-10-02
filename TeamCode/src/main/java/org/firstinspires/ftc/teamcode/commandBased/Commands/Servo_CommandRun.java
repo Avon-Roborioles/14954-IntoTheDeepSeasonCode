@@ -5,6 +5,7 @@ package org.firstinspires.ftc.teamcode.commandBased.Commands;
 import com.arcrobotics.ftclib.command.CommandBase;
 import com.qualcomm.hardware.rev.RevTouchSensor;
 
+import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.commandBased.Subsystems.ServoSubsystem;
 
 public class Servo_CommandRun extends CommandBase {
@@ -23,10 +24,12 @@ public class Servo_CommandRun extends CommandBase {
 
     }
 
-    @Override
 
-    public void execute() {
-m_servoSubsystem.servorunf();
+
+    public void execute(Telemetry telemetry) {
+    m_servoSubsystem.servorunf();
+//    telemetry.addData(
+//   "Action", )
 //        if (m_servoSubsystem.isTouchSensorPressed()) {
 //            isfinished = true;
 //
