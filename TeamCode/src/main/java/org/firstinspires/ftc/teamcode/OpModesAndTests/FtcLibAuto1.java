@@ -2,6 +2,9 @@ package org.firstinspires.ftc.teamcode.OpModesAndTests;
 
 import static java.lang.Math.PI;
 
+import com.arcrobotics.ftclib.command.Command;
+import com.arcrobotics.ftclib.command.InstantCommand;
+import com.arcrobotics.ftclib.command.SequentialCommandGroup;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
 import org.firstinspires.ftc.teamcode.commandBased.Commands.AutoDriveCommand;
@@ -31,8 +34,26 @@ public class FtcLibAuto1 extends FtcLibAutoBase {
         autoDriveSubsystem.setStartingPose(startPose);
         autoDriveSubsystem.setMaxPower(0.5);
         register(autoDriveSubsystem);
-        autoDriveCommand.setPathChain(pathChain, true);
-        schedule(autoDriveCommand);
+//        autoDriveCommand.setPathChain(pathChain, true);
+        autoDriveCommand.setPath(path1, false);
+//        Command setPath2 = new InstantCommand(() -> {
+//            autoDriveSubsystem.followPath(path2, true);
+//        });
+//        Command setPath1 = new InstantCommand(() -> {
+//            autoDriveSubsystem.followPath(path1, true);
+//        });
+//        schedule(autoDriveCommand,
+//                new InstantCommand(() -> {
+//                    autoDriveSubsystem.followPath(path2, true);
+//                }),
+//                autoDriveCommand
+//        );
+        schedule(new SequentialCommandGroup( autoDriveCommand,
+                new InstantCommand(() -> {
+                    autoDriveSubsystem.followPath(path2, true);
+                }),
+                autoDriveCommand)
+        );
 
     }
 }
