@@ -50,7 +50,7 @@ public class AutoDriveSubsystem extends SubsystemBase {
     public PathBuilder pathBuilder(){
         return follower.pathBuilder();
     }
-    public void telemetryDebug(MultipleTelemetry telemetry){
+    public void telemetryDebug(Telemetry telemetry){
         follower.telemetryDebug(telemetry);
     }
     public Path getCurrentPath(){
