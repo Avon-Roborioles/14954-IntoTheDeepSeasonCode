@@ -28,12 +28,20 @@ public class ServoSubsystem extends SubsystemBase {
 //            servorunf();
 //        }
 //    }
-    public void servorunb() {
-        testservo.setPower(-servospeed);
+    public boolean touchsensor() {
+        if (toucher.isPressed()) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
     public void servorunf() {
         testservo.setPower(servospeed);
+    }
+
+    public void servorunb() {
+        testservo.setPower(-servospeed);
     }
 
     public void servostop() {

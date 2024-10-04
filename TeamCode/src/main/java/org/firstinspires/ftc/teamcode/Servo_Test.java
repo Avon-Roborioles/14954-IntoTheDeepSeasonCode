@@ -15,33 +15,29 @@ import org.firstinspires.ftc.teamcode.commandBased.Subsystems.ServoSubsystem;
 
 
 @TeleOp(name="Servo Test OpMode")
-public class Servo_Test extends LinearOpMode {
+public class Servo_Test extends CommandOpMode {
 
     private ServoSubsystem m_servoSubsystem;
     private Servo_CommandRun m_runServoCommand;
     private Servo_CommandStop m_stopServoCommand;
     private RevTouchSensor toucher;
+    private GamepadEx gamepadA;
 
-
+@Override
     public void initialize() {
+    gamepadA= new GamepadEx(gamepad1);
         m_servoSubsystem = new ServoSubsystem(hardwareMap, "Test", "Touch", "color"); // Replace with actual device names
         m_runServoCommand = new Servo_CommandRun(m_servoSubsystem);
 
-//
+        m_runServoCommand.execute();
+        schedule(m_runServoCommand);
 
-
-    }
-
-
-
-
-    @Override
-    public void runOpMode() throws InterruptedException {
-        m_runServoCommand.schedule();
-//        m_runServoCommand.execute();
-//        schedule(new RunCommand(m_servoSubsystem::servorunf, m_servoSubsystem));
+    gamepadA.getGamepadButton(GamepadKeys.Button.A)
+            .whenPressed(m_runServoCommand)
+            .whenReleased(m_stopServoCommand);
     }
 }
+
 
 
 
