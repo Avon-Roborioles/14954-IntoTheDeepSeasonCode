@@ -27,7 +27,8 @@ public class ExtensionSubsystem extends SubsystemBase {
         }
     }
     public boolean isExtensionBusy(){
-        return !extensionMotor.isBusy();
+        return !
+                extensionMotor.isBusy();
     }
 
 
