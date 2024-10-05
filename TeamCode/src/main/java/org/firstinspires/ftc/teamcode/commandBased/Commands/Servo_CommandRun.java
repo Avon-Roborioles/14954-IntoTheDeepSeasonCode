@@ -15,42 +15,42 @@ public class Servo_CommandRun extends CommandBase {
     private RevTouchSensor toucher;
 
 
-
-
-    public Servo_CommandRun( final ServoSubsystem servoSubsystem) {
+    public Servo_CommandRun(final ServoSubsystem servoSubsystem) {
         m_servoSubsystem = servoSubsystem;
         addRequirements(servoSubsystem);
 
 
     }
 
-
-
-    public void execute(Telemetry telemetry) {
-    m_servoSubsystem.servorunf();
-//    telemetry.addData(
-//   "Action", )
-//        if (m_servoSubsystem.isTouchSensorPressed()) {
-//            isfinished = true;
-//
-//        }
-    }
     @Override
-    public boolean isFinished () {
-        if (m_servoSubsystem.isTouchSensorPressed()) {
+    public void execute() {
+        m_servoSubsystem.servorunf();
+    }
+
+//    public void stopservo(boolean interrupted) {
+//        m_servoSubsystem.servostop();
+//    }
+
+    @Override
+    public boolean isFinished() {
+        if (m_servoSubsystem.touchsensor()) {
+
             return true;
         } else {
             return false;
         }
-        // Change this condition if you want the command to end automatically
+//         Change this condition if you want the command to end automatically
     }
-        @Override
-        public void end ( boolean interrupted){
-            m_servoSubsystem.servostop();
-        }
 
 
-        }
+    @Override
+    public void end(boolean interrupted) {
+        m_servoSubsystem.servostop();
+    }
+}
+//
+//
+
 
 
 
