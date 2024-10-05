@@ -12,6 +12,8 @@ public class ExtensionSubsystem extends SubsystemBase {
 
     public ExtensionSubsystem(DcMotorEx extensionMotor) {
         this.extensionMotor = extensionMotor;
+        this.extensionMotor.setTargetPosition(0);
+        this.extensionMotor.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
     }
 
     public void setExtensionOut(){
@@ -25,7 +27,7 @@ public class ExtensionSubsystem extends SubsystemBase {
         }
     }
     public boolean isExtensionBusy(){
-        return extensionMotor.isBusy();
+        return !extensionMotor.isBusy();
     }
 
 

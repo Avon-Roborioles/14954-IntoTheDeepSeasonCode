@@ -11,4 +11,15 @@ public class ExtensionOutCommand extends CommandBase {
         this.extensionSubsystem = extensionSubsystem;
         addRequirements(extensionSubsystem);
     }
+
+    @Override
+    public void execute() {
+        extensionSubsystem.setExtensionOut();
+        extensionSubsystem.runExtension();
+    }
+
+    @Override
+    public boolean isFinished() {
+        return extensionSubsystem.isExtensionBusy();
+    }
 }

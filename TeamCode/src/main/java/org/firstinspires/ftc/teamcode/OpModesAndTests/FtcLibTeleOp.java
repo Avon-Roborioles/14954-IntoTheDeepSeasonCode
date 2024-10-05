@@ -11,16 +11,20 @@ import com.arcrobotics.ftclib.hardware.motors.Motor;
 import com.qualcomm.hardware.limelightvision.Limelight3A;
 import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.IMU;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.Examples.GobuildaSample.GoBildaPinpointDriver;
 import org.firstinspires.ftc.teamcode.commandBased.Commands.DriveCommand;
+import org.firstinspires.ftc.teamcode.commandBased.Commands.ExtensionOutCommand;
 import org.firstinspires.ftc.teamcode.commandBased.Commands.ImuCommands.ImuResetCommand;
 import org.firstinspires.ftc.teamcode.commandBased.Commands.LocalizerCommand;
 import org.firstinspires.ftc.teamcode.commandBased.Commands.TelemetryCommand;
 import org.firstinspires.ftc.teamcode.commandBased.Commands.VisionCommands.LimelightAprilTagCommand;
 import org.firstinspires.ftc.teamcode.commandBased.Subsystems.DriveSubsystem;
+import org.firstinspires.ftc.teamcode.commandBased.Subsystems.ExtensionSubsystem;
 import org.firstinspires.ftc.teamcode.commandBased.Subsystems.ImuSubsystem;
 import org.firstinspires.ftc.teamcode.commandBased.Subsystems.LimelightSubsystem;
 import org.firstinspires.ftc.teamcode.commandBased.Subsystems.LocalizerSubsystem;
@@ -31,19 +35,29 @@ import org.firstinspires.ftc.teamcode.commandBased.Subsystems.TelemetrySubsystem
 @TeleOp(name = "FtcLibTeleOp")
 public class FtcLibTeleOp extends CommandOpMode {
     private Motor frontLeft, frontRight, backLeft, backRight;
+    private DcMotorEx extensionMotor;
+
     private DriveSubsystem driveSubsystem;
     private DriveCommand driveCommand;
+
     private Button aButton, bButton;
+
     private Limelight3A limelight;
     private LimelightSubsystem limelightSubsystem;
     private LimelightAprilTagCommand limeLightCommand;
+
     private LocalizerSubsystem localizerSubsystem;
     private LocalizerCommand localizerCommand;
+
     private TelemetrySubsystem telemetrySubsystem;
     private TelemetryCommand telemetryCommand;
+
     private OdometrySubsystem odometrySubsystem;
     private GoBildaPinpointDriver odometry;
     private Telemetry mtelemetry;
+
+    private ExtensionSubsystem extensionSubsystem;
+    private ExtensionOutCommand extensionOutCommand;
 
     private GamepadEx driverOp, operatorOp;
     @Override
@@ -60,8 +74,15 @@ public class FtcLibTeleOp extends CommandOpMode {
         frontRight.setInverted(true);
         backLeft.setInverted(true);
         backRight.setInverted(true);
+
+        extensionMotor = hardwareMap.get(DcMotorEx.class, "extensionMotor");
+
+        extensionSubsystem = new ExtensionSubsystem(extensionMotor);
+        extensionOutCommand = new ExtensionOutCommand(extensionSubsystem);
+
         driverOp = new GamepadEx(gamepad1);
         operatorOp = new GamepadEx(gamepad2);
+
         limelight = hardwareMap.get(Limelight3A.class, "limelight");
         limelightSubsystem = new LimelightSubsystem(limelight, telemetry);
         limeLightCommand = new LimelightAprilTagCommand(limelightSubsystem);
@@ -74,9 +95,15 @@ public class FtcLibTeleOp extends CommandOpMode {
         mtelemetry = new  MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
         telemetrySubsystem = new TelemetrySubsystem(mtelemetry, limelightSubsystem, driveSubsystem, localizerSubsystem, odometrySubsystem);
         telemetryCommand= new TelemetryCommand(telemetrySubsystem);
+
+
         bButton = (new GamepadButton(driverOp, GamepadKeys.Button.B))
-                .toggleWhenPressed(limeLightCommand);
-        register(driveSubsystem, limelightSubsystem, localizerSubsystem);
+                .whenPressed(extensionOutCommand);
+
+
+        register(driveSubsystem, limelightSubsystem, localizerSubsystem, odometrySubsystem, extensionSubsystem, telemetrySubsystem);
+
+
         localizerSubsystem.setDefaultCommand(localizerCommand);
         telemetrySubsystem.setDefaultCommand(telemetryCommand);
         driveSubsystem.setDefaultCommand(driveCommand);
