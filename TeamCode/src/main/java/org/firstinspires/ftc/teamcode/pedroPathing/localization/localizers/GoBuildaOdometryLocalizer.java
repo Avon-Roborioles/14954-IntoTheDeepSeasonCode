@@ -96,6 +96,8 @@ public class GoBuildaOdometryLocalizer extends Localizer {
     public void setStartPose(Pose setStart) {
 
         startPose = setStart;
+        odometrySubsystem.resetOdometry();
+        odometrySubsystem.setOdoPos(new Pose2D(DistanceUnit.INCH, setStart.getX(), setStart.getY(), AngleUnit.RADIANS, setStart.getHeading()));
     }
 
     /**

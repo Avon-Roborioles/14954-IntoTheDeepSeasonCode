@@ -21,13 +21,18 @@ import org.firstinspires.ftc.teamcode.pedroPathing.pathGeneration.Point;
 public class FtcLibAuto1 extends FtcLibAutoBase {
     @Override
     public void initialize() {
+        Path path1;
+        Path path2;
+        Path path3;
+        Pose pose1 = new Pose(0, 28, Math.PI/2);
+        Pose startPose = new Pose(-40, 0, 0);
         follower = new Follower(hardwareMap, telemetry);
         autoDriveSubsystem = new AutoDriveSubsystem(follower, mTelemetry);
+        autoDriveSubsystem.setMaxPower(0.1);
+        autoDriveSubsystem.setStartingPose(startPose);
         autoDriveCommand = new AutoDriveCommand(autoDriveSubsystem, mTelemetry);
-        autoDriveSubsystem.setStartingPose(new Pose(0, 0, PI/2));
-        autoDriveSubsystem.setMaxPower(1);
 
-        path1 = new Path((new BezierCurve(new Point(new Pose(0,0, PI/2)), new Point(new Pose(20,0, PI/2)))));
+        path1 = new Path((new BezierCurve(new Point(startPose), new Point(new Pose(20,20, PI/2)))));
         path1.setLinearHeadingInterpolation(0, PI/2);
         path1.setPathEndTimeoutConstraint(3000);
 
