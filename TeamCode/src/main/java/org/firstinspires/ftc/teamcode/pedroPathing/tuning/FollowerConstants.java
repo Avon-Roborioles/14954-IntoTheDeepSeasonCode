@@ -38,9 +38,9 @@ public class FollowerConstants {
 
     // Translational PIDF coefficients (don't use integral)
     public static CustomPIDFCoefficients translationalPIDFCoefficients = new CustomPIDFCoefficients(
-            0.107,
-            0.00001125,
-            0.0115,
+            0.1065,
+            0.000225,
+            0.0141,
             0);
 
     // Translational Integral
@@ -67,9 +67,9 @@ public class FollowerConstants {
 
     // Drive PIDF coefficients
     public static CustomFilteredPIDFCoefficients drivePIDFCoefficients = new CustomFilteredPIDFCoefficients(
-            0.0045,
+            0.0055,
             0,
-            0.000175,
+            0.0034,
             0.6,
             0);
 

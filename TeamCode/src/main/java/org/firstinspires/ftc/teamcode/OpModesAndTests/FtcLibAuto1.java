@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.OpModesAndTests;
 
+import static com.sun.tools.doclint.Entity.Pi;
 import static java.lang.Math.PI;
 
 import com.arcrobotics.ftclib.command.Command;
@@ -21,18 +22,18 @@ public class FtcLibAuto1 extends FtcLibAutoBase {
     @Override
     public void initialize() {
         follower = new Follower(hardwareMap, telemetry);
-        path1 = new Path((new BezierCurve(new Point(startPose), new Point(pose1), new Point(new Pose(40,-20, 0)))));
-        path1.setConstantHeadingInterpolation(0);
-        path1.setPathEndTimeoutConstraint(3000);
-        path2 = new Path((new BezierCurve(new Point(new Pose(40,-20, 0)), new Point(pose1), new Point(new Pose(0,0, 0)))));
-        path2.setLinearHeadingInterpolation(0, PI/2);
-        path2.setPathEndTranslationalConstraint(0.125);
-        path2.setPathEndTimeoutConstraint(6000);
-        pathChain = new PathChain(path1, path2);
         autoDriveSubsystem = new AutoDriveSubsystem(follower, mTelemetry);
         autoDriveCommand = new AutoDriveCommand(autoDriveSubsystem, mTelemetry);
-        autoDriveSubsystem.setStartingPose(startPose);
-        autoDriveSubsystem.setMaxPower(0.5);
+        autoDriveSubsystem.setStartingPose(new Pose(0, 0, 0));
+        autoDriveSubsystem.setPose(new Pose(20, 0, 0));
+        autoDriveSubsystem.setMaxPower(1);
+        path1 = new Path((new BezierCurve(new Point(new Pose(20,0, 0)), new Point(new Pose(20,0, PI/2)))));
+        path1.setLinearHeadingInterpolation(0, PI/2);
+        path1.setPathEndTimeoutConstraint(3000);
+        path2 = new Path((new BezierCurve(new Point(new Pose(40,-20, 0)), new Point(pose1), new Point(new Pose(0,0, 0)))));
+        path2.setConstantHeadingInterpolation(0);
+        path2.setPathEndTimeoutConstraint(6000);
+        pathChain = new PathChain(path1, path2);
         register(autoDriveSubsystem);
 //        autoDriveCommand.setPathChain(pathChain, true);
         autoDriveCommand.setPath(path1, false);
@@ -48,12 +49,14 @@ public class FtcLibAuto1 extends FtcLibAutoBase {
 //                }),
 //                autoDriveCommand
 //        );
-        schedule(new SequentialCommandGroup( autoDriveCommand,
-                new InstantCommand(() -> {
-                    autoDriveSubsystem.followPath(path2, true);
-                }),
-                autoDriveCommand)
-        );
+//        schedule(new SequentialCommandGroup( autoDriveCommand,
+//                new InstantCommand(() -> {
+//                    autoDriveSubsystem.followPath(path2, false);
+//                }),
+//                autoDriveCommand)
+//
+//        );
+        schedule(autoDriveCommand);
 
     }
 }

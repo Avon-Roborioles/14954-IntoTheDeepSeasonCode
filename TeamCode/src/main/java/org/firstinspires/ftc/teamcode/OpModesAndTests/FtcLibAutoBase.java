@@ -17,8 +17,8 @@ public abstract class FtcLibAutoBase extends CommandOpMode {
     protected Path path1;
     protected Path path2;
     protected Path path3;
-    protected Pose pose1 = new Pose(20, -20, 0);
-    protected Pose startPose = new Pose(0, 0, 0);
+    protected Pose pose1 = new Pose(0, 28, Math.PI/2);
+    protected Pose startPose = new Pose(0, 0, Math.PI/2);
     protected PathChain pathChain;
     protected Telemetry mTelemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
     protected AutoDriveSubsystem autoDriveSubsystem;
