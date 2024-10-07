@@ -6,6 +6,7 @@ import com.qualcomm.robotcore.hardware.IMU;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
+import org.firstinspires.ftc.teamcode.Examples.GobuildaSample.GoBildaPinpointDriver;
 import org.firstinspires.ftc.teamcode.pedroPathing.localization.localizers.GoBuildaOdometryLocalizer;
 import org.firstinspires.ftc.teamcode.pedroPathing.localization.localizers.ThreeWheelIMULocalizer;
 import org.firstinspires.ftc.teamcode.pedroPathing.localization.localizers.ThreeWheelLocalizer;
@@ -101,7 +102,7 @@ public class PoseUpdater {
         previousPose = startingPose;
         previousPoseTime = System.nanoTime();
         currentPoseTime = System.nanoTime();
-        localizer.setStartPose(set);
+        localizer.setStartPose(startingPose);
     }
 
     /**
@@ -203,9 +204,9 @@ public class PoseUpdater {
     public Pose getPose() {
         if (currentPose == null) {
             currentPose = localizer.getPose();
-            return applyOffset(currentPose);
+            return currentPose;
         } else {
-            return applyOffset(currentPose);
+            return currentPose;
         }
     }
 
@@ -322,6 +323,9 @@ public class PoseUpdater {
      */
     public double getNormalizedIMUHeading() {
         return MathFunctions.normalizeAngle(-imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.RADIANS));
+    }
+    public GoBildaPinpointDriver.DeviceStatus deviceStatus(){
+        return localizer.getDeviceStatus();
     }
 
     /**

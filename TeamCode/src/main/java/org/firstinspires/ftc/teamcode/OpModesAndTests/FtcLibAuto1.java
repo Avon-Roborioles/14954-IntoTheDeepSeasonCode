@@ -24,18 +24,17 @@ public class FtcLibAuto1 extends FtcLibAutoBase {
         Path path1;
         Path path2;
         Path path3;
-        Pose pose1 = new Pose(0, 28, Math.PI/2);
-        Pose startPose = new Pose(-40, 0, 0);
+        Pose pose1;
+        Pose startPose = new Pose(-48, -64.5, PI);
         follower = new Follower(hardwareMap, telemetry);
-        autoDriveSubsystem = new AutoDriveSubsystem(follower, mTelemetry);
-        autoDriveSubsystem.setMaxPower(0.1);
-        autoDriveSubsystem.setStartingPose(startPose);
+
+        autoDriveSubsystem = new AutoDriveSubsystem(follower, mTelemetry, startPose);
+        autoDriveSubsystem.setMaxPower(0.01);
         autoDriveCommand = new AutoDriveCommand(autoDriveSubsystem, mTelemetry);
 
-        path1 = new Path((new BezierCurve(new Point(startPose), new Point(new Pose(20,20, PI/2)))));
+        path1 = new Path((new BezierCurve(new Point(startPose), new Point(new Pose(-48,-26, PI/2)))));
         path1.setLinearHeadingInterpolation(0, PI/2);
         path1.setPathEndTimeoutConstraint(3000);
-
         register(autoDriveSubsystem);
 //        autoDriveCommand.setPathChain(pathChain, true);
         autoDriveCommand.setPath(path1, false);

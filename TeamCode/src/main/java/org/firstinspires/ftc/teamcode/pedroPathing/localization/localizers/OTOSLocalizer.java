@@ -5,6 +5,7 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
+import org.firstinspires.ftc.teamcode.Examples.GobuildaSample.GoBildaPinpointDriver;
 import org.firstinspires.ftc.teamcode.pedroPathing.localization.Localizer;
 import org.firstinspires.ftc.teamcode.pedroPathing.localization.Pose;
 import org.firstinspires.ftc.teamcode.pedroPathing.pathGeneration.MathFunctions;
@@ -207,6 +208,11 @@ public class OTOSLocalizer extends Localizer {
      */
     public double getTurningMultiplier() {
         return otos.getAngularScalar();
+    }
+
+    @Override
+    public GoBildaPinpointDriver.DeviceStatus getDeviceStatus() {
+        return null;
     }
 
     /**

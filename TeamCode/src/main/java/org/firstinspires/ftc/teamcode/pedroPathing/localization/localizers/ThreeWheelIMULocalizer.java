@@ -7,6 +7,7 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.IMU;
 
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
+import org.firstinspires.ftc.teamcode.Examples.GobuildaSample.GoBildaPinpointDriver;
 import org.firstinspires.ftc.teamcode.pedroPathing.localization.Encoder;
 import org.firstinspires.ftc.teamcode.pedroPathing.localization.Localizer;
 import org.firstinspires.ftc.teamcode.pedroPathing.localization.Matrix;
@@ -305,6 +306,11 @@ public class  ThreeWheelIMULocalizer extends Localizer {
      */
     public double getTurningMultiplier() {
         return TURN_TICKS_TO_RADIANS;
+    }
+
+    @Override
+    public GoBildaPinpointDriver.DeviceStatus getDeviceStatus() {
+        return null;
     }
 
     /**

@@ -1,6 +1,5 @@
 package org.firstinspires.ftc.teamcode.commandBased.Subsystems;
 
-import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
 import com.arcrobotics.ftclib.command.SubsystemBase;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
@@ -15,9 +14,10 @@ public class AutoDriveSubsystem extends SubsystemBase {
     private Follower follower;
     private Telemetry telemetry;
 
-    public AutoDriveSubsystem(Follower follower, Telemetry telemetry){
+    public AutoDriveSubsystem(Follower follower, Telemetry telemetry, Pose startPose){
         this.follower = follower;
         this.telemetry = telemetry;
+        setStartingPose(startPose);
     }
 
     public void followPath(Path path, boolean holdEnd){

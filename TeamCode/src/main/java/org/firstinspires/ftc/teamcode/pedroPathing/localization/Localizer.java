@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.pedroPathing.localization;
 
+import org.firstinspires.ftc.teamcode.Examples.GobuildaSample.GoBildaPinpointDriver;
 import org.firstinspires.ftc.teamcode.pedroPathing.pathGeneration.Vector;
 
 /**
@@ -86,6 +87,8 @@ public abstract class Localizer {
      * @return returns the turning ticks to radians multiplier
      */
     public abstract double getTurningMultiplier();
+
+    public abstract GoBildaPinpointDriver.DeviceStatus getDeviceStatus();
 
     /**
      * This resets the IMU of the localizer, if applicable.

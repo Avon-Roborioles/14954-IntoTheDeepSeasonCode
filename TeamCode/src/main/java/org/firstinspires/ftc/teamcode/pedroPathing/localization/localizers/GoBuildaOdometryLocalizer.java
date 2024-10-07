@@ -6,8 +6,8 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
+import org.firstinspires.ftc.robotcore.external.navigation.Pose2D;
 import org.firstinspires.ftc.teamcode.Examples.GobuildaSample.GoBildaPinpointDriver;
-import org.firstinspires.ftc.teamcode.Examples.GobuildaSample.Pose2D;
 import org.firstinspires.ftc.teamcode.commandBased.Subsystems.LimelightSubsystem;
 import org.firstinspires.ftc.teamcode.commandBased.Subsystems.LocalizerSubsystem;
 import org.firstinspires.ftc.teamcode.commandBased.Subsystems.OdometrySubsystem;
@@ -50,7 +50,8 @@ public class GoBuildaOdometryLocalizer extends Localizer {
         limelight3A = hardwareMap.get(Limelight3A.class, "limelight");
         limelightSubsystem = new LimelightSubsystem(limelight3A,this.telemetry);
         localizerSubsystem = new LocalizerSubsystem(this.telemetry, limelightSubsystem, odometrySubsystem);
-        setStartPose(setStartPose);
+        startPose = setStartPose;
+        setStartPose(startPose);
         totalHeading = 0;
         previousHeading = startPose.getHeading();
     }
@@ -96,7 +97,6 @@ public class GoBuildaOdometryLocalizer extends Localizer {
     public void setStartPose(Pose setStart) {
 
         startPose = setStart;
-        odometrySubsystem.resetOdometry();
         odometrySubsystem.setOdoPos(new Pose2D(DistanceUnit.INCH, setStart.getX(), setStart.getY(), AngleUnit.RADIANS, setStart.getHeading()));
     }
 
@@ -108,9 +108,8 @@ public class GoBuildaOdometryLocalizer extends Localizer {
      */
     @Override
     public void setPose(Pose setPose) {
-        odometrySubsystem.resetOdometry();
-        Pose setOdoPose = setPose.copy();// had start pos added to set pos may need to add it back
-        odometrySubsystem.setOdoPos(new Pose2D(DistanceUnit.INCH, setOdoPose.getX(), setOdoPose.getY(), AngleUnit.RADIANS,setOdoPose.getHeading()));
+        // had start pos added to set pos may need to add it back
+        odometrySubsystem.setOdoPos(new Pose2D(DistanceUnit.INCH, setPose.getX(), setPose.getY(), AngleUnit.RADIANS,setPose.getHeading()));
     }
     /**
      * This updates the total heading of the robot.
@@ -119,6 +118,10 @@ public class GoBuildaOdometryLocalizer extends Localizer {
     public void update() {
        totalHeading += MathFunctions.getSmallestAngleDifference(odometry.getPosition().getHeading(AngleUnit.RADIANS), previousHeading);
        previousHeading = odometry.getPosition().getHeading(AngleUnit.RADIANS);
+    }
+
+    public GoBildaPinpointDriver.DeviceStatus getDeviceStatus(){
+        return odometry.getDeviceStatus();
     }
     /**
      * This returns how far the robot has turned in radians, in a number not clamped between 0 and

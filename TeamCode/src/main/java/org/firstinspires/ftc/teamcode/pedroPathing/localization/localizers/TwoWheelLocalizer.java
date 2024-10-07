@@ -7,6 +7,7 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.IMU;
 
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
+import org.firstinspires.ftc.teamcode.Examples.GobuildaSample.GoBildaPinpointDriver;
 import org.firstinspires.ftc.teamcode.pedroPathing.localization.Encoder;
 import org.firstinspires.ftc.teamcode.pedroPathing.localization.Localizer;
 import org.firstinspires.ftc.teamcode.pedroPathing.localization.Matrix;
@@ -288,6 +289,11 @@ public class TwoWheelLocalizer extends Localizer { // todo: make two wheel odo w
      */
     public double getTurningMultiplier() {
         return 1;
+    }
+
+    @Override
+    public GoBildaPinpointDriver.DeviceStatus getDeviceStatus() {
+        return null;
     }
 
     /**

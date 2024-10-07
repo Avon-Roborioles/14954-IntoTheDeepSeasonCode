@@ -948,6 +948,7 @@ public class Follower {
         telemetry.addData("total heading", poseUpdater.getTotalHeading());
         telemetry.addData("velocity magnitude", getVelocity().getMagnitude());
         telemetry.addData("velocity heading", getVelocity().getTheta());
+        telemetry.addData("odometry", poseUpdater.deviceStatus());
         driveKalmanFilter.debug(telemetry);
         telemetry.update();
         if (drawOnDashboard) {

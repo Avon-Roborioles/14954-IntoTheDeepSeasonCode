@@ -5,14 +5,17 @@ import com.arcrobotics.ftclib.command.SubsystemBase;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
+import org.firstinspires.ftc.robotcore.external.navigation.Pose2D;
 import org.firstinspires.ftc.teamcode.Examples.GobuildaSample.GoBildaPinpointDriver;
-import org.firstinspires.ftc.teamcode.Examples.GobuildaSample.Pose2D;
 
 import java.util.Locale;
 
 public class OdometrySubsystem extends SubsystemBase {
     private GoBildaPinpointDriver odometry;
     private Telemetry telemetry;
+    private double xSet = 0;
+    private double ySet = 0;
+    private double headingSet = 0;
 
     public OdometrySubsystem(GoBildaPinpointDriver odometry, Telemetry telemetry) {
         this.odometry = odometry;
@@ -25,14 +28,16 @@ public class OdometrySubsystem extends SubsystemBase {
         telemetry.update();
     }
     public void updateOdometry() {
-        odometry.bulkUpdate();
+        odometry.update();
     }
     public Pose2D getOdometryPose(){
-        odometry.bulkUpdate();
+        odometry.update();
+        Pose2D pos = odometry.getPosition();
         return odometry.getPosition();
+//        return new Pose2D(DistanceUnit.INCH, pos.getX(DistanceUnit.INCH) + xSet, pos.getY(DistanceUnit.INCH) + ySet, AngleUnit.RADIANS, pos.getHeading(AngleUnit.RADIANS) + headingSet);
     }
     public Pose2D getOdometryVelocity(){
-        odometry.bulkUpdate();
+        odometry.update();
         return odometry.getVelocity();
     }
     public double getHeadingOdo(){
@@ -48,7 +53,12 @@ public class OdometrySubsystem extends SubsystemBase {
         odometry.setPosition(new Pose2D( DistanceUnit.INCH, odometry.getPosition().getX(DistanceUnit.INCH) ,(odometry.getPosition().getY(DistanceUnit.INCH)), AngleUnit.DEGREES, yaw));
     }
     public void setOdoPos(Pose2D pos){
-        odometry.setPosition(pos);
+//        xSet = pos.getX(DistanceUnit.INCH);
+//        ySet = pos.getY(DistanceUnit.INCH);
+//        headingSet = pos.getHeading(AngleUnit.RADIANS);
+        odometry.setPosition(new Pose2D(DistanceUnit.INCH, 20, 20 , AngleUnit.DEGREES, 90));
+
+        odometry.update();
     }
 
     public void getTelemetryOdo(){
