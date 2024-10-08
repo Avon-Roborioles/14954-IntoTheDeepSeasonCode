@@ -1,8 +1,13 @@
 package org.firstinspires.ftc.teamcode.commandBased.Commands;
 
 
+import static java.lang.Math.PI;
+
 import com.arcrobotics.ftclib.command.CommandBase;
 
+import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
+import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
+import org.firstinspires.ftc.robotcore.external.navigation.Pose2D;
 import org.firstinspires.ftc.teamcode.commandBased.Subsystems.ImuSubsystem;
 import org.firstinspires.ftc.teamcode.commandBased.Subsystems.LimelightSubsystem;
 import org.firstinspires.ftc.teamcode.commandBased.Subsystems.LocalizerSubsystem;
@@ -21,6 +26,6 @@ public class LocalizerCommand extends CommandBase {
     }
     @Override
     public void execute(){
-        localizerSubsystem.getLocalizerHeadingTele();
+        odometrySubsystem.setOdoPos(new Pose2D(DistanceUnit.INCH, 20, 20, AngleUnit.RADIANS, PI/2));
     }
 }

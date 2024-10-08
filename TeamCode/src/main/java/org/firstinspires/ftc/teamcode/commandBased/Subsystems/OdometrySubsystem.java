@@ -17,13 +17,14 @@ public class OdometrySubsystem extends SubsystemBase {
     private double ySet = 0;
     private double headingSet = 0;
 
-    public OdometrySubsystem(GoBildaPinpointDriver odometry, Telemetry telemetry) {
+    public OdometrySubsystem(GoBildaPinpointDriver odometry, Telemetry telemetry, Pose2D pose2D) {
         this.odometry = odometry;
         this.telemetry = telemetry;
         odometry.setOffsets(-119.79, -135.29);
         odometry.setEncoderResolution(GoBildaPinpointDriver.GoBildaOdometryPods.goBILDA_4_BAR_POD);
         odometry.setEncoderDirections(GoBildaPinpointDriver.EncoderDirection.REVERSED, GoBildaPinpointDriver.EncoderDirection.FORWARD);
         odometry.resetPosAndIMU();
+        odometry.setPosition(pose2D);
         telemetry.addData("Status", odometry.getDeviceStatus());
         telemetry.update();
     }
@@ -53,10 +54,8 @@ public class OdometrySubsystem extends SubsystemBase {
         odometry.setPosition(new Pose2D( DistanceUnit.INCH, odometry.getPosition().getX(DistanceUnit.INCH) ,(odometry.getPosition().getY(DistanceUnit.INCH)), AngleUnit.DEGREES, yaw));
     }
     public void setOdoPos(Pose2D pos){
-//        xSet = pos.getX(DistanceUnit.INCH);
-//        ySet = pos.getY(DistanceUnit.INCH);
-//        headingSet = pos.getHeading(AngleUnit.RADIANS);
-        odometry.setPosition(new Pose2D(DistanceUnit.INCH, 20, 20 , AngleUnit.DEGREES, 90));
+
+        odometry.setPosition(pos);
 
         odometry.update();
     }

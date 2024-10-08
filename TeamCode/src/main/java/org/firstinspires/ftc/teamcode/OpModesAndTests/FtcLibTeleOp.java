@@ -16,6 +16,9 @@ import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.IMU;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
+import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
+import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
+import org.firstinspires.ftc.robotcore.external.navigation.Pose2D;
 import org.firstinspires.ftc.teamcode.Examples.GobuildaSample.GoBildaPinpointDriver;
 import org.firstinspires.ftc.teamcode.commandBased.Commands.DriveCommand;
 import org.firstinspires.ftc.teamcode.commandBased.Commands.ExtensionOutCommand;
@@ -87,7 +90,7 @@ public class FtcLibTeleOp extends CommandOpMode {
         limelightSubsystem = new LimelightSubsystem(limelight, telemetry);
         limeLightCommand = new LimelightAprilTagCommand(limelightSubsystem);
         odometry = hardwareMap.get(GoBildaPinpointDriver.class, "odometry");
-        odometrySubsystem = new OdometrySubsystem(odometry,telemetry);
+        odometrySubsystem = new OdometrySubsystem(odometry,telemetry, new Pose2D(DistanceUnit.INCH, 0, 0 , AngleUnit.RADIANS, 0));
         localizerSubsystem = new LocalizerSubsystem(telemetry, limelightSubsystem, odometrySubsystem);
         localizerCommand = new LocalizerCommand(localizerSubsystem, limelightSubsystem, odometrySubsystem);
         driveSubsystem = new DriveSubsystem(frontLeft, frontRight, backLeft, backRight, telemetry);
@@ -98,13 +101,13 @@ public class FtcLibTeleOp extends CommandOpMode {
 
 
         bButton = (new GamepadButton(driverOp, GamepadKeys.Button.B))
-                .whenPressed(extensionOutCommand);
+                .whenPressed(localizerCommand);
 
 
         register(driveSubsystem, limelightSubsystem, localizerSubsystem, odometrySubsystem, extensionSubsystem, telemetrySubsystem);
 
 
-        localizerSubsystem.setDefaultCommand(localizerCommand);
+//        localizerSubsystem.setDefaultCommand(localizerCommand);
         telemetrySubsystem.setDefaultCommand(telemetryCommand);
         driveSubsystem.setDefaultCommand(driveCommand);
     }
