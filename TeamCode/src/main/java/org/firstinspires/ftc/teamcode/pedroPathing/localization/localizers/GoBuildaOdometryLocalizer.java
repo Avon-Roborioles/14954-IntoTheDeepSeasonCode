@@ -54,6 +54,7 @@ public class GoBuildaOdometryLocalizer extends Localizer {
         setStartPose(startPose);
         totalHeading = 0;
         previousHeading = startPose.getHeading();
+        odometrySubsystem.resetOdometry();
     }
     /**
      * This returns the current pose estimate.
@@ -63,7 +64,7 @@ public class GoBuildaOdometryLocalizer extends Localizer {
     @Override
     public Pose getPose() {
         localizerSubsystem.update();
-        return new Pose(localizerSubsystem.getLocalizerPose().getX(DistanceUnit.INCH), localizerSubsystem.getLocalizerPose().getY(DistanceUnit.INCH), localizerSubsystem.getLocalizerPose().getHeading(AngleUnit.RADIANS));
+        return MathFunctions.addPoses(startPose, new Pose(localizerSubsystem.getLocalizerPose().getX(DistanceUnit.INCH), localizerSubsystem.getLocalizerPose().getY(DistanceUnit.INCH), localizerSubsystem.getLocalizerPose().getHeading(AngleUnit.RADIANS)));
     }
 
     /**
@@ -97,7 +98,7 @@ public class GoBuildaOdometryLocalizer extends Localizer {
     public void setStartPose(Pose setStart) {
 
         startPose = setStart;
-        odometrySubsystem.setOdoPos(new Pose2D(DistanceUnit.INCH, setStart.getX(), setStart.getY(), AngleUnit.RADIANS, setStart.getHeading()));
+//        odometrySubsystem.setOdoPos(new Pose2D(DistanceUnit.INCH, setStart.getX(), setStart.getY(), AngleUnit.RADIANS, setStart.getHeading()));
     }
 
     /**
@@ -109,7 +110,10 @@ public class GoBuildaOdometryLocalizer extends Localizer {
     @Override
     public void setPose(Pose setPose) {
         // had start pos added to set pos may need to add it back
-        odometrySubsystem.setOdoPos(new Pose2D(DistanceUnit.INCH, setPose.getX(), setPose.getY(), AngleUnit.RADIANS,setPose.getHeading()));
+        odometrySubsystem.resetOdometry();
+        Pose setOdometryPose = MathFunctions.subtractPoses(setPose, startPose);
+        odometrySubsystem.setOdoPos(new Pose2D(DistanceUnit.INCH, setOdometryPose.getX(), setOdometryPose.getY(), AngleUnit.RADIANS, setOdometryPose.getHeading()));
+//        odometrySubsystem.setOdoPos(new Pose2D(DistanceUnit.INCH, setPose.getX(), setPose.getY(), AngleUnit.RADIANS,setPose.getHeading()));
     }
     /**
      * This updates the total heading of the robot.
