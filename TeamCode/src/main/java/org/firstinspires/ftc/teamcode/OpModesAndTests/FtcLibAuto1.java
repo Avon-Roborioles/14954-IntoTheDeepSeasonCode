@@ -26,7 +26,7 @@ public class FtcLibAuto1 extends FtcLibAutoBase {
         Path path2;
         Path path3;
         Pose pose1;
-        Pose startPose = new Pose(-48, -64.5, PI/2);
+        Pose startPose = new Pose(-48, -64.5, 0);
         path1 = new Path((new BezierCurve(new Point(startPose), new Point(new Pose(-48,-26, PI/2)))));
         path1.setLinearHeadingInterpolation(startPose.getHeading(), PI/2);
         path1.setPathEndTimeoutConstraint(3000);

@@ -264,10 +264,16 @@ public class PoseUpdater {
      * @return returns the velocity of the robot.
      */
     public Vector getVelocity() {
+//        if (currentVelocity == null) {
+//            currentVelocity = new Vector();
+//            currentVelocity.setOrthogonalComponents(localizer.getVelocity().getX(), localizer.getVelocity().getY());
+//            currentVelocity.setMagnitude(MathFunctions.distance(getPose(), previousPose) / ((currentPoseTime - previousPoseTime) / Math.pow(10.0, 9)));
+//            return MathFunctions.copyVector(currentVelocity);
+//        } else {
+//            return MathFunctions.copyVector(currentVelocity);
+//        }
         if (currentVelocity == null) {
-            currentVelocity = new Vector();
-            currentVelocity.setOrthogonalComponents(localizer.getVelocity().getX(), localizer.getVelocity().getY());
-            currentVelocity.setMagnitude(MathFunctions.distance(getPose(), previousPose) / ((currentPoseTime - previousPoseTime) / Math.pow(10.0, 9)));
+            currentVelocity = localizer.getVelocityVector();
             return MathFunctions.copyVector(currentVelocity);
         } else {
             return MathFunctions.copyVector(currentVelocity);
