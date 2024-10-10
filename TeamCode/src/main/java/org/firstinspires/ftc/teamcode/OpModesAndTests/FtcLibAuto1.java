@@ -33,7 +33,7 @@ public class FtcLibAuto1 extends FtcLibAutoBase {
         follower = new Follower(hardwareMap, telemetry);
         AutoSetStartCommand autoSetStartCommand = new AutoSetStartCommand(startPose, follower);
         autoDriveSubsystem = new AutoDriveSubsystem(follower, mTelemetry, startPose);
-        autoDriveSubsystem.setMaxPower(0.25);
+        autoDriveSubsystem.setMaxPower(1);
         autoDriveCommand = new AutoDriveCommand(autoDriveSubsystem, mTelemetry);
 
         register(autoDriveSubsystem);
