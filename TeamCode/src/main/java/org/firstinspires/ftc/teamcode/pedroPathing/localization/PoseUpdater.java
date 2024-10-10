@@ -83,7 +83,7 @@ public class PoseUpdater {
      */
     public void update() {
         previousVelocity = getVelocity();
-        previousPose = applyOffset(getRawPose());
+        previousPose = getPose();
         currentPose = null;
         currentVelocity = null;
         currentAcceleration = null;
@@ -102,7 +102,7 @@ public class PoseUpdater {
         previousPose = startingPose;
         previousPoseTime = System.nanoTime();
         currentPoseTime = System.nanoTime();
-        localizer.setStartPose(startingPose);
+        localizer.setStartPose(set);
     }
 
     /**
@@ -226,7 +226,7 @@ public class PoseUpdater {
         }
     }
 
-    /**
+    /**`
      * This sets the current pose without using resettable offsets.
      *
      * @param set the pose to set the current pose to.
@@ -266,7 +266,7 @@ public class PoseUpdater {
     public Vector getVelocity() {
         if (currentVelocity == null) {
             currentVelocity = new Vector();
-            currentVelocity.setOrthogonalComponents(getPose().getX() - previousPose.getX(), getPose().getY() - previousPose.getY());
+            currentVelocity.setOrthogonalComponents(localizer.getVelocity().getX(), localizer.getVelocity().getY());
             currentVelocity.setMagnitude(MathFunctions.distance(getPose(), previousPose) / ((currentPoseTime - previousPoseTime) / Math.pow(10.0, 9)));
             return MathFunctions.copyVector(currentVelocity);
         } else {

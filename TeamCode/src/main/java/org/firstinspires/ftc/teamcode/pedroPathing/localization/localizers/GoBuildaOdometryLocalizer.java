@@ -66,13 +66,7 @@ public class GoBuildaOdometryLocalizer extends Localizer {
     @Override
     public Pose getPose() {
         odometrySubsystem.updateOdometry();
-        Pose2D pose = odometrySubsystem.getOdometryPose();
-//        if(pose.getHeading(AngleUnit.RADIANS) <0){
-//            return MathFunctions.subtractPoses(startPose, new Pose(odometrySubsystem.getOdometryPose().getX(DistanceUnit.INCH), odometrySubsystem.getOdometryPose().getY(DistanceUnit.INCH), -odometrySubsystem.getOdometryPose().getHeading(AngleUnit.RADIANS) + 2*PI ));
-//        }else {
-//            return MathFunctions.addPoses(startPose, new Pose(odometrySubsystem.getOdometryPose().getY(DistanceUnit.INCH), odometrySubsystem.getOdometryPose().getX(DistanceUnit.INCH), -odometrySubsystem.getOdometryPose().getHeading(AngleUnit.RADIANS)));
-//        }
-        return new Pose(pose.getX(DistanceUnit.INCH), pose.getY(DistanceUnit.INCH), pose.getHeading(AngleUnit.RADIANS));
+        return new Pose(odometrySubsystem.getOdometryPose().getX(DistanceUnit.INCH), odometrySubsystem.getOdometryPose().getY(DistanceUnit.INCH), odometrySubsystem.getOdometryPose().getHeading(AngleUnit.RADIANS));
 //        return MathFunctions.subtractPoses(startPose, new Pose(odometrySubsystem.getOdometryPose().getX(DistanceUnit.INCH), odometrySubsystem.getOdometryPose().getY(DistanceUnit.INCH), odometrySubsystem.getOdometryPose().getHeading(AngleUnit.RADIANS)));
 
     }
@@ -107,10 +101,10 @@ public class GoBuildaOdometryLocalizer extends Localizer {
     @Override
     public void setStartPose(Pose setStart) {
 
-        startPose = setStart;
-        if(setStart.getHeading() > PI){
-            setStart.setHeading(setStart.getHeading() - 2 * PI);
-        }
+//        startPose = setStart;
+//        if(setStart.getHeading() > PI){
+//            setStart.setHeading(setStart.getHeading() - 2 * PI);
+//        }
         odometrySubsystem.setOdoPos(new Pose2D(DistanceUnit.INCH, setStart.getX(), setStart.getY(), AngleUnit.RADIANS, setStart.getHeading()));
     }
 

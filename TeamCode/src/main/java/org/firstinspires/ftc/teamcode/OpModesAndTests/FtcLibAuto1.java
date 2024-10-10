@@ -9,6 +9,7 @@ import com.arcrobotics.ftclib.command.SequentialCommandGroup;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
 import org.firstinspires.ftc.teamcode.commandBased.Commands.AutoDriveCommand;
+import org.firstinspires.ftc.teamcode.commandBased.Commands.AutoSetStartCommand;
 import org.firstinspires.ftc.teamcode.commandBased.Subsystems.AutoDriveSubsystem;
 import org.firstinspires.ftc.teamcode.pedroPathing.follower.Follower;
 import org.firstinspires.ftc.teamcode.pedroPathing.localization.Pose;
@@ -30,8 +31,7 @@ public class FtcLibAuto1 extends FtcLibAutoBase {
         path1.setLinearHeadingInterpolation(startPose.getHeading(), PI/2);
         path1.setPathEndTimeoutConstraint(3000);
         follower = new Follower(hardwareMap, telemetry);
-        follower.setStartingPose(startPose);
-
+        AutoSetStartCommand autoSetStartCommand = new AutoSetStartCommand(startPose, follower);
         autoDriveSubsystem = new AutoDriveSubsystem(follower, mTelemetry, startPose);
         autoDriveSubsystem.setMaxPower(0.25);
         autoDriveCommand = new AutoDriveCommand(autoDriveSubsystem, mTelemetry);
@@ -58,7 +58,8 @@ public class FtcLibAuto1 extends FtcLibAutoBase {
 //                autoDriveCommand)
 //
 //        );
-        schedule(autoDriveCommand);
+        schedule(new SequentialCommandGroup(autoSetStartCommand, autoDriveCommand));
+//        schedule(autoDriveCommand);
 
     }
 }

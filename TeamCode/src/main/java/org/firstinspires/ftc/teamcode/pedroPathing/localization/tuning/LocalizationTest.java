@@ -19,6 +19,7 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.configuration.typecontainers.MotorConfigurationType;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
+import org.firstinspires.ftc.teamcode.Examples.GobuildaSample.GoBildaPinpointDriver;
 import org.firstinspires.ftc.teamcode.pedroPathing.localization.Pose;
 import org.firstinspires.ftc.teamcode.pedroPathing.localization.PoseUpdater;
 import org.firstinspires.ftc.teamcode.pedroPathing.util.DashboardPoseTracker;
@@ -54,7 +55,8 @@ public class LocalizationTest extends OpMode {
     @Override
     public void init() {
         poseUpdater = new PoseUpdater(hardwareMap, telemetry);
-        poseUpdater.setStartingPose(new Pose(-48, -64.5, PI/2));
+
+
 
         dashboardPoseTracker = new DashboardPoseTracker(poseUpdater);
 
@@ -81,11 +83,24 @@ public class LocalizationTest extends OpMode {
         telemetryA = new MultipleTelemetry(this.telemetry, FtcDashboard.getInstance().getTelemetry());
         telemetryA.addLine("This will print your robot's position to telemetry while "
                 + "allowing robot control through a basic mecanum drive on gamepad 1.");
+        telemetryA.addData("odo", poseUpdater.deviceStatus());
         telemetryA.update();
 
+//        Drawing.drawRobot(poseUpdater.getPose(), "#4CAF50");
+//        Drawing.sendPacket();
+        poseUpdater.setStartingPose(new Pose(-48, -64.5, PI/2));
+        poseUpdater.update();
         Drawing.drawRobot(poseUpdater.getPose(), "#4CAF50");
         Drawing.sendPacket();
+
+        telemetryA.addData("odo", poseUpdater.deviceStatus());
+        telemetryA.update();
+
     }
+//    @Override
+//    public void init_loop() {
+//
+//    }
 
     /**
      * This updates the robot's pose estimate, the simple mecanum drive, and updates the FTC
@@ -95,6 +110,7 @@ public class LocalizationTest extends OpMode {
     public void loop() {
         poseUpdater.update();
         dashboardPoseTracker.update();
+//        poseUpdater.setStartingPose(new Pose(-48, -64.5, PI/2));
 
         double y = -gamepad1.left_stick_y; // Remember, this is reversed!
         double x = gamepad1.left_stick_x; // this is strafing
@@ -116,7 +132,7 @@ public class LocalizationTest extends OpMode {
 
         telemetryA.addData("x", poseUpdater.getPose().getX());
         telemetryA.addData("y", poseUpdater.getPose().getY());
-        telemetryA.addData("heading", poseUpdater.getPose().getHeading());
+        telemetryA.addData("heading", poseUpdater.getPose().getHeading()/PI);
         telemetryA.addData("total heading", poseUpdater.getTotalHeading());
         telemetryA.update();
 

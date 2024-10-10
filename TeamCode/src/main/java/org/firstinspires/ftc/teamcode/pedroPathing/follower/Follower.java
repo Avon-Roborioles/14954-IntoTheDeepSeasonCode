@@ -28,6 +28,7 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.configuration.typecontainers.MotorConfigurationType;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
+import org.firstinspires.ftc.teamcode.Examples.GobuildaSample.GoBildaPinpointDriver;
 import org.firstinspires.ftc.teamcode.pedroPathing.localization.Pose;
 import org.firstinspires.ftc.teamcode.pedroPathing.localization.PoseUpdater;
 import org.firstinspires.ftc.teamcode.pedroPathing.pathGeneration.BezierPoint;
@@ -998,5 +999,8 @@ public class Follower {
      */
     public void resetIMU() {
         poseUpdater.resetIMU();
+    }
+    public GoBildaPinpointDriver.DeviceStatus deviceStatus() {
+        return poseUpdater.deviceStatus();
     }
 }
