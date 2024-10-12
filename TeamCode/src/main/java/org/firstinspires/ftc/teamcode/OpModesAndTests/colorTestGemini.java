@@ -7,7 +7,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.ColorSensor;
 
 @TeleOp(name = "Sensor: Color", group = "Sensor")
-
+@Disabled
 public class colorTestGemini extends LinearOpMode {
 
     ColorSensor colorSensor;

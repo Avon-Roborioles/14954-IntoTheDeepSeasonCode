@@ -37,15 +37,10 @@ public class FollowerConstants {
 
 
     // Translational PIDF coefficients (don't use integral)
-//    public static CustomPIDFCoefficients translationalPIDFCoefficients = new CustomPIDFCoefficients(
-//            0.1065,
-//            0.000225,
-//            0.0141,
-//            0);
     public static CustomPIDFCoefficients translationalPIDFCoefficients = new CustomPIDFCoefficients(
-            0.1,
-            0.0,
-            0.0,
+            0.10625,
+            0.000025,
+            0.0085,
             0);
 
     // Translational Integral
@@ -61,9 +56,9 @@ public class FollowerConstants {
 
     // Heading error PIDF coefficients
     public static CustomPIDFCoefficients headingPIDFCoefficients = new CustomPIDFCoefficients(
-            1.38,
-            0.00001,
-            0.096,
+            1.5,
+            0.05,
+            0.055,
             0);
 
     // Feed forward constant added on to the heading PIDF
@@ -72,9 +67,9 @@ public class FollowerConstants {
 
     // Drive PIDF coefficients
     public static CustomFilteredPIDFCoefficients drivePIDFCoefficients = new CustomFilteredPIDFCoefficients(
-            0.005,
+            0.00475,
             0,
-            0.0,
+            0.00098,
             0.6,
             0);
 
@@ -91,7 +86,7 @@ public class FollowerConstants {
     public static double mass = 5.71;
 
     // Centripetal force to power scaling
-    public static double centripetalScaling = 0.0005;
+    public static double centripetalScaling = 0.00025;
 
 
     // Acceleration of the drivetrain when power is cut in inches/second^2 (should be negative)
