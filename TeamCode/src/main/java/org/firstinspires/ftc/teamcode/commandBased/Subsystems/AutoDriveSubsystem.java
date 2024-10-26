@@ -33,7 +33,7 @@ public class AutoDriveSubsystem extends SubsystemBase {
         follower.setPose(pose);
     }
     public void setStartingPose(Pose pose){
-        follower.setStartingPose(pose);
+    follower.setStartingPose(pose);
     }
     public void holdPoint(BezierPoint point, double heading){
         follower.holdPoint(point, heading);
@@ -77,6 +77,10 @@ public class AutoDriveSubsystem extends SubsystemBase {
     public void resetOffset(){
         follower.resetOffset();
     }
+    public void cameraAjust(){
+        follower.cameraAjust();
+    }
+
 
 
 }

@@ -319,4 +319,9 @@ public class  ThreeWheelIMULocalizer extends Localizer {
     public void resetIMU() {
         imu.resetYaw();
     }
+
+    @Override
+    public void cameraAjust() {
+
+    }
 }

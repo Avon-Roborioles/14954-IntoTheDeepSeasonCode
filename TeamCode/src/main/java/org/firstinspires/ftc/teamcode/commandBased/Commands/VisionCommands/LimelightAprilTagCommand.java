@@ -15,6 +15,7 @@ public class LimelightAprilTagCommand extends CommandBase {
     @Override
     public void execute(){
         lastResult = limelightSubsystem.readAprilTag();
+        limelightSubsystem.getLimelightTelemetry();
         limelightSubsystem.setPipeline(0);
     }
 
