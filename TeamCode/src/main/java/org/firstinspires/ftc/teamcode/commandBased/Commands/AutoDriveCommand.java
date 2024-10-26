@@ -29,6 +29,6 @@ public class AutoDriveCommand extends CommandBase {
         autoDriveSubsystem.followPath(path, holdEnd);
     }
     public void setPathChain(PathChain pathChain, boolean holdEnd){
-        autoDriveSubsystem.followPathChain(pathChain, holdEnd);
+        autoDriveSubsystem.followPath(pathChain, holdEnd);
     }
 }

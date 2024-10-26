@@ -27,7 +27,7 @@ import org.firstinspires.ftc.teamcode.pedroPathing.pathGeneration.Point;
  * @version 1.0, 3/12/2024
  */
 @Config
-@Disabled
+//@Disabled
 @Autonomous (name = "Straight Back And Forth", group = "Autonomous Pathing Tuning")
 public class StraightBackAndForth extends OpMode {
     private Telemetry telemetryA;
@@ -51,8 +51,10 @@ public class StraightBackAndForth extends OpMode {
 
         forwards = new Path(new BezierLine(new Point(0,0, Point.CARTESIAN), new Point(DISTANCE,0, Point.CARTESIAN)));
         forwards.setConstantHeadingInterpolation(0);
+        forwards.setPathEndTimeoutConstraint(3000);
         backwards = new Path(new BezierLine(new Point(DISTANCE,0, Point.CARTESIAN), new Point(0,0, Point.CARTESIAN)));
         backwards.setConstantHeadingInterpolation(0);
+        backwards.setPathEndTimeoutConstraint(3000);
 
         follower.followPath(forwards);
 

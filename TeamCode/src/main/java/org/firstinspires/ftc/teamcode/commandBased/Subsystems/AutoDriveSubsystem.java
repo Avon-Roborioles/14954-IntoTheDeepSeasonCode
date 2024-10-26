@@ -23,7 +23,7 @@ public class AutoDriveSubsystem extends SubsystemBase {
     public void followPath(Path path, boolean holdEnd){
         follower.followPath(path, holdEnd);
     }
-    public void followPathChain(PathChain pathChain, boolean holdEnd){
+    public void followPath(PathChain pathChain, boolean holdEnd){
         follower.followPath(pathChain, holdEnd);
     }
     public void setMaxPower(double maxPower){

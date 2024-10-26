@@ -40,7 +40,7 @@ public class FollowerConstants {
     public static CustomPIDFCoefficients translationalPIDFCoefficients = new CustomPIDFCoefficients(
             0.10625,
             0.000025,
-            0.0085,
+            0.00775,
             0);
 
     // Translational Integral
@@ -58,7 +58,7 @@ public class FollowerConstants {
     public static CustomPIDFCoefficients headingPIDFCoefficients = new CustomPIDFCoefficients(
             1.5,
             0.05,
-            0.055,
+            0.075,
             0);
 
     // Feed forward constant added on to the heading PIDF
@@ -67,9 +67,9 @@ public class FollowerConstants {
 
     // Drive PIDF coefficients
     public static CustomFilteredPIDFCoefficients drivePIDFCoefficients = new CustomFilteredPIDFCoefficients(
-            0.00475,
+            0.0045,
             0,
-            0.00098,
+            0.0001,
             0.6,
             0);
 
@@ -83,7 +83,7 @@ public class FollowerConstants {
 
 
     // Mass of robot in kilograms
-    public static double mass = 5.71;
+    public static double mass = 5.81;
 
     // Centripetal force to power scaling
     public static double centripetalScaling = 0.00025;

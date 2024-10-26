@@ -22,43 +22,80 @@ import org.firstinspires.ftc.teamcode.pedroPathing.pathGeneration.Point;
 public class FtcLibAuto1 extends FtcLibAutoBase {
     @Override
     public void initialize() {
-        Path path1;
-        Path path2;
-        Path path3;
-        Pose pose1;
+
         Pose startPose = new Pose(-48, -64.5, 0);
-        path1 = new Path((new BezierCurve(new Point(startPose), new Point(new Pose(-48,-26, PI/2)))));
-        path1.setLinearHeadingInterpolation(startPose.getHeading(), PI/2);
-        path1.setPathEndTimeoutConstraint(3000);
+        Pose scorePose = new Pose(-55, -55, PI/4);
+        Pose firstPose = new Pose(-48, -32, PI/2);
+        Pose secondPose = new Pose(-55, -32, PI/2);
+        Pose thirdPose = new Pose(-55, -32, PI);
+
+        Path toFirst;
+        Path fromFirst;
+        Path toSecond;
+        Path fromSecond;
+        Path toThird;
+        Path fromThird;
+
+        toFirst = new Path((new BezierCurve(new Point(startPose), new Point(firstPose))));
+        toFirst.setLinearHeadingInterpolation(startPose.getHeading(), firstPose.getHeading());
+        toFirst.setPathEndTimeoutConstraint(3000);
+        fromFirst = new Path((new BezierCurve(new Point(firstPose), new Point(scorePose))));
+        fromFirst.setLinearHeadingInterpolation(firstPose.getHeading() , scorePose.getHeading());
+        fromFirst.setPathEndTimeoutConstraint(3000);
+        toSecond = new Path((new BezierCurve(new Point(scorePose), new Point(secondPose))));
+        toSecond.setLinearHeadingInterpolation(scorePose.getHeading(), secondPose.getHeading());
+        toSecond.setPathEndTimeoutConstraint(3000);
+        fromSecond = new Path((new BezierCurve(new Point(secondPose), new Point(scorePose))));
+        fromSecond.setLinearHeadingInterpolation(secondPose.getHeading(), scorePose.getHeading());
+        fromSecond.setPathEndTimeoutConstraint(3000);
+        toThird = new Path((new BezierCurve(new Point(scorePose), new Point(thirdPose))));
+        toThird.setLinearHeadingInterpolation(scorePose.getHeading(), thirdPose.getHeading());
+        toThird.setPathEndTimeoutConstraint(3000);
+        fromThird = new Path((new BezierCurve(new Point(thirdPose), new Point(scorePose))));
+        fromThird.setLinearHeadingInterpolation(thirdPose.getHeading(), scorePose.getHeading());
+        fromThird.setPathEndTimeoutConstraint(3000);
+
+
         follower = new Follower(hardwareMap, telemetry);
+
         AutoSetStartCommand autoSetStartCommand = new AutoSetStartCommand(startPose, follower);
+
         autoDriveSubsystem = new AutoDriveSubsystem(follower, mTelemetry, startPose);
         autoDriveSubsystem.setMaxPower(1);
+
         autoDriveCommand = new AutoDriveCommand(autoDriveSubsystem, mTelemetry);
 
         register(autoDriveSubsystem);
-//        autoDriveCommand.setPathChain(pathChain, true);
-        autoDriveCommand.setPath(path1, false);
-//        Command setPath2 = new InstantCommand(() -> {
-//            autoDriveSubsystem.followPath(path2, true);
-//        });
-//        Command setPath1 = new InstantCommand(() -> {
-//            autoDriveSubsystem.followPath(path1, true);
-//        });
-//        schedule(autoDriveCommand,
-//                new InstantCommand(() -> {
-//                    autoDriveSubsystem.followPath(path2, true);
-//                }),
-//                autoDriveCommand
-//        );
-//        schedule(new SequentialCommandGroup( autoDriveCommand,
-//                new InstantCommand(() -> {
-//                    autoDriveSubsystem.followPath(path2, false);
-//                }),
-//                autoDriveCommand)
-//
-//        );
-        schedule(new SequentialCommandGroup(autoSetStartCommand, autoDriveCommand));
+        Command setPathToFirst = new InstantCommand(() -> {
+            autoDriveSubsystem.followPath(toFirst, true);
+        });
+        Command setPathFromFirst = new InstantCommand(() -> {
+            autoDriveSubsystem.followPath(fromFirst, true);
+        });
+        Command setPathToSecond = new InstantCommand(() -> {
+            autoDriveSubsystem.followPath(toSecond, true);
+        });
+        Command setPathFromSecond = new InstantCommand(() -> {
+            autoDriveSubsystem.followPath(fromSecond, true);
+        });
+        Command setPathToThird = new InstantCommand(() -> {
+            autoDriveSubsystem.followPath(toThird, true);
+        });
+        Command setPathFromThird = new InstantCommand(() -> {
+            autoDriveSubsystem.followPath(fromThird, true);
+        });
+
+
+
+        schedule(new SequentialCommandGroup(
+                autoSetStartCommand,
+                setPathToFirst, autoDriveCommand,
+                setPathFromFirst, autoDriveCommand,
+                setPathToSecond, autoDriveCommand,
+                setPathFromSecond, autoDriveCommand,
+                setPathToThird, autoDriveCommand,
+                setPathFromThird, autoDriveCommand
+        ));
 //        schedule(autoDriveCommand);
 
     }
