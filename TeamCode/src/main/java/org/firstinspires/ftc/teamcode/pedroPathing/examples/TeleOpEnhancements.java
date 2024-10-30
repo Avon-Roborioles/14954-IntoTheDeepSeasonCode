@@ -23,7 +23,6 @@ import org.firstinspires.ftc.teamcode.pedroPathing.follower.Follower;
  * @version 1.0, 3/21/2024
  */
 @TeleOp(name = "Pedro Pathing TeleOp Enhancements", group = "Test")
-@Disabled
 public class TeleOpEnhancements extends OpMode {
     private Follower follower;
 
@@ -39,10 +38,10 @@ public class TeleOpEnhancements extends OpMode {
     public void init() {
         follower = new Follower(hardwareMap, telemetry);
 
-        leftFront = hardwareMap.get(DcMotorEx.class, leftFrontMotorName);
-        leftRear = hardwareMap.get(DcMotorEx.class, leftRearMotorName);
-        rightRear = hardwareMap.get(DcMotorEx.class, rightRearMotorName);
-        rightFront = hardwareMap.get(DcMotorEx.class, rightFrontMotorName);
+        leftFront = hardwareMap.get(DcMotorEx.class, "frontLeft" );
+        leftRear = hardwareMap.get(DcMotorEx.class, "backLeft");
+        rightRear = hardwareMap.get(DcMotorEx.class, "backRight");
+        rightFront = hardwareMap.get(DcMotorEx.class, "frontRight");
 
         leftFront.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         leftRear.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);

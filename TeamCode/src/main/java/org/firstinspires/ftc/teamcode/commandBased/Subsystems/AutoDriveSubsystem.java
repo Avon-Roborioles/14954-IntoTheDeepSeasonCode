@@ -9,6 +9,7 @@ import org.firstinspires.ftc.teamcode.pedroPathing.pathGeneration.BezierPoint;
 import org.firstinspires.ftc.teamcode.pedroPathing.pathGeneration.Path;
 import org.firstinspires.ftc.teamcode.pedroPathing.pathGeneration.PathBuilder;
 import org.firstinspires.ftc.teamcode.pedroPathing.pathGeneration.PathChain;
+import org.firstinspires.ftc.teamcode.pedroPathing.pathGeneration.Point;
 
 public class AutoDriveSubsystem extends SubsystemBase {
     private Follower follower;
@@ -80,7 +81,13 @@ public class AutoDriveSubsystem extends SubsystemBase {
     public void cameraAjust(){
         follower.cameraAjust();
     }
-
-
-
+    public void startTeleopDrive(){
+        follower.startTeleopDrive();
+    }
+    public void setTeleOpMovementVectors(double forwardSpeed, double strafeSpeed, double heading, boolean robotCentric){
+        follower.setTeleOpMovementVectors(forwardSpeed, strafeSpeed, heading, robotCentric);
+    }
+    public void holdPosition(){
+        follower.holdPoint(new BezierPoint(new Point(getPose())), getPose().getHeading());
+    }
 }

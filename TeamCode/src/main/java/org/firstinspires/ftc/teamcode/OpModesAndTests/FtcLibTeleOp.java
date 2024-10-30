@@ -33,6 +33,7 @@ import org.firstinspires.ftc.teamcode.commandBased.Subsystems.LimelightSubsystem
 import org.firstinspires.ftc.teamcode.commandBased.Subsystems.LocalizerSubsystem;
 import org.firstinspires.ftc.teamcode.commandBased.Subsystems.OdometrySubsystem;
 import org.firstinspires.ftc.teamcode.commandBased.Subsystems.TelemetrySubsystem;
+import org.firstinspires.ftc.teamcode.pedroPathing.follower.Follower;
 
 
 @TeleOp(name = "FtcLibTeleOp")
@@ -61,6 +62,7 @@ public class FtcLibTeleOp extends CommandOpMode {
 
     private ExtensionSubsystem extensionSubsystem;
     private ExtensionOutCommand extensionOutCommand;
+    private Follower follower;
 
     private GamepadEx driverOp, operatorOp;
     @Override
@@ -89,25 +91,29 @@ public class FtcLibTeleOp extends CommandOpMode {
         limelight = hardwareMap.get(Limelight3A.class, "limelight");
         limelightSubsystem = new LimelightSubsystem(limelight, telemetry);
         limeLightCommand = new LimelightAprilTagCommand(limelightSubsystem);
+
         odometry = hardwareMap.get(GoBildaPinpointDriver.class, "odometry");
         odometrySubsystem = new OdometrySubsystem(odometry,telemetry, new Pose2D(DistanceUnit.INCH, 0, 0 , AngleUnit.RADIANS, 0));
+
         localizerSubsystem = new LocalizerSubsystem(telemetry, limelightSubsystem, odometrySubsystem);
         localizerCommand = new LocalizerCommand(localizerSubsystem, limelightSubsystem, odometrySubsystem);
+
+        follower = new Follower(hardwareMap, telemetry);
+
         driveSubsystem = new DriveSubsystem(frontLeft, frontRight, backLeft, backRight, telemetry);
-        driveCommand = new DriveCommand(driveSubsystem, driverOp::getLeftX, driverOp::getLeftY, driverOp::getRightX , localizerSubsystem::getLocalizerHeadingTele);
+        driveCommand = new DriveCommand(driveSubsystem, driverOp::getLeftX, driverOp::getLeftY, driverOp::getRightX , localizerSubsystem::getLocalizerHeadingTele, true);
+
         mtelemetry = new  MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
         telemetrySubsystem = new TelemetrySubsystem(mtelemetry, limelightSubsystem, driveSubsystem, localizerSubsystem, odometrySubsystem);
         telemetryCommand= new TelemetryCommand(telemetrySubsystem);
 
 
-        bButton = (new GamepadButton(driverOp, GamepadKeys.Button.B))
-                .whenPressed(localizerCommand);
+//        bButton = (new GamepadButton(driverOp, GamepadKeys.Button.B))
+//                .whenPressed(localizerCommand);
 
 
         register(driveSubsystem, limelightSubsystem, localizerSubsystem, odometrySubsystem, extensionSubsystem, telemetrySubsystem);
 
-
-//        localizerSubsystem.setDefaultCommand(localizerCommand);
         telemetrySubsystem.setDefaultCommand(telemetryCommand);
         driveSubsystem.setDefaultCommand(driveCommand);
     }

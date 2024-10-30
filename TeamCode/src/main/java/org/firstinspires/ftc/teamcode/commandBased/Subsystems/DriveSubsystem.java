@@ -5,6 +5,7 @@ import com.arcrobotics.ftclib.drivebase.MecanumDrive;
 import com.arcrobotics.ftclib.hardware.motors.Motor;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
+import org.firstinspires.ftc.teamcode.pedroPathing.follower.Follower;
 
 public class DriveSubsystem extends SubsystemBase {
     private MecanumDrive drive;
@@ -18,8 +19,13 @@ public class DriveSubsystem extends SubsystemBase {
         this.drive = new MecanumDrive(frontLeft, frontRight, backLeft, backRight);
         this.telemetry = telemetry;
     }
-    public void drive(double strafeSpeed, double forwardSpeed, double turnSpeed, double gyroAngle){
-        drive.driveFieldCentric(strafeSpeed, forwardSpeed, turnSpeed/2, gyroAngle);
+    public void drive(double strafeSpeed, double forwardSpeed, double turnSpeed, double gyroAngle, boolean fieldCentric){
+        if(fieldCentric) {
+            drive.driveFieldCentric(strafeSpeed, forwardSpeed, turnSpeed, gyroAngle);
+        }else {
+            drive.driveRobotCentric(strafeSpeed, forwardSpeed, turnSpeed);
+        }
+
     }
     public void getDriveTelemetry(){
     }
