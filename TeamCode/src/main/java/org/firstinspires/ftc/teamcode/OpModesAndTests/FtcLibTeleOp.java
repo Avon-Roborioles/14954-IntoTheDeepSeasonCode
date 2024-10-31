@@ -24,8 +24,10 @@ import org.firstinspires.ftc.teamcode.commandBased.Commands.DriveCommand;
 import org.firstinspires.ftc.teamcode.commandBased.Commands.ExtensionOutCommand;
 import org.firstinspires.ftc.teamcode.commandBased.Commands.ImuCommands.ImuResetCommand;
 import org.firstinspires.ftc.teamcode.commandBased.Commands.LocalizerCommand;
+import org.firstinspires.ftc.teamcode.commandBased.Commands.TelePedroDriveCommand;
 import org.firstinspires.ftc.teamcode.commandBased.Commands.TelemetryCommand;
 import org.firstinspires.ftc.teamcode.commandBased.Commands.VisionCommands.LimelightAprilTagCommand;
+import org.firstinspires.ftc.teamcode.commandBased.Subsystems.AutoDriveSubsystem;
 import org.firstinspires.ftc.teamcode.commandBased.Subsystems.DriveSubsystem;
 import org.firstinspires.ftc.teamcode.commandBased.Subsystems.ExtensionSubsystem;
 import org.firstinspires.ftc.teamcode.commandBased.Subsystems.ImuSubsystem;
@@ -34,6 +36,7 @@ import org.firstinspires.ftc.teamcode.commandBased.Subsystems.LocalizerSubsystem
 import org.firstinspires.ftc.teamcode.commandBased.Subsystems.OdometrySubsystem;
 import org.firstinspires.ftc.teamcode.commandBased.Subsystems.TelemetrySubsystem;
 import org.firstinspires.ftc.teamcode.pedroPathing.follower.Follower;
+import org.firstinspires.ftc.teamcode.pedroPathing.localization.Pose;
 
 
 @TeleOp(name = "FtcLibTeleOp")
@@ -43,8 +46,6 @@ public class FtcLibTeleOp extends CommandOpMode {
 
     private DriveSubsystem driveSubsystem;
     private DriveCommand driveCommand;
-
-    private Button aButton, bButton;
 
     private Limelight3A limelight;
     private LimelightSubsystem limelightSubsystem;
@@ -62,9 +63,14 @@ public class FtcLibTeleOp extends CommandOpMode {
 
     private ExtensionSubsystem extensionSubsystem;
     private ExtensionOutCommand extensionOutCommand;
+
     private Follower follower;
+    private TelePedroDriveCommand telePedroDriveCommand;
+    private AutoDriveSubsystem autoDriveSubsystem;
 
     private GamepadEx driverOp, operatorOp;
+    private Button aButton, bButton;
+
     @Override
     public void initialize(){
         frontLeft = new Motor(hardwareMap, "frontLeft");
@@ -99,6 +105,8 @@ public class FtcLibTeleOp extends CommandOpMode {
         localizerCommand = new LocalizerCommand(localizerSubsystem, limelightSubsystem, odometrySubsystem);
 
         follower = new Follower(hardwareMap, telemetry);
+        autoDriveSubsystem = new AutoDriveSubsystem(follower, telemetry, new Pose(0,0,0));
+        telePedroDriveCommand = new TelePedroDriveCommand(autoDriveSubsystem, telemetry, driverOp.getLeftX(), driverOp.getLeftY(), driverOp.getRightX(), true);
 
         driveSubsystem = new DriveSubsystem(frontLeft, frontRight, backLeft, backRight, telemetry);
         driveCommand = new DriveCommand(driveSubsystem, driverOp::getLeftX, driverOp::getLeftY, driverOp::getRightX , localizerSubsystem::getLocalizerHeadingTele, true);
@@ -115,6 +123,8 @@ public class FtcLibTeleOp extends CommandOpMode {
         register(driveSubsystem, limelightSubsystem, localizerSubsystem, odometrySubsystem, extensionSubsystem, telemetrySubsystem);
 
         telemetrySubsystem.setDefaultCommand(telemetryCommand);
-        driveSubsystem.setDefaultCommand(driveCommand);
+//        driveSubsystem.setDefaultCommand(driveCommand);
+        autoDriveSubsystem.setDefaultCommand(telePedroDriveCommand);
+
     }
 }
