@@ -14,7 +14,7 @@ public class TelePedroDriveCommand extends CommandBase {
     private DoubleSupplier strafe, forward, turn;
     private boolean fieldCentric;
 
-    public TelePedroDriveCommand(PedroDriveSubsystem pedroDriveSubsystem, Telemetry telemetry, DoubleSupplier turn, DoubleSupplier strafe, DoubleSupplier forward, boolean fieldCentric){
+    public TelePedroDriveCommand(PedroDriveSubsystem pedroDriveSubsystem, Telemetry telemetry, DoubleSupplier forward, DoubleSupplier strafe, DoubleSupplier turn, boolean fieldCentric){
         this.pedroDriveSubsystem = pedroDriveSubsystem;
         this.telemetry = telemetry;
         this.strafe = strafe;
