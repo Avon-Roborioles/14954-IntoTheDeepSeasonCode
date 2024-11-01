@@ -105,11 +105,12 @@ public class FtcLibTeleOp extends CommandOpMode {
         localizerCommand = new LocalizerCommand(localizerSubsystem, limelightSubsystem, odometrySubsystem);
 
         follower = new Follower(hardwareMap, telemetry);
+        follower.setMaxPower(1);
         autoDriveSubsystem = new AutoDriveSubsystem(follower, telemetry, new Pose(0,0,0));
-        telePedroDriveCommand = new TelePedroDriveCommand(autoDriveSubsystem, telemetry, driverOp.getLeftX(), driverOp.getLeftY(), driverOp.getRightX(), true);
+        telePedroDriveCommand = new TelePedroDriveCommand(autoDriveSubsystem, telemetry, driverOp::getLeftY, driverOp::getLeftX, driverOp::getRightX, false);
 
         driveSubsystem = new DriveSubsystem(frontLeft, frontRight, backLeft, backRight, telemetry);
-        driveCommand = new DriveCommand(driveSubsystem, driverOp::getLeftX, driverOp::getLeftY, driverOp::getRightX , localizerSubsystem::getLocalizerHeadingTele, true);
+//        driveCommand = new DriveCommand(driveSubsystem, driverOp::getLeftX, driverOp::getLeftY, driverOp::getRightX , localizerSubsystem::getLocalizerHeadingTele, true);
 
         mtelemetry = new  MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
         telemetrySubsystem = new TelemetrySubsystem(mtelemetry, limelightSubsystem, driveSubsystem, localizerSubsystem, odometrySubsystem);

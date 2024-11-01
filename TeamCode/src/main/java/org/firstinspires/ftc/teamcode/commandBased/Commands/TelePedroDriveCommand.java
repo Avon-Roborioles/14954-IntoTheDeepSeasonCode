@@ -10,10 +10,10 @@ import java.util.function.DoubleSupplier;
 public class TelePedroDriveCommand extends CommandBase {
     private AutoDriveSubsystem autoDriveSubsystem;
     private Telemetry telemetry;
-    private double strafe, forward, turn;
+    private DoubleSupplier strafe, forward, turn;
     private boolean fieldCentric;
 
-    public TelePedroDriveCommand(AutoDriveSubsystem autoDriveSubsystem, Telemetry telemetry, double strafe, double forward, double turn, boolean fieldCentric){
+    public TelePedroDriveCommand(AutoDriveSubsystem autoDriveSubsystem, Telemetry telemetry, DoubleSupplier turn, DoubleSupplier strafe, DoubleSupplier forward, boolean fieldCentric){
         this.autoDriveSubsystem = autoDriveSubsystem;
         this.telemetry = telemetry;
         this.strafe = strafe;
@@ -25,7 +25,8 @@ public class TelePedroDriveCommand extends CommandBase {
     }
     @Override
     public void execute(){
-        autoDriveSubsystem.setTeleOpMovementVectors(forward, strafe, turn, !fieldCentric);
+        autoDriveSubsystem.setTeleOpMovementVectors(forward.getAsDouble(), strafe.getAsDouble(), -turn.getAsDouble(), true);
+        autoDriveSubsystem.update();
     }
 
 }

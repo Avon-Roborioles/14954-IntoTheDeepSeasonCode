@@ -85,7 +85,7 @@ public class AutoDriveSubsystem extends SubsystemBase {
         follower.startTeleopDrive();
     }
     public void setTeleOpMovementVectors(double forwardSpeed, double strafeSpeed, double heading, boolean robotCentric){
-        follower.setTeleOpMovementVectors(forwardSpeed, strafeSpeed, heading, robotCentric);
+        follower.setTeleOpMovementVectors(forwardSpeed, strafeSpeed, heading);
     }
     public void holdPosition(){
         follower.holdPoint(new BezierPoint(new Point(getPose())), getPose().getHeading());
