@@ -4,29 +4,30 @@ import com.arcrobotics.ftclib.command.CommandBase;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.commandBased.Subsystems.AutoDriveSubsystem;
+import org.firstinspires.ftc.teamcode.commandBased.Subsystems.PedroDriveSubsystem;
 
 import java.util.function.DoubleSupplier;
 
 public class TelePedroDriveCommand extends CommandBase {
-    private AutoDriveSubsystem autoDriveSubsystem;
+    private PedroDriveSubsystem pedroDriveSubsystem;
     private Telemetry telemetry;
     private DoubleSupplier strafe, forward, turn;
     private boolean fieldCentric;
 
-    public TelePedroDriveCommand(AutoDriveSubsystem autoDriveSubsystem, Telemetry telemetry, DoubleSupplier turn, DoubleSupplier strafe, DoubleSupplier forward, boolean fieldCentric){
-        this.autoDriveSubsystem = autoDriveSubsystem;
+    public TelePedroDriveCommand(PedroDriveSubsystem pedroDriveSubsystem, Telemetry telemetry, DoubleSupplier turn, DoubleSupplier strafe, DoubleSupplier forward, boolean fieldCentric){
+        this.pedroDriveSubsystem = pedroDriveSubsystem;
         this.telemetry = telemetry;
         this.strafe = strafe;
         this.forward = forward;
         this.turn = turn;
         this.fieldCentric = fieldCentric;
-        this.autoDriveSubsystem.startTeleopDrive();
-        addRequirements(autoDriveSubsystem);
+        pedroDriveSubsystem.startTeleopDrive();
+        addRequirements(pedroDriveSubsystem);
     }
     @Override
     public void execute(){
-        autoDriveSubsystem.setTeleOpMovementVectors(forward.getAsDouble(), strafe.getAsDouble(), -turn.getAsDouble(), true);
-        autoDriveSubsystem.update();
+        pedroDriveSubsystem.setTeleOpMovementVectors(forward.getAsDouble(), strafe.getAsDouble(), turn.getAsDouble(), fieldCentric);
+        pedroDriveSubsystem.update();
     }
 
 }

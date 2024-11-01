@@ -34,6 +34,7 @@ import org.firstinspires.ftc.teamcode.commandBased.Subsystems.ImuSubsystem;
 import org.firstinspires.ftc.teamcode.commandBased.Subsystems.LimelightSubsystem;
 import org.firstinspires.ftc.teamcode.commandBased.Subsystems.LocalizerSubsystem;
 import org.firstinspires.ftc.teamcode.commandBased.Subsystems.OdometrySubsystem;
+import org.firstinspires.ftc.teamcode.commandBased.Subsystems.PedroDriveSubsystem;
 import org.firstinspires.ftc.teamcode.commandBased.Subsystems.TelemetrySubsystem;
 import org.firstinspires.ftc.teamcode.pedroPathing.follower.Follower;
 import org.firstinspires.ftc.teamcode.pedroPathing.localization.Pose;
@@ -65,8 +66,8 @@ public class FtcLibTeleOp extends CommandOpMode {
     private ExtensionOutCommand extensionOutCommand;
 
     private Follower follower;
+    private PedroDriveSubsystem pedroDriveSubsystem;
     private TelePedroDriveCommand telePedroDriveCommand;
-    private AutoDriveSubsystem autoDriveSubsystem;
 
     private GamepadEx driverOp, operatorOp;
     private Button aButton, bButton;
@@ -105,9 +106,8 @@ public class FtcLibTeleOp extends CommandOpMode {
         localizerCommand = new LocalizerCommand(localizerSubsystem, limelightSubsystem, odometrySubsystem);
 
         follower = new Follower(hardwareMap, telemetry);
-        follower.setMaxPower(1);
-        autoDriveSubsystem = new AutoDriveSubsystem(follower, telemetry, new Pose(0,0,0));
-        telePedroDriveCommand = new TelePedroDriveCommand(autoDriveSubsystem, telemetry, driverOp::getLeftY, driverOp::getLeftX, driverOp::getRightX, false);
+        pedroDriveSubsystem = new PedroDriveSubsystem(1, follower);
+        telePedroDriveCommand = new TelePedroDriveCommand(pedroDriveSubsystem, telemetry, driverOp::getLeftY, driverOp::getLeftX, driverOp::getRightX, false);
 
         driveSubsystem = new DriveSubsystem(frontLeft, frontRight, backLeft, backRight, telemetry);
 //        driveCommand = new DriveCommand(driveSubsystem, driverOp::getLeftX, driverOp::getLeftY, driverOp::getRightX , localizerSubsystem::getLocalizerHeadingTele, true);
@@ -121,11 +121,14 @@ public class FtcLibTeleOp extends CommandOpMode {
 //                .whenPressed(localizerCommand);
 
 
-        register(driveSubsystem, limelightSubsystem, localizerSubsystem, odometrySubsystem, extensionSubsystem, telemetrySubsystem);
+        register(driveSubsystem, limelightSubsystem, localizerSubsystem, odometrySubsystem, extensionSubsystem, telemetrySubsystem, pedroDriveSubsystem);
 
         telemetrySubsystem.setDefaultCommand(telemetryCommand);
+//        localizerSubsystem.setDefaultCommand(localizerCommand);
+//        extensionSubsystem.setDefaultCommand(extensionOutCommand);
+        pedroDriveSubsystem.setDefaultCommand(telePedroDriveCommand);
 //        driveSubsystem.setDefaultCommand(driveCommand);
-        autoDriveSubsystem.setDefaultCommand(telePedroDriveCommand);
+
 
     }
 }
