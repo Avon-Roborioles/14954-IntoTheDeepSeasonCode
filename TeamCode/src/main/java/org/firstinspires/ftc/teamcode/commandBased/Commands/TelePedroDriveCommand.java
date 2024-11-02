@@ -21,12 +21,12 @@ public class TelePedroDriveCommand extends CommandBase {
         this.forward = forward;
         this.turn = turn;
         this.fieldCentric = fieldCentric;
-        pedroDriveSubsystem.startTeleopDrive();
+//        pedroDriveSubsystem.startTeleopDrive();
         addRequirements(pedroDriveSubsystem);
     }
     @Override
     public void execute(){
-        pedroDriveSubsystem.setTeleOpMovementVectors(forward.getAsDouble(), strafe.getAsDouble(), turn.getAsDouble(), fieldCentric);
+        pedroDriveSubsystem.setTeleOpMovementVectors(forward.getAsDouble(), -strafe.getAsDouble(), -turn.getAsDouble(), fieldCentric);
         pedroDriveSubsystem.update();
     }
 

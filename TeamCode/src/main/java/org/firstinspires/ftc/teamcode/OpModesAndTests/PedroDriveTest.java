@@ -65,6 +65,7 @@ public class PedroDriveTest extends CommandOpMode {
 
     @Override
     public void initialize(){
+        follower = new Follower(hardwareMap, telemetry);
         leftFront = hardwareMap.get(DcMotorEx.class, "frontLeft" );
         leftRear = hardwareMap.get(DcMotorEx.class, "backLeft");
         rightRear = hardwareMap.get(DcMotorEx.class, "backRight");
@@ -106,9 +107,12 @@ public class PedroDriveTest extends CommandOpMode {
 //        localizerSubsystem = new LocalizerSubsystem(telemetry, limelightSubsystem, odometrySubsystem);
 //        localizerCommand = new LocalizerCommand(localizerSubsystem, limelightSubsystem, odometrySubsystem);
 
-        follower = new Follower(hardwareMap, telemetry);
-        pedroDriveSubsystem = new PedroDriveSubsystem(1, follower);
-        telePedroDriveCommand = new TelePedroDriveCommand(pedroDriveSubsystem, telemetry, driverOp::getLeftY, driverOp::getLeftX, driverOp::getRightX, false);
+        follower.startTeleopDrive();
+        follower.setMaxPower(1);
+        follower.startTeleopDrive();
+
+        pedroDriveSubsystem = new PedroDriveSubsystem( follower);
+        telePedroDriveCommand = new TelePedroDriveCommand(pedroDriveSubsystem, telemetry, driverOp::getLeftY, driverOp::getLeftX, driverOp::getRightX, true);
 
 //        driveSubsystem = new DriveSubsystem(frontLeft, frontRight, backLeft, backRight, telemetry);
 //        driveCommand = new DriveCommand(driveSubsystem, driverOp::getLeftX, driverOp::getLeftY, driverOp::getRightX , localizerSubsystem::getLocalizerHeadingTele, true);

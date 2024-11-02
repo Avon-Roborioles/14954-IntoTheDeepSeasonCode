@@ -106,7 +106,7 @@ public class FtcLibTeleOp extends CommandOpMode {
         localizerCommand = new LocalizerCommand(localizerSubsystem, limelightSubsystem, odometrySubsystem);
 
         follower = new Follower(hardwareMap, telemetry);
-        pedroDriveSubsystem = new PedroDriveSubsystem(1, follower);
+        pedroDriveSubsystem = new PedroDriveSubsystem( follower);
         telePedroDriveCommand = new TelePedroDriveCommand(pedroDriveSubsystem, telemetry, driverOp::getLeftY, driverOp::getLeftX, driverOp::getRightX, false);
 
         driveSubsystem = new DriveSubsystem(frontLeft, frontRight, backLeft, backRight, telemetry);
