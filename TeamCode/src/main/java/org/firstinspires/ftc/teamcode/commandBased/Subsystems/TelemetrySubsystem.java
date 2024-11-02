@@ -7,14 +7,12 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 public class TelemetrySubsystem extends SubsystemBase {
     private Telemetry telemetry;
     private LimelightSubsystem limelightSubsystem;
-    private DriveSubsystem driveSubsystem;
     private LocalizerSubsystem localizerSubsystem;
     private OdometrySubsystem odometrySubsystem;
 
-    public TelemetrySubsystem(Telemetry telemetry, LimelightSubsystem limelightSubsystem, DriveSubsystem driveSubsystem, LocalizerSubsystem localizerSubsystem, OdometrySubsystem odometrySubsystem){
+    public TelemetrySubsystem(Telemetry telemetry, LimelightSubsystem limelightSubsystem, LocalizerSubsystem localizerSubsystem, OdometrySubsystem odometrySubsystem){
         this.telemetry = telemetry;
         this.limelightSubsystem = limelightSubsystem;
-        this.driveSubsystem = driveSubsystem;
         this.localizerSubsystem = localizerSubsystem;
         this.odometrySubsystem = odometrySubsystem;
         telemetry.setMsTransmissionInterval(20);
@@ -24,7 +22,6 @@ public class TelemetrySubsystem extends SubsystemBase {
         clearTelemetry();
         localizerSubsystem.getLocalizerTelemetry();
         limelightSubsystem.getLimelightTelemetry();
-        driveSubsystem.getDriveTelemetry();
         odometrySubsystem.getTelemetryOdo();
         updateTelemetry();
     }

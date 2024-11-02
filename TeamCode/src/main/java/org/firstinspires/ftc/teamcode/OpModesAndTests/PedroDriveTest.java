@@ -34,35 +34,18 @@ import org.firstinspires.ftc.teamcode.pedroPathing.follower.Follower;
 @TeleOp(name = "pedroDrive")
 public class PedroDriveTest extends CommandOpMode {
     private Motor leftFront, rightFront, leftRear, rightRear;
-    private DcMotorEx extensionMotor;
-
-    private Limelight3A limelight;
-    private LimelightSubsystem limelightSubsystem;
-    private LimelightAprilTagCommand limeLightCommand;
-
-    private LocalizerSubsystem localizerSubsystem;
-    private LocalizerCommand localizerCommand;
-
-    private TelemetrySubsystem telemetrySubsystem;
-    private TelemetryCommand telemetryCommand;
-
-    private OdometrySubsystem odometrySubsystem;
-    private GoBildaPinpointDriver odometry;
-    private Telemetry mtelemetry;
-
-    private ExtensionSubsystem extensionSubsystem;
-    private ExtensionOutCommand extensionOutCommand;
 
     private Follower follower;
+
     private PedroDriveSubsystem pedroDriveSubsystem;
     private TelePedroDriveCommand telePedroDriveCommand;
 
-    private GamepadEx driverOp, operatorOp;
-    private Button aButton, bButton;
+    private GamepadEx driverOp;
 
     @Override
     public void initialize(){
         follower = new Follower(hardwareMap, telemetry);
+
         leftFront = new Motor(hardwareMap, "frontLeft");
         leftRear = new Motor(hardwareMap, "frontRight");
         rightRear = new Motor(hardwareMap, "backLeft");
@@ -72,15 +55,7 @@ public class PedroDriveTest extends CommandOpMode {
         rightRear.setZeroPowerBehavior(Motor.ZeroPowerBehavior.BRAKE);
         rightFront.setZeroPowerBehavior(Motor.ZeroPowerBehavior.BRAKE);
 
-
-        extensionMotor = hardwareMap.get(DcMotorEx.class, "extensionMotor");
-
-        extensionSubsystem = new ExtensionSubsystem(extensionMotor);
-        extensionOutCommand = new ExtensionOutCommand(extensionSubsystem);
-
         driverOp = new GamepadEx(gamepad1);
-        operatorOp = new GamepadEx(gamepad2);
-
 
         follower.startTeleopDrive();
         follower.setMaxPower(1);
@@ -89,14 +64,8 @@ public class PedroDriveTest extends CommandOpMode {
         pedroDriveSubsystem = new PedroDriveSubsystem( follower);
         telePedroDriveCommand = new TelePedroDriveCommand(pedroDriveSubsystem, telemetry, driverOp::getLeftY, driverOp::getLeftX, driverOp::getRightX, true);
 
+        register(pedroDriveSubsystem);
 
-
-        bButton = (new GamepadButton(driverOp, GamepadKeys.Button.B))
-                .whenPressed(extensionOutCommand);
-
-        register(pedroDriveSubsystem, extensionSubsystem);
         pedroDriveSubsystem.setDefaultCommand(telePedroDriveCommand);
-
-
     }
 }
