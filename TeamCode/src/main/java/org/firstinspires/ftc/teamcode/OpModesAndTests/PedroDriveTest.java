@@ -1,8 +1,12 @@
 package org.firstinspires.ftc.teamcode.OpModesAndTests;
 
+import com.acmerobotics.dashboard.FtcDashboard;
+import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
 import com.arcrobotics.ftclib.command.CommandOpMode;
 import com.arcrobotics.ftclib.command.button.Button;
+import com.arcrobotics.ftclib.command.button.GamepadButton;
 import com.arcrobotics.ftclib.gamepad.GamepadEx;
+import com.arcrobotics.ftclib.gamepad.GamepadKeys;
 import com.arcrobotics.ftclib.hardware.motors.Motor;
 import com.qualcomm.hardware.limelightvision.Limelight3A;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
@@ -29,11 +33,8 @@ import org.firstinspires.ftc.teamcode.pedroPathing.follower.Follower;
 
 @TeleOp(name = "pedroDrive")
 public class PedroDriveTest extends CommandOpMode {
-    private Motor frontLeft, frontRight, backLeft, backRight;
+    private Motor leftFront, rightFront, leftRear, rightRear;
     private DcMotorEx extensionMotor;
-
-    private DriveSubsystem driveSubsystem;
-    private DriveCommand driveCommand;
 
     private Limelight3A limelight;
     private LimelightSubsystem limelightSubsystem;
@@ -58,54 +59,28 @@ public class PedroDriveTest extends CommandOpMode {
 
     private GamepadEx driverOp, operatorOp;
     private Button aButton, bButton;
-    private DcMotorEx leftFront;
-    private DcMotorEx leftRear;
-    private DcMotorEx rightFront;
-    private DcMotorEx rightRear;
 
     @Override
     public void initialize(){
         follower = new Follower(hardwareMap, telemetry);
-        leftFront = hardwareMap.get(DcMotorEx.class, "frontLeft" );
-        leftRear = hardwareMap.get(DcMotorEx.class, "backLeft");
-        rightRear = hardwareMap.get(DcMotorEx.class, "backRight");
-        rightFront = hardwareMap.get(DcMotorEx.class, "frontRight");
+        leftFront = new Motor(hardwareMap, "frontLeft");
+        leftRear = new Motor(hardwareMap, "frontRight");
+        rightRear = new Motor(hardwareMap, "backLeft");
+        rightFront = new Motor(hardwareMap, "backRight");
+        leftFront.setZeroPowerBehavior(Motor.ZeroPowerBehavior.BRAKE);
+        leftRear.setZeroPowerBehavior(Motor.ZeroPowerBehavior.BRAKE);
+        rightRear.setZeroPowerBehavior(Motor.ZeroPowerBehavior.BRAKE);
+        rightFront.setZeroPowerBehavior(Motor.ZeroPowerBehavior.BRAKE);
 
-        leftFront.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        leftRear.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        rightRear.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        rightFront.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
-//        frontLeft = new Motor(hardwareMap, "frontLeft");
-//        frontRight = new Motor(hardwareMap, "frontRight");
-//        backLeft = new Motor(hardwareMap, "backLeft");
-//        backRight = new Motor(hardwareMap, "backRight");
-//        frontLeft.setZeroPowerBehavior(Motor.ZeroPowerBehavior.BRAKE);
-//        frontRight.setZeroPowerBehavior(Motor.ZeroPowerBehavior.BRAKE);
-//        backRight.setZeroPowerBehavior(Motor.ZeroPowerBehavior.BRAKE);
-//        backLeft.setZeroPowerBehavior(Motor.ZeroPowerBehavior.BRAKE);
-//        frontLeft.setInverted(true);
-//        frontRight.setInverted(true);
-//        backLeft.setInverted(true);
-//        backRight.setInverted(true);
+        extensionMotor = hardwareMap.get(DcMotorEx.class, "extensionMotor");
 
-//        extensionMotor = hardwareMap.get(DcMotorEx.class, "extensionMotor");
-//
-//        extensionSubsystem = new ExtensionSubsystem(extensionMotor);
-//        extensionOutCommand = new ExtensionOutCommand(extensionSubsystem);
+        extensionSubsystem = new ExtensionSubsystem(extensionMotor);
+        extensionOutCommand = new ExtensionOutCommand(extensionSubsystem);
 
         driverOp = new GamepadEx(gamepad1);
         operatorOp = new GamepadEx(gamepad2);
 
-//        limelight = hardwareMap.get(Limelight3A.class, "limelight");
-//        limelightSubsystem = new LimelightSubsystem(limelight, telemetry);
-//        limeLightCommand = new LimelightAprilTagCommand(limelightSubsystem);
-
-//        odometry = hardwareMap.get(GoBildaPinpointDriver.class, "odometry");
-//        odometrySubsystem = new OdometrySubsystem(odometry,telemetry, new Pose2D(DistanceUnit.INCH, 0, 0 , AngleUnit.RADIANS, 0));
-
-//        localizerSubsystem = new LocalizerSubsystem(telemetry, limelightSubsystem, odometrySubsystem);
-//        localizerCommand = new LocalizerCommand(localizerSubsystem, limelightSubsystem, odometrySubsystem);
 
         follower.startTeleopDrive();
         follower.setMaxPower(1);
@@ -114,25 +89,13 @@ public class PedroDriveTest extends CommandOpMode {
         pedroDriveSubsystem = new PedroDriveSubsystem( follower);
         telePedroDriveCommand = new TelePedroDriveCommand(pedroDriveSubsystem, telemetry, driverOp::getLeftY, driverOp::getLeftX, driverOp::getRightX, true);
 
-//        driveSubsystem = new DriveSubsystem(frontLeft, frontRight, backLeft, backRight, telemetry);
-//        driveCommand = new DriveCommand(driveSubsystem, driverOp::getLeftX, driverOp::getLeftY, driverOp::getRightX , localizerSubsystem::getLocalizerHeadingTele, true);
-
-//        mtelemetry = new  MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
-//        telemetrySubsystem = new TelemetrySubsystem(mtelemetry, limelightSubsystem, driveSubsystem, localizerSubsystem, odometrySubsystem);
-//        telemetryCommand= new TelemetryCommand(telemetrySubsystem);
 
 
-//        bButton = (new GamepadButton(driverOp, GamepadKeys.Button.B))
-//                .whenPressed(localizerCommand);
+        bButton = (new GamepadButton(driverOp, GamepadKeys.Button.B))
+                .whenPressed(extensionOutCommand);
 
-
-//        register(driveSubsystem, limelightSubsystem, localizerSubsystem, odometrySubsystem, extensionSubsystem, telemetrySubsystem, pedroDriveSubsystem);
-        register(pedroDriveSubsystem);
-//        telemetrySubsystem.setDefaultCommand(telemetryCommand);
-//        localizerSubsystem.setDefaultCommand(localizerCommand);
-//        extensionSubsystem.setDefaultCommand(extensionOutCommand);
+        register(pedroDriveSubsystem, extensionSubsystem);
         pedroDriveSubsystem.setDefaultCommand(telePedroDriveCommand);
-//        driveSubsystem.setDefaultCommand(driveCommand);
 
 
     }
