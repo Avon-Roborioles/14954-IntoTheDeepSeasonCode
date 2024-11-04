@@ -297,7 +297,7 @@ public class ThreeWheelLocalizer extends Localizer {
     }
 
     @Override
-    public void cameraAjust() {
+    public void cameraAdjust() {
 
     }
 }

@@ -23,6 +23,7 @@ import org.firstinspires.ftc.teamcode.pedroPathing.follower.Follower;
  * @version 1.0, 3/21/2024
  */
 @TeleOp(name = "Pedro Pathing TeleOp Enhancements", group = "Test")
+@Disabled
 public class TeleOpEnhancements extends OpMode {
     private Follower follower;
 
@@ -35,6 +36,7 @@ public class TeleOpEnhancements extends OpMode {
      * This initializes the drive motors as well as the Follower and motion Vectors.
      */
     @Override
+
     public void init() {
         follower = new Follower(hardwareMap, telemetry);
 

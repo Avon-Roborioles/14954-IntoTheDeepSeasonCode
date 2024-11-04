@@ -15,6 +15,7 @@ import com.qualcomm.robotcore.hardware.DcMotorEx;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.Examples.GobuildaSample.GoBildaPinpointDriver;
+import org.firstinspires.ftc.teamcode.commandBased.Commands.CameraAdjustTeleCommand;
 import org.firstinspires.ftc.teamcode.commandBased.Commands.DriveCommand;
 import org.firstinspires.ftc.teamcode.commandBased.Commands.ExtensionOutCommand;
 import org.firstinspires.ftc.teamcode.commandBased.Commands.LocalizerCommand;
@@ -39,8 +40,10 @@ public class PedroDriveTest extends CommandOpMode {
 
     private PedroDriveSubsystem pedroDriveSubsystem;
     private TelePedroDriveCommand telePedroDriveCommand;
+    private CameraAdjustTeleCommand cameraAdjustTeleCommand;
 
     private GamepadEx driverOp;
+    private Button a;
 
     @Override
     public void initialize(){
@@ -63,8 +66,11 @@ public class PedroDriveTest extends CommandOpMode {
 
         pedroDriveSubsystem = new PedroDriveSubsystem( follower);
         telePedroDriveCommand = new TelePedroDriveCommand(pedroDriveSubsystem, telemetry, driverOp::getLeftY, driverOp::getLeftX, driverOp::getRightX, true);
+        cameraAdjustTeleCommand = new CameraAdjustTeleCommand(pedroDriveSubsystem);
 
-        register(pedroDriveSubsystem);
+        a = (new GamepadButton(driverOp, GamepadKeys.Button.A))
+                .whenPressed(cameraAdjustTeleCommand);
+        register(pedroDriveSubsystem, pedroDriveSubsystem);
 
         pedroDriveSubsystem.setDefaultCommand(telePedroDriveCommand);
     }

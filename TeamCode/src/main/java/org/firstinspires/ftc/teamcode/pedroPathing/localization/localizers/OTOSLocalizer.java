@@ -220,7 +220,7 @@ public class OTOSLocalizer extends Localizer {
      */
     public void resetIMU() {
     }
-    public void cameraAjust(){
+    public void cameraAdjust(){
 
     }
 }

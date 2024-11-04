@@ -151,7 +151,7 @@ public class GoBuildaOdometryLocalizer extends Localizer {
     }
     public void resetIMU() {
     }
-    public void cameraAjust(){
+    public void cameraAdjust(){
         localizerSubsystem.cameraAjust();
     }
 }

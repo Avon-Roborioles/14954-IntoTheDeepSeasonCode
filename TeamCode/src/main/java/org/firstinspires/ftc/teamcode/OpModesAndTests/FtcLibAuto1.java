@@ -45,9 +45,9 @@ public class FtcLibAuto1 extends FtcLibAutoBase {
 
         toScan = new Path((new BezierCurve(new Point(startPose), new Point(scanPose))));
         toScan.setLinearHeadingInterpolation(startPose.getHeading(), scanPose.getHeading());
-        toFirst = new Path((new BezierCurve(new Point(scorePose), new Point(firstPose))));
-        toFirst.setLinearHeadingInterpolation(scorePose.getHeading(), firstPose.getHeading());
-        toFirst.setPathEndTimeoutConstraint(3000);
+        toFirst = new Path((new BezierCurve(new Point(startPose), new Point(firstPose))));
+        toFirst.setLinearHeadingInterpolation(startPose.getHeading(), firstPose.getHeading());
+        toFirst.setPathEndTimeoutConstraint(6000);
         fromFirst = new Path((new BezierCurve(new Point(firstPose), new Point(scorePose))));
         fromFirst.setLinearHeadingInterpolation(firstPose.getHeading() , scorePose.getHeading());
         fromFirst.setPathEndTimeoutConstraint(3000);
@@ -78,11 +78,11 @@ public class FtcLibAuto1 extends FtcLibAutoBase {
         register(autoDriveSubsystem);
         Command setPathToScan = new InstantCommand(() -> {
             autoDriveSubsystem.followPath(toScan, true);
-            autoDriveSubsystem.setMaxPower(0.5);
+            autoDriveSubsystem.setMaxPower(0.25);
         });
         Command setPathToFirst = new InstantCommand(() -> {
             autoDriveSubsystem.followPath(toFirst, true);
-
+//            autoDriveSubsystem.setMaxPower(0.5);
         });
         Command setPathFromFirst = new InstantCommand(() -> {
             autoDriveSubsystem.followPath(fromFirst, true);
@@ -106,8 +106,8 @@ public class FtcLibAuto1 extends FtcLibAutoBase {
 
         schedule(new SequentialCommandGroup(
                 autoSetStartCommand,
-                setPathToScan, autoDriveCommand,
-                camera,
+//                setPathToScan, autoDriveCommand,
+//                camera,
                 setPathToFirst, autoDriveCommand,
                 setPathFromFirst, autoDriveCommand,
                 setPathToSecond, autoDriveCommand,

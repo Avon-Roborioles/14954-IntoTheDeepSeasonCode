@@ -20,6 +20,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.Pose2D;
 import org.firstinspires.ftc.teamcode.Examples.GobuildaSample.GoBildaPinpointDriver;
+import org.firstinspires.ftc.teamcode.commandBased.Commands.CameraAdjustTeleCommand;
 import org.firstinspires.ftc.teamcode.commandBased.Commands.DriveCommand;
 import org.firstinspires.ftc.teamcode.commandBased.Commands.ExtensionOutCommand;
 import org.firstinspires.ftc.teamcode.commandBased.Commands.ImuCommands.ImuResetCommand;
@@ -48,6 +49,7 @@ public class FtcLibTeleOp extends CommandOpMode {
     private Follower follower;
     private PedroDriveSubsystem pedroDriveSubsystem;
     private TelePedroDriveCommand telePedroDriveCommand;
+    private CameraAdjustTeleCommand cameraAdjustTeleCommand;
 
     private Limelight3A limelight;
     private LimelightSubsystem limelightSubsystem;
@@ -69,7 +71,9 @@ public class FtcLibTeleOp extends CommandOpMode {
 
     @Override
     public void initialize(){
+        mtelemetry = new  MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
         follower = new Follower(hardwareMap, telemetry);
+        follower.setStartingPose(new Pose(0, 0, 0));
         leftFront = new Motor(hardwareMap, "frontLeft");
         leftRear = new Motor(hardwareMap, "frontRight");
         rightRear = new Motor(hardwareMap, "backLeft");
@@ -101,16 +105,19 @@ public class FtcLibTeleOp extends CommandOpMode {
 
         localizerSubsystem = new LocalizerSubsystem(telemetry, limelightSubsystem, odometrySubsystem);
 
-        mtelemetry = new  MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
-        telemetrySubsystem = new TelemetrySubsystem(mtelemetry, limelightSubsystem, localizerSubsystem, odometrySubsystem);
-        telemetryCommand= new TelemetryCommand(telemetrySubsystem);
+//        telemetrySubsystem = new TelemetrySubsystem(mtelemetry, limelightSubsystem, localizerSubsystem, odometrySubsystem);
+//        telemetryCommand= new TelemetryCommand(telemetrySubsystem);
 
         bButton = (new GamepadButton(driverOp, GamepadKeys.Button.B))
                 .whenPressed(extensionOutCommand);
+        cameraAdjustTeleCommand = new CameraAdjustTeleCommand(pedroDriveSubsystem);
 
-        register(limelightSubsystem, localizerSubsystem, odometrySubsystem, extensionSubsystem, telemetrySubsystem, pedroDriveSubsystem);
+        aButton = (new GamepadButton(driverOp, GamepadKeys.Button.A))
+                .whenPressed(cameraAdjustTeleCommand);
 
-        telemetrySubsystem.setDefaultCommand(telemetryCommand);
+        register(limelightSubsystem, localizerSubsystem, odometrySubsystem, extensionSubsystem, pedroDriveSubsystem);
+
+//        telemetrySubsystem.setDefaultCommand(telemetryCommand);
         pedroDriveSubsystem.setDefaultCommand(telePedroDriveCommand);
     }
 }

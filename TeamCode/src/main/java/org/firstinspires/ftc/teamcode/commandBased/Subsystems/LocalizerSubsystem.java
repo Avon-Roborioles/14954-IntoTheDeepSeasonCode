@@ -30,8 +30,6 @@ public class LocalizerSubsystem extends SubsystemBase {
         localizerPose = odometrySubsystem.getOdometryPose();
     }
     public void getLocalizerTelemetry(){
-        telemetry.addData("Limelight Localizer Heading", getLimelightHeading());
-        telemetry.addData("Localizer Yaw", getLocalizerHeadingTele());
         telemetry.addData("Pos x", getLocalizerPose().getX(DistanceUnit.INCH));
         telemetry.addData("Pos y", getLocalizerPose().getY(DistanceUnit.INCH));
         telemetry.addData("Pos heading", getLocalizerPose().getHeading(AngleUnit.DEGREES));
@@ -63,14 +61,14 @@ public class LocalizerSubsystem extends SubsystemBase {
         Pose2D limeLightPose = new Pose2D(DistanceUnit.METER, limeLightResult.getBotpose().getPosition().y, limeLightResult.getBotpose().getPosition().x, AngleUnit.RADIANS, limeLightResult.getBotpose().getOrientation().getYaw(AngleUnit.RADIANS));
         telemetry.addData("LL Result x", limeLightPose.getX(DistanceUnit.INCH));
         telemetry.addData("LL Result y", limeLightPose.getY(DistanceUnit.INCH) );
-        telemetry.addData("LL Result yaw", limeLightPose.getHeading(AngleUnit.RADIANS));
+        telemetry.addData("LL Result yaw", limeLightPose.getHeading(AngleUnit.DEGREES));
         telemetry.update();
         // Lime light x and y are swapped compared to odometry x and y
 
         if (limeLightResult != null){
-            xOffset = odometryPose.getX(DistanceUnit.INCH) - limeLightPose.getX(DistanceUnit.INCH);
+            xOffset = odometryPose.getX(DistanceUnit.INCH) - limeLightPose.getX(DistanceUnit.INCH);//40 ,60 , -20
             yOffset = odometryPose.getY(DistanceUnit.INCH) - limeLightPose.getY(DistanceUnit.INCH);
-            headingOffset = odometryPose.getHeading(AngleUnit.DEGREES) - (limeLightPose.getHeading(AngleUnit.RADIANS) + PI);
+            headingOffset = odometryPose.getHeading(AngleUnit.DEGREES) - (limeLightPose.getHeading(AngleUnit.RADIANS));
         }
     }
 
