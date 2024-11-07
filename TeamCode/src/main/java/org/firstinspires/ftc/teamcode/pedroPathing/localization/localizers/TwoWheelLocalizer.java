@@ -304,7 +304,7 @@ public class TwoWheelLocalizer extends Localizer { // todo: make two wheel odo w
     }
 
     @Override
-    public void cameraAdjust() {
-
+    public Pose cameraAdjust(){
+        return null;
     }
 }

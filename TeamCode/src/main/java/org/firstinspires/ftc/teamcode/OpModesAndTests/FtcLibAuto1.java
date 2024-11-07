@@ -45,9 +45,10 @@ public class FtcLibAuto1 extends FtcLibAutoBase {
 
         toScan = new Path((new BezierCurve(new Point(startPose), new Point(scanPose))));
         toScan.setLinearHeadingInterpolation(startPose.getHeading(), scanPose.getHeading());
-        toFirst = new Path((new BezierCurve(new Point(startPose), new Point(firstPose))));
-        toFirst.setLinearHeadingInterpolation(startPose.getHeading(), firstPose.getHeading());
-        toFirst.setPathEndTimeoutConstraint(6000);
+        toScan.setPathEndTimeoutConstraint(1000);
+        toFirst = new Path((new BezierCurve(new Point(scanPose), new Point(firstPose))));
+        toFirst.setLinearHeadingInterpolation(scorePose.getHeading(), firstPose.getHeading());
+        toFirst.setPathEndTimeoutConstraint(3000);
         fromFirst = new Path((new BezierCurve(new Point(firstPose), new Point(scorePose))));
         fromFirst.setLinearHeadingInterpolation(firstPose.getHeading() , scorePose.getHeading());
         fromFirst.setPathEndTimeoutConstraint(3000);
@@ -75,12 +76,14 @@ public class FtcLibAuto1 extends FtcLibAutoBase {
         autoDriveCommand = new AutoDriveCommand(autoDriveSubsystem, mTelemetry);
         cameraAjustCommand = new CameraAjustCommand(autoDriveSubsystem);
 
+
         register(autoDriveSubsystem);
         Command setPathToScan = new InstantCommand(() -> {
             autoDriveSubsystem.followPath(toScan, true);
-            autoDriveSubsystem.setMaxPower(0.25);
+            autoDriveSubsystem.setMaxPower(0.5);
         });
         Command setPathToFirst = new InstantCommand(() -> {
+            follower.setPose(autoDriveSubsystem.cameraAjust());
             autoDriveSubsystem.followPath(toFirst, true);
 //            autoDriveSubsystem.setMaxPower(0.5);
         });
@@ -101,12 +104,12 @@ public class FtcLibAuto1 extends FtcLibAutoBase {
             autoDriveSubsystem.followPath(fromThird, true);
         });
 
-        Command camera = new ParallelCommandGroup(new WaitCommand(5000), cameraAjustCommand);
+        Command camera = new ParallelCommandGroup(new WaitCommand(500), cameraAjustCommand);
 
 
         schedule(new SequentialCommandGroup(
                 autoSetStartCommand,
-//                setPathToScan, autoDriveCommand,
+                setPathToScan, autoDriveCommand,
 //                camera,
                 setPathToFirst, autoDriveCommand,
                 setPathFromFirst, autoDriveCommand,

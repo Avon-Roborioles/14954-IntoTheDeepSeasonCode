@@ -109,8 +109,8 @@ public class GoBuildaOdometryLocalizer extends Localizer {
      */
     @Override
     public void setPose(Pose setPose) {
-        // had start pos added to set pos may need to add it back
-        Pose setOdometryPose = MathFunctions.subtractPoses(setPose, startPose);
+        Pose setPinpointPose = MathFunctions.subtractPoses(setPose, startPose);
+        localizerSubsystem.setLocalizerPose(new Pose2D(DistanceUnit.INCH, setPinpointPose.getX(), setPinpointPose.getY(), AngleUnit.RADIANS, setPinpointPose.getHeading()));
     }
     /**
      * This updates the total heading of the robot.
@@ -151,7 +151,7 @@ public class GoBuildaOdometryLocalizer extends Localizer {
     }
     public void resetIMU() {
     }
-    public void cameraAdjust(){
-        localizerSubsystem.cameraAjust();
+    public Pose cameraAdjust(){
+        return localizerSubsystem.cameraAjust();
     }
 }

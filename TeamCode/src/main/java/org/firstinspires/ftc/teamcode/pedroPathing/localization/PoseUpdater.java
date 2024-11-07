@@ -355,7 +355,7 @@ public class PoseUpdater {
     public void resetIMU() {
         localizer.resetIMU();
     }
-    public void cameraAdjust(){
-        localizer.cameraAdjust();
+    public Pose cameraAdjust(){
+         return localizer.cameraAdjust();
     }
 }

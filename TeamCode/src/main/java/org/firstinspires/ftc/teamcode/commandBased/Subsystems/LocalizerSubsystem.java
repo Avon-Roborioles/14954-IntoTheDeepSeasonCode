@@ -1,7 +1,5 @@
 package org.firstinspires.ftc.teamcode.commandBased.Subsystems;
 
-import static java.lang.Math.PI;
-
 import com.arcrobotics.ftclib.command.SubsystemBase;
 import com.qualcomm.hardware.limelightvision.LLResult;
 
@@ -9,6 +7,7 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.Pose2D;
+import org.firstinspires.ftc.teamcode.pedroPathing.localization.Pose;
 
 public class LocalizerSubsystem extends SubsystemBase {
     private Telemetry telemetry;
@@ -41,8 +40,8 @@ public class LocalizerSubsystem extends SubsystemBase {
         return odometrySubsystem.getHeadingOdo();
     }
     public Pose2D getLocalizerPose(){
-        localizerPose = new Pose2D(DistanceUnit.INCH, odometrySubsystem.getOdometryPose().getX(DistanceUnit.INCH) - xOffset, odometrySubsystem.getOdometryPose().getY(DistanceUnit.INCH) + yOffset, AngleUnit.RADIANS, odometrySubsystem.getOdometryPose().getHeading(AngleUnit.RADIANS) - headingOffset);
-//        localizerPose = odometrySubsystem.getOdometryPose();
+//        localizerPose = new Pose2D(DistanceUnit.INCH, odometrySubsystem.getOdometryPose().getX(DistanceUnit.INCH), odometrySubsystem.getOdometryPose().getY(DistanceUnit.INCH), AngleUnit.RADIANS, odometrySubsystem.getOdometryPose().getHeading(AngleUnit.RADIANS));
+        localizerPose = odometrySubsystem.getOdometryPose();
         return localizerPose;
     }
     public Pose2D getLocalizerVelocity(){
@@ -54,10 +53,8 @@ public class LocalizerSubsystem extends SubsystemBase {
     public void setLocalizerPose(Pose2D pose){
         odometrySubsystem.setOdoPos(pose);
     }
-    public void cameraAjust(){
+    public Pose cameraAjust(){
         LLResult limeLightResult = limelightSubsystem.readAprilTag();
-        odometrySubsystem.updateOdometry();
-        Pose2D odometryPose = odometrySubsystem.getOdometryPose();
         Pose2D limeLightPose = new Pose2D(DistanceUnit.METER, limeLightResult.getBotpose().getPosition().y, limeLightResult.getBotpose().getPosition().x, AngleUnit.RADIANS, limeLightResult.getBotpose().getOrientation().getYaw(AngleUnit.RADIANS));
         telemetry.addData("LL Result x", limeLightPose.getX(DistanceUnit.INCH));
         telemetry.addData("LL Result y", limeLightPose.getY(DistanceUnit.INCH) );
@@ -65,29 +62,8 @@ public class LocalizerSubsystem extends SubsystemBase {
         telemetry.update();
         // Lime light x and y are swapped compared to odometry x and y
 
-        if (limeLightResult != null){
-            xOffset = odometryPose.getX(DistanceUnit.INCH) - limeLightPose.getX(DistanceUnit.INCH);//40 ,60 , -20
-            yOffset = odometryPose.getY(DistanceUnit.INCH) - limeLightPose.getY(DistanceUnit.INCH);
-            headingOffset = odometryPose.getHeading(AngleUnit.DEGREES) - (limeLightPose.getHeading(AngleUnit.RADIANS));
-        }
+        return new Pose(limeLightPose.getX(DistanceUnit.INCH), limeLightPose.getY(DistanceUnit.INCH), limeLightPose.getHeading(AngleUnit.RADIANS));
     }
 
-    public double getLocalizerHeadingTele(){
-        LLResult llResult = limelightSubsystem.readAprilTag();
-        Pose2D pos = odometrySubsystem.getOdometryPose();
-        yaw = pos.getHeading(AngleUnit.DEGREES);
-        if (llResult == null) {
-            yaw = pos.getHeading(AngleUnit.DEGREES);
-        }else if (llResult.getBotposeTagCount() == 2) {
-            yawCorrectionSet = true;
-            odometrySubsystem.setOdoImuYaw(llResult.getBotpose().getOrientation().getYaw(AngleUnit.DEGREES));
-            yaw = llResult.getBotpose().getOrientation().getYaw(AngleUnit.DEGREES);
-        }else if (llResult.getBotposeTagCount() == 1 && !yawCorrectionSet) {
-            odometrySubsystem.setOdoImuYaw(llResult.getBotpose().getOrientation().getYaw(AngleUnit.DEGREES));
-            yaw = pos.getHeading(AngleUnit.DEGREES);
-        }else {
-            yaw = pos.getHeading(AngleUnit.DEGREES);
-        }
-        return yaw;
-    }
+
 }

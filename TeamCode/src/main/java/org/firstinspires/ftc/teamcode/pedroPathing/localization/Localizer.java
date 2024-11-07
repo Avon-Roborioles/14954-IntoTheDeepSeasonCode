@@ -94,5 +94,5 @@ public abstract class Localizer {
      * This resets the IMU of the localizer, if applicable.
      */
     public abstract void resetIMU();
-    public abstract void cameraAdjust();
+    public abstract Pose cameraAdjust();
 }

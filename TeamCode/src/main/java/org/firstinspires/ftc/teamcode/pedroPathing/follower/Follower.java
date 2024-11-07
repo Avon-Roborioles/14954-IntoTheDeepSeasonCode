@@ -1005,7 +1005,7 @@ public class Follower {
     public GoBildaPinpointDriver.DeviceStatus deviceStatus() {
         return poseUpdater.deviceStatus();
     }
-    public void cameraAdjust(){
-        poseUpdater.cameraAdjust();
+    public Pose cameraAdjust(){
+        return poseUpdater.cameraAdjust();
     }
 }

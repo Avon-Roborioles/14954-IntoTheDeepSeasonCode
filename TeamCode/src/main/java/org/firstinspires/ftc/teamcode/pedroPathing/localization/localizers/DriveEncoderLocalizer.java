@@ -275,7 +275,7 @@ public class DriveEncoderLocalizer extends Localizer {
      */
     public void resetIMU() {
     }
-    public void cameraAdjust(){
-
+    public Pose cameraAdjust(){
+        return null;
     }
 }
