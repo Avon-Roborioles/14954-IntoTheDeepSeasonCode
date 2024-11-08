@@ -13,7 +13,7 @@ public class CameraAjustCommand extends CommandBase {
     }
     @Override
     public void execute(){
-        autoDriveSubsystem.cameraAjust();
+//        autoDriveSubsystem.cameraAjust();
     }
     @Override
     public boolean isFinished(){

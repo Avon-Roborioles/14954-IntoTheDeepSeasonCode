@@ -20,9 +20,9 @@ public class PedroDriveSubsystem extends SubsystemBase {
     public void setTeleOpMovementVectors(double forward, double strafe, double turn, boolean fieldCentric){
         follower.setTeleOpMovementVectors(forward, strafe, turn, !fieldCentric);
     }
-    public void cameraAdjust(){
-        follower.cameraAdjust();
-    }
+//    public void cameraAdjust(){
+//        follower.cameraAdjust();
+//    }
     public void update(){
         follower.update();
     }

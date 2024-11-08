@@ -67,7 +67,7 @@ public class ForwardVelocityTuner extends OpMode {
      */
     @Override
     public void init() {
-        poseUpdater = new PoseUpdater(hardwareMap, telemetry);
+        poseUpdater = new PoseUpdater(hardwareMap);
 
         leftFront = hardwareMap.get(DcMotorEx.class, leftFrontMotorName);
         leftRear = hardwareMap.get(DcMotorEx.class, leftRearMotorName);
@@ -124,6 +124,10 @@ public class ForwardVelocityTuner extends OpMode {
     @Override
     public void loop() {
         if (gamepad1.cross || gamepad1.a) {
+            for (DcMotorEx motor : motors) {
+                motor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+                motor.setPower(0);
+            }
             requestOpModeStop();
         }
 

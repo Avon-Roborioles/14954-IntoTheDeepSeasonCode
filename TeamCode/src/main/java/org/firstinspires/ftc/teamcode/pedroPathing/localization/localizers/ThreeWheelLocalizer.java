@@ -4,7 +4,6 @@ import com.acmerobotics.dashboard.config.Config;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
-import org.firstinspires.ftc.teamcode.Examples.GobuildaSample.GoBildaPinpointDriver;
 import org.firstinspires.ftc.teamcode.pedroPathing.localization.Encoder;
 import org.firstinspires.ftc.teamcode.pedroPathing.localization.Localizer;
 import org.firstinspires.ftc.teamcode.pedroPathing.localization.Matrix;
@@ -285,19 +284,9 @@ public class ThreeWheelLocalizer extends Localizer {
         return TURN_TICKS_TO_RADIANS;
     }
 
-    @Override
-    public GoBildaPinpointDriver.DeviceStatus getDeviceStatus() {
-        return null;
-    }
-
     /**
      * This does nothing since this localizer does not use the IMU.
      */
     public void resetIMU() {
-    }
-
-    @Override
-    public Pose cameraAdjust(){
-        return null;
     }
 }

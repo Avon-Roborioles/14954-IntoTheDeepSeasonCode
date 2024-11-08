@@ -66,7 +66,7 @@ public class FtcLibAuto1 extends FtcLibAutoBase {
         fromThird.setPathEndTimeoutConstraint(3000);
 
 
-        follower = new Follower(hardwareMap, telemetry);
+        follower = new Follower(hardwareMap);
 
         AutoSetStartCommand autoSetStartCommand = new AutoSetStartCommand(startPose, follower);
 
@@ -80,10 +80,10 @@ public class FtcLibAuto1 extends FtcLibAutoBase {
         register(autoDriveSubsystem);
         Command setPathToScan = new InstantCommand(() -> {
             autoDriveSubsystem.followPath(toScan, true);
-            autoDriveSubsystem.setMaxPower(0.5);
+            autoDriveSubsystem.setMaxPower(1);
         });
         Command setPathToFirst = new InstantCommand(() -> {
-            follower.setPose(autoDriveSubsystem.cameraAjust());
+//            follower.setPose(autoDriveSubsystem.cameraAjust());
             autoDriveSubsystem.followPath(toFirst, true);
 //            autoDriveSubsystem.setMaxPower(0.5);
         });

@@ -21,7 +21,7 @@ public class PedroAutoTest extends AutoBase{
 
         initializeAuto(telemetry, hardwareMap);
 
-        follower = new Follower(hardwareMap, telemetry);
+        follower = new Follower(hardwareMap);
         follower.initialize();
         follower.setMaxPower(1);
         follower.setStartingPose(startPose);

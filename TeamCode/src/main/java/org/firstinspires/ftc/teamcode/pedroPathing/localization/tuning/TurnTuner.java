@@ -42,7 +42,7 @@ public class TurnTuner extends OpMode {
      */
     @Override
     public void init() {
-        poseUpdater = new PoseUpdater(hardwareMap, telemetry);
+        poseUpdater = new PoseUpdater(hardwareMap);
 
         dashboardPoseTracker = new DashboardPoseTracker(poseUpdater);
 

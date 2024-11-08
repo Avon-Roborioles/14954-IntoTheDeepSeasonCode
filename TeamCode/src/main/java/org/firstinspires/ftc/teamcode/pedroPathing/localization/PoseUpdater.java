@@ -4,10 +4,10 @@ import com.qualcomm.hardware.lynx.LynxModule;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.IMU;
 
-import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
-import org.firstinspires.ftc.teamcode.Examples.GobuildaSample.GoBildaPinpointDriver;
-import org.firstinspires.ftc.teamcode.pedroPathing.localization.localizers.GoBuildaOdometryLocalizer;
+import org.firstinspires.ftc.teamcode.pedroPathing.localization.localizers.ThreeWheelIMULocalizer;
+import org.firstinspires.ftc.teamcode.pedroPathing.localization.localizers.ThreeWheelLocalizer;
+import org.firstinspires.ftc.teamcode.pedroPathing.localization.localizers.TwoWheelLocalizer;
 import org.firstinspires.ftc.teamcode.pedroPathing.pathGeneration.MathFunctions;
 import org.firstinspires.ftc.teamcode.pedroPathing.pathGeneration.Vector;
 
@@ -45,7 +45,6 @@ public class PoseUpdater {
 
     private long previousPoseTime;
     private long currentPoseTime;
-    private Telemetry telemetry;
 
     /**
      * Creates a new PoseUpdater from a HardwareMap and a Localizer.
@@ -53,13 +52,13 @@ public class PoseUpdater {
      * @param hardwareMap the HardwareMap
      * @param localizer the Localizer
      */
-    public PoseUpdater(HardwareMap hardwareMap, Localizer localizer, Telemetry telemetry) {
+    public PoseUpdater(HardwareMap hardwareMap, Localizer localizer) {
         this.hardwareMap = hardwareMap;
-        this.telemetry = telemetry;
 
         for (LynxModule module : hardwareMap.getAll(LynxModule.class)) {
             module.setBulkCachingMode(LynxModule.BulkCachingMode.AUTO);
         }
+
         this.localizer = localizer;
     }
 
@@ -68,9 +67,10 @@ public class PoseUpdater {
      *
      * @param hardwareMap the HardwareMap
      */
-    public PoseUpdater(HardwareMap hardwareMap, Telemetry telemetry) {
+    public PoseUpdater(HardwareMap hardwareMap) {
         // TODO: replace the second argument with your preferred localizer
         this(hardwareMap, new GoBuildaOdometryLocalizer(telemetry ,hardwareMap), telemetry);
+        this(hardwareMap, new ThreeWheelLocalizer(hardwareMap));
     }
 
     /**
@@ -80,7 +80,7 @@ public class PoseUpdater {
      */
     public void update() {
         previousVelocity = getVelocity();
-        previousPose = getPose();
+        previousPose = applyOffset(getRawPose());
         currentPose = null;
         currentVelocity = null;
         currentAcceleration = null;
@@ -201,9 +201,9 @@ public class PoseUpdater {
     public Pose getPose() {
         if (currentPose == null) {
             currentPose = localizer.getPose();
-            return currentPose;
+            return applyOffset(currentPose);
         } else {
-            return currentPose;
+            return applyOffset(currentPose);
         }
     }
 
@@ -223,7 +223,7 @@ public class PoseUpdater {
         }
     }
 
-    /**`
+    /**
      * This sets the current pose without using resettable offsets.
      *
      * @param set the pose to set the current pose to.
@@ -261,16 +261,10 @@ public class PoseUpdater {
      * @return returns the velocity of the robot.
      */
     public Vector getVelocity() {
-//        if (currentVelocity == null) {
-//            currentVelocity = new Vector();
-//            currentVelocity.setOrthogonalComponents(localizer.getVelocity().getX(), localizer.getVelocity().getY());
-//            currentVelocity.setMagnitude(MathFunctions.distance(getPose(), previousPose) / ((currentPoseTime - previousPoseTime) / Math.pow(10.0, 9)));
-//            return MathFunctions.copyVector(currentVelocity);
-//        } else {
-//            return MathFunctions.copyVector(currentVelocity);
-//        }
         if (currentVelocity == null) {
-            currentVelocity = localizer.getVelocityVector();
+            currentVelocity = new Vector();
+            currentVelocity.setOrthogonalComponents(getPose().getX() - previousPose.getX(), getPose().getY() - previousPose.getY());
+            currentVelocity.setMagnitude(MathFunctions.distance(getPose(), previousPose) / ((currentPoseTime - previousPoseTime) / Math.pow(10.0, 9)));
             return MathFunctions.copyVector(currentVelocity);
         } else {
             return MathFunctions.copyVector(currentVelocity);
@@ -327,9 +321,6 @@ public class PoseUpdater {
     public double getNormalizedIMUHeading() {
         return MathFunctions.normalizeAngle(-imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.RADIANS));
     }
-    public GoBildaPinpointDriver.DeviceStatus deviceStatus(){
-        return localizer.getDeviceStatus();
-    }
 
     /**
      * This returns the total number of radians the robot has turned.
@@ -354,8 +345,5 @@ public class PoseUpdater {
      */
     public void resetIMU() {
         localizer.resetIMU();
-    }
-    public Pose cameraAdjust(){
-         return localizer.cameraAdjust();
     }
 }

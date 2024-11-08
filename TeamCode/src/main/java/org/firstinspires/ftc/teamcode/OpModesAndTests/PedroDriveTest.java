@@ -47,7 +47,7 @@ public class PedroDriveTest extends CommandOpMode {
 
     @Override
     public void initialize(){
-        follower = new Follower(hardwareMap, telemetry);
+        follower = new Follower(hardwareMap);
 
         leftFront = new Motor(hardwareMap, "frontLeft");
         leftRear = new Motor(hardwareMap, "frontRight");

@@ -21,11 +21,12 @@ public class AutoSetStartCommand extends CommandBase {
     }
     @Override
     public boolean isFinished() {
-        if (follower.deviceStatus() == GoBildaPinpointDriver.DeviceStatus.READY) {
-            return true;
-        } else {
-            return false;
-        }
+//        if (follower.deviceStatus() == GoBildaPinpointDriver.DeviceStatus.READY) {
+//            return true;
+//        } else {
+//            return false;
+//        }
+        return true;
     }
 
 

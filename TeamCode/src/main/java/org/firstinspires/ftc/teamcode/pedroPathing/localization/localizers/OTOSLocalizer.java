@@ -5,7 +5,6 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
-import org.firstinspires.ftc.teamcode.Examples.GobuildaSample.GoBildaPinpointDriver;
 import org.firstinspires.ftc.teamcode.pedroPathing.localization.Localizer;
 import org.firstinspires.ftc.teamcode.pedroPathing.localization.Pose;
 import org.firstinspires.ftc.teamcode.pedroPathing.pathGeneration.MathFunctions;
@@ -42,6 +41,9 @@ public class OTOSLocalizer extends Localizer {
     private HardwareMap hardwareMap;
     private Pose startPose;
     private SparkFunOTOS otos;
+    private SparkFunOTOS.Pose2D otosPose;
+    private SparkFunOTOS.Pose2D otosVel;
+    private SparkFunOTOS.Pose2D otosAcc;
     private double previousHeading;
     private double totalHeading;
 
@@ -65,13 +67,13 @@ public class OTOSLocalizer extends Localizer {
     public OTOSLocalizer(HardwareMap map, Pose setStartPose) {
         hardwareMap = map;
 
-        // TODO: replace this with your OTOS port
         /*
          TODO: If you want to use the "SparkFunOTOSCorrected" version of OTOS, then replace the
           'SparkFunOTOS.class' below with 'SparkFunOTOSCorrected.class' and set the OTOS as a
-          "SparkFunOTOS Corrected" in your robot confg
+          "SparkFunOTOS Corrected" in your robot config
          */
-        SparkFunOTOS otos = hardwareMap.get(SparkFunOTOS.class, "sensor_otos");
+        // TODO: replace this with your OTOS port
+        otos = hardwareMap.get(SparkFunOTOS.class, "sensor_otos");
 
         otos.setLinearUnit(DistanceUnit.INCH);
         otos.setAngularUnit(AngleUnit.RADIANS);
@@ -90,6 +92,9 @@ public class OTOSLocalizer extends Localizer {
         otos.resetTracking();
 
         setStartPose(setStartPose);
+        otosPose = new SparkFunOTOS.Pose2D();
+        otosVel = new SparkFunOTOS.Pose2D();
+        otosAcc = new SparkFunOTOS.Pose2D();
         totalHeading = 0;
         previousHeading = startPose.getHeading();
 
@@ -103,8 +108,10 @@ public class OTOSLocalizer extends Localizer {
      */
     @Override
     public Pose getPose() {
-        SparkFunOTOS.Pose2D pose = otos.getPosition();
-        return MathFunctions.addPoses(startPose, new Pose(pose.x, pose.y, pose.h));
+        SparkFunOTOS.Pose2D rawPose = otos.getPosition();
+        Pose pose = new Pose(rawPose.x, rawPose.y, rawPose.h);
+
+        return MathFunctions.addPoses(startPose, MathFunctions.rotatePose(pose, startPose.getHeading(), false));
     }
 
     /**
@@ -114,8 +121,7 @@ public class OTOSLocalizer extends Localizer {
      */
     @Override
     public Pose getVelocity() {
-        SparkFunOTOS.Pose2D OTOSVelocity = otos.getVelocity();
-        return new Pose(OTOSVelocity.x, OTOSVelocity.y, OTOSVelocity.h);
+        return new Pose(otosVel.x, otosVel.y, otosVel.h);
     }
 
     /**
@@ -157,8 +163,9 @@ public class OTOSLocalizer extends Localizer {
      */
     @Override
     public void update() {
-        totalHeading += MathFunctions.getSmallestAngleDifference(otos.getPosition().h, previousHeading);
-        previousHeading = otos.getPosition().h;
+        otos.getPosVelAcc(otosPose,otosVel,otosAcc);
+        totalHeading += MathFunctions.getSmallestAngleDifference(otosPose.h, previousHeading);
+        previousHeading = otosPose.h;
     }
 
     /**
@@ -210,17 +217,9 @@ public class OTOSLocalizer extends Localizer {
         return otos.getAngularScalar();
     }
 
-    @Override
-    public GoBildaPinpointDriver.DeviceStatus getDeviceStatus() {
-        return null;
-    }
-
     /**
      * This does nothing since this localizer does not use the IMU.
      */
     public void resetIMU() {
-    }
-    public Pose cameraAdjust(){
-        return null;
     }
 }

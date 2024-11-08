@@ -1,6 +1,5 @@
 package org.firstinspires.ftc.teamcode.pedroPathing.localization;
 
-import org.firstinspires.ftc.teamcode.Examples.GobuildaSample.GoBildaPinpointDriver;
 import org.firstinspires.ftc.teamcode.pedroPathing.pathGeneration.Vector;
 
 /**
@@ -88,11 +87,8 @@ public abstract class Localizer {
      */
     public abstract double getTurningMultiplier();
 
-    public abstract GoBildaPinpointDriver.DeviceStatus getDeviceStatus();
-
     /**
      * This resets the IMU of the localizer, if applicable.
      */
     public abstract void resetIMU();
-    public abstract Pose cameraAdjust();
 }
