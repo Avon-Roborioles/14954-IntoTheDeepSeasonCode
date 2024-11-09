@@ -36,9 +36,8 @@ public class TeleOpEnhancements extends OpMode {
      * This initializes the drive motors as well as the Follower and motion Vectors.
      */
     @Override
-
     public void init() {
-        follower = new Follower(hardwareMap, telemetry);
+        follower = new Follower(hardwareMap);
 
         leftFront = hardwareMap.get(DcMotorEx.class, "frontLeft" );
         leftRear = hardwareMap.get(DcMotorEx.class, "backLeft");

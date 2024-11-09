@@ -72,7 +72,7 @@ public class FtcLibTeleOp extends CommandOpMode {
     @Override
     public void initialize(){
         mtelemetry = new  MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
-        follower = new Follower(hardwareMap, telemetry);
+        follower = new Follower(hardwareMap);
         follower.setStartingPose(new Pose(0, 0, 0));
         leftFront = new Motor(hardwareMap, "frontLeft");
         leftRear = new Motor(hardwareMap, "frontRight");

@@ -23,13 +23,8 @@ public class GoBuildaOdometryLocalizer extends Localizer {
     private HardwareMap hardwareMap;
     private Pose startPose;
     private GoBildaPinpointDriver odometry;
-    private OdometrySubsystem odometrySubsystem;
-    private Limelight3A limelight3A;
-    private LimelightSubsystem limelightSubsystem;
-    private LocalizerSubsystem localizerSubsystem;
     private double previousHeading;
     private double totalHeading;
-    private Telemetry telemetry;
 
     /**
      *
@@ -37,22 +32,20 @@ public class GoBuildaOdometryLocalizer extends Localizer {
      */
 
 
-    public GoBuildaOdometryLocalizer(Telemetry telemetry, HardwareMap map) {this(telemetry, map, new Pose());}
+    public GoBuildaOdometryLocalizer(HardwareMap map) {this(map, new Pose());}
 
     /**
      *
      * @param map
      * @param setStartPose
-     * @param telemetry
      */
-    public GoBuildaOdometryLocalizer( Telemetry telemetry, HardwareMap map, Pose setStartPose) {
+    public GoBuildaOdometryLocalizer(HardwareMap map, Pose setStartPose) {
         hardwareMap = map;
-        this.telemetry = telemetry;
         odometry = hardwareMap.get(GoBildaPinpointDriver.class, "odometry");
-        odometrySubsystem = new OdometrySubsystem(odometry, this.telemetry, new Pose2D(DistanceUnit.INCH, setStartPose.getX(), setStartPose.getY(), AngleUnit.RADIANS, setStartPose.getHeading()));
-        limelight3A = hardwareMap.get(Limelight3A.class, "limelight");
-        limelightSubsystem = new LimelightSubsystem(limelight3A,this.telemetry);
-        localizerSubsystem = new LocalizerSubsystem(this.telemetry, limelightSubsystem, odometrySubsystem);
+        odometry.setOffsets(-119.79, -135.29);
+        odometry.setEncoderResolution(GoBildaPinpointDriver.GoBildaOdometryPods.goBILDA_4_BAR_POD);
+        odometry.setEncoderDirections(GoBildaPinpointDriver.EncoderDirection.REVERSED, GoBildaPinpointDriver.EncoderDirection.FORWARD);
+        odometry.resetPosAndIMU();
         startPose = setStartPose;
         setStartPose(startPose);
         totalHeading = 0;
@@ -65,8 +58,8 @@ public class GoBuildaOdometryLocalizer extends Localizer {
      */
     @Override
     public Pose getPose() {
-        localizerSubsystem.update();
-        return new Pose(localizerSubsystem.getLocalizerPose().getX(DistanceUnit.INCH), localizerSubsystem.getLocalizerPose().getY(DistanceUnit.INCH), localizerSubsystem.getLocalizerPose().getHeading(AngleUnit.RADIANS));
+        odometry.update();
+        return new Pose(odometry.getPosition().getX(DistanceUnit.INCH), odometry.getPosition().getY(DistanceUnit.INCH), odometry.getPosition().getHeading(AngleUnit.RADIANS));
     }
 
     /**
@@ -76,8 +69,8 @@ public class GoBuildaOdometryLocalizer extends Localizer {
      */
     @Override
     public Pose getVelocity() {
-        localizerSubsystem.update();
-        return new Pose(localizerSubsystem.getLocalizerVelocity().getX(DistanceUnit.INCH),localizerSubsystem.getLocalizerVelocity().getY(DistanceUnit.INCH),localizerSubsystem.getLocalizerVelocity().getHeading(AngleUnit.RADIANS));
+        odometry.update();
+        return new Pose(odometry.getVelocity().getX(DistanceUnit.INCH),odometry.getVelocity().getY(DistanceUnit.INCH),odometry.getVelocity().getHeading(AngleUnit.RADIANS));
     }
 
     /**
@@ -98,7 +91,7 @@ public class GoBuildaOdometryLocalizer extends Localizer {
      */
     @Override
     public void setStartPose(Pose setStart) {
-       localizerSubsystem.setLocalizerPose(new Pose2D(DistanceUnit.INCH, setStart.getX(), setStart.getY(), AngleUnit.RADIANS, setStart.getHeading()));
+       odometry.setPosition(new Pose2D(DistanceUnit.INCH, setStart.getX(), setStart.getY(), AngleUnit.RADIANS, setStart.getHeading()));
     }
 
     /**
@@ -110,7 +103,7 @@ public class GoBuildaOdometryLocalizer extends Localizer {
     @Override
     public void setPose(Pose setPose) {
         Pose setPinpointPose = MathFunctions.subtractPoses(setPose, startPose);
-        localizerSubsystem.setLocalizerPose(new Pose2D(DistanceUnit.INCH, setPinpointPose.getX(), setPinpointPose.getY(), AngleUnit.RADIANS, setPinpointPose.getHeading()));
+        odometry.setPosition(new Pose2D(DistanceUnit.INCH, setPinpointPose.getX(), setPinpointPose.getY(), AngleUnit.RADIANS, setPinpointPose.getHeading()));
     }
     /**
      * This updates the total heading of the robot.
@@ -152,6 +145,6 @@ public class GoBuildaOdometryLocalizer extends Localizer {
     public void resetIMU() {
     }
     public Pose cameraAdjust(){
-        return localizerSubsystem.cameraAjust();
+        return null;
     }
 }

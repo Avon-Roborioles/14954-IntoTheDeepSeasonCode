@@ -78,9 +78,6 @@ public class AutoDriveSubsystem extends SubsystemBase {
     public void resetOffset(){
         follower.resetOffset();
     }
-    public Pose cameraAjust(){
-        return follower.cameraAdjust();
-    }
     public void startTeleopDrive(){
         follower.startTeleopDrive();
     }

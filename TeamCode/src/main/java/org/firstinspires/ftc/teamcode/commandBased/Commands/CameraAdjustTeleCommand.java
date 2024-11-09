@@ -14,7 +14,7 @@ public class CameraAdjustTeleCommand extends CommandBase {
 
     @Override
     public void execute() {
-        pedroDriveSubsystem.cameraAdjust();
+//        pedroDriveSubsystem.cameraAdjust();
     }
     @Override
     public boolean isFinished(){
