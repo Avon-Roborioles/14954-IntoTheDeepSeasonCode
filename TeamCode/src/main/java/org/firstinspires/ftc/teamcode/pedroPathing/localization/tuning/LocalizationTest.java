@@ -37,7 +37,7 @@ import java.util.List;
  * @version 1.0, 5/6/2024
  */
 @Config
-@Disabled
+//@Disabled
 @TeleOp(group = "Pedro Pathing Tuning", name = "Localization Test")
 public class LocalizationTest extends OpMode {
     private PoseUpdater poseUpdater;
@@ -82,7 +82,7 @@ public class LocalizationTest extends OpMode {
         telemetryA = new MultipleTelemetry(this.telemetry, FtcDashboard.getInstance().getTelemetry());
         telemetryA.addLine("This will print your robot's position to telemetry while "
                 + "allowing robot control through a basic mecanum drive on gamepad 1.");
-        telemetryA.addData("odo", poseUpdater.deviceStatus());
+//        telemetryA.addData("odo", poseUpdater.deviceStatus());
         telemetryA.update();
 
         Drawing.drawRobot(poseUpdater.getPose(), "#4CAF50");

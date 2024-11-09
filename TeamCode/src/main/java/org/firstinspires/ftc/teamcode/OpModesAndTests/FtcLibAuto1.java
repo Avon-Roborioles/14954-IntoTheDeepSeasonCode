@@ -9,12 +9,14 @@ import com.arcrobotics.ftclib.command.ParallelCommandGroup;
 import com.arcrobotics.ftclib.command.ParallelRaceGroup;
 import com.arcrobotics.ftclib.command.SequentialCommandGroup;
 import com.arcrobotics.ftclib.command.WaitCommand;
+import com.qualcomm.hardware.limelightvision.Limelight3A;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
 import org.firstinspires.ftc.teamcode.commandBased.Commands.AutoDriveCommand;
 import org.firstinspires.ftc.teamcode.commandBased.Commands.AutoSetStartCommand;
 import org.firstinspires.ftc.teamcode.commandBased.Commands.VisionCommands.CameraAjustCommand;
 import org.firstinspires.ftc.teamcode.commandBased.Subsystems.AutoDriveSubsystem;
+import org.firstinspires.ftc.teamcode.commandBased.Subsystems.LimelightSubsystem;
 import org.firstinspires.ftc.teamcode.pedroPathing.follower.Follower;
 import org.firstinspires.ftc.teamcode.pedroPathing.localization.Pose;
 import org.firstinspires.ftc.teamcode.pedroPathing.pathGeneration.BezierCurve;
@@ -74,18 +76,19 @@ public class FtcLibAuto1 extends FtcLibAutoBase {
         autoDriveSubsystem.setMaxPower(1);
 
         autoDriveCommand = new AutoDriveCommand(autoDriveSubsystem, mTelemetry);
-        cameraAjustCommand = new CameraAjustCommand(autoDriveSubsystem);
+        limelight3A = hardwareMap.get(Limelight3A.class, "limelight");
+        limelightSubsystem = new LimelightSubsystem(limelight3A, mTelemetry);
+        cameraAjustCommand = new CameraAjustCommand(autoDriveSubsystem, limelightSubsystem);
 
 
         register(autoDriveSubsystem);
         Command setPathToScan = new InstantCommand(() -> {
+            autoDriveSubsystem.setMaxPower(0.5);
             autoDriveSubsystem.followPath(toScan, true);
-            autoDriveSubsystem.setMaxPower(1);
         });
         Command setPathToFirst = new InstantCommand(() -> {
-//            follower.setPose(autoDriveSubsystem.cameraAjust());
+            autoDriveSubsystem.setMaxPower(0.5);
             autoDriveSubsystem.followPath(toFirst, true);
-//            autoDriveSubsystem.setMaxPower(0.5);
         });
         Command setPathFromFirst = new InstantCommand(() -> {
             autoDriveSubsystem.followPath(fromFirst, true);
@@ -110,7 +113,6 @@ public class FtcLibAuto1 extends FtcLibAutoBase {
         schedule(new SequentialCommandGroup(
                 autoSetStartCommand,
                 setPathToScan, autoDriveCommand,
-//                camera,
                 setPathToFirst, autoDriveCommand,
                 setPathFromFirst, autoDriveCommand,
                 setPathToSecond, autoDriveCommand,

@@ -17,7 +17,7 @@ public class AutoSetStartCommand extends CommandBase {
     }
     @Override
     public void execute() {
-        follower.setStartingPose(startPose);
+        follower.setPose(startPose);
     }
     @Override
     public boolean isFinished() {
