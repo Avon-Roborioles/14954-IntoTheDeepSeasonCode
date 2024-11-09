@@ -1,10 +1,13 @@
 package org.firstinspires.ftc.teamcode.pedroPathing.localization;
 
+import static org.firstinspires.ftc.robotcore.external.BlocksOpModeCompanion.telemetry;
+
 import com.qualcomm.hardware.lynx.LynxModule;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.IMU;
 
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
+import org.firstinspires.ftc.teamcode.pedroPathing.localization.localizers.GoBuildaOdometryLocalizer;
 import org.firstinspires.ftc.teamcode.pedroPathing.localization.localizers.PinpointLocalizer;
 import org.firstinspires.ftc.teamcode.pedroPathing.localization.localizers.ThreeWheelIMULocalizer;
 import org.firstinspires.ftc.teamcode.pedroPathing.localization.localizers.ThreeWheelLocalizer;
@@ -70,8 +73,7 @@ public class PoseUpdater {
      */
     public PoseUpdater(HardwareMap hardwareMap) {
         // TODO: replace the second argument with your preferred localizer
-//        this(hardwareMap, new GoBuildaOdometryLocalizer(telemetry ,hardwareMap));
-        this(hardwareMap, new PinpointLocalizer(hardwareMap));
+        this(hardwareMap, new GoBuildaOdometryLocalizer(hardwareMap));
     }
 
     /**

@@ -113,6 +113,7 @@ public class FtcLibAuto1 extends FtcLibAutoBase {
         schedule(new SequentialCommandGroup(
                 autoSetStartCommand,
                 setPathToScan, autoDriveCommand,
+                camera,
                 setPathToFirst, autoDriveCommand,
                 setPathFromFirst, autoDriveCommand,
                 setPathToSecond, autoDriveCommand,
