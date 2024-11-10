@@ -29,8 +29,8 @@ public class FtcLibAuto1 extends FtcLibAutoBase {
     @Override
     public void initialize() {
 
-        Pose scanPose = new Pose(-48, -50, 0);
-        Pose startPose = new Pose(-48, -64.5, 0);
+        Pose scanPose = new Pose(-40.75, -50, 0);
+        Pose startPose = new Pose(-40.75, -64.5, 0);
         Pose scorePose = new Pose(-55, -55, PI/4);
         Pose firstPose = new Pose(-48, -32, PI/2);
         Pose secondPose = new Pose(-55, -26, PI/2);
@@ -51,8 +51,8 @@ public class FtcLibAuto1 extends FtcLibAutoBase {
         toFirst = new Path((new BezierCurve(new Point(scanPose), new Point(firstPose))));
         toFirst.setLinearHeadingInterpolation(scorePose.getHeading(), firstPose.getHeading());
         toFirst.setPathEndTimeoutConstraint(3000);
-        fromFirst = new Path((new BezierCurve(new Point(firstPose), new Point(scorePose))));
-        fromFirst.setLinearHeadingInterpolation(firstPose.getHeading() , scorePose.getHeading());
+        fromFirst = new Path((new BezierCurve(new Point(firstPose), new Point(startPose))));
+        fromFirst.setLinearHeadingInterpolation(firstPose.getHeading() , startPose.getHeading());
         fromFirst.setPathEndTimeoutConstraint(3000);
         toSecond = new Path((new BezierCurve(new Point(scorePose), new Point(secondPose))));
         toSecond.setLinearHeadingInterpolation(scorePose.getHeading(), secondPose.getHeading());
@@ -78,7 +78,7 @@ public class FtcLibAuto1 extends FtcLibAutoBase {
         autoDriveCommand = new AutoDriveCommand(autoDriveSubsystem, mTelemetry);
         limelight3A = hardwareMap.get(Limelight3A.class, "limelight");
         limelightSubsystem = new LimelightSubsystem(limelight3A, mTelemetry);
-        cameraAjustCommand = new CameraAjustCommand(autoDriveSubsystem, limelightSubsystem);
+        cameraAjustCommand = new CameraAjustCommand(autoDriveSubsystem, limelightSubsystem, mTelemetry);
 
 
         register(autoDriveSubsystem);
@@ -107,7 +107,7 @@ public class FtcLibAuto1 extends FtcLibAutoBase {
             autoDriveSubsystem.followPath(fromThird, true);
         });
 
-        Command camera = new ParallelCommandGroup(new WaitCommand(500), cameraAjustCommand);
+        Command camera = new ParallelCommandGroup(new WaitCommand(1000), cameraAjustCommand);
 
 
         schedule(new SequentialCommandGroup(
@@ -115,11 +115,11 @@ public class FtcLibAuto1 extends FtcLibAutoBase {
                 setPathToScan, autoDriveCommand,
                 camera,
                 setPathToFirst, autoDriveCommand,
-                setPathFromFirst, autoDriveCommand,
-                setPathToSecond, autoDriveCommand,
-                setPathFromSecond, autoDriveCommand,
-                setPathToThird, autoDriveCommand,
-                setPathFromThird, autoDriveCommand
+                setPathFromFirst, autoDriveCommand
+//                setPathToSecond, autoDriveCommand,
+//                setPathFromSecond, autoDriveCommand,
+//                setPathToThird, autoDriveCommand,
+//                setPathFromThird, autoDriveCommand
         ));
 //        schedule(autoDriveCommand);
 
