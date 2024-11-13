@@ -25,13 +25,13 @@ public class CameraAjustCommand extends CommandBase {
     public void execute(){
         limelightSubsystem.setPipeline(1);
         result = limelightSubsystem.readAprilTag();
-        telemetry.addData("x", result.getBotpose().getPosition().x);
-        telemetry.addData("y", result.getBotpose().getPosition().y);
+        telemetry.addData("x", result.getBotpose().getPosition().x*39.3701);
+        telemetry.addData("y", result.getBotpose().getPosition().y*39.3701);
         telemetry.addData("heading", result.getBotpose().getOrientation().getYaw(AngleUnit.DEGREES));
         telemetry.addData("valid", result.isValid());
         telemetry.update();
         if (result.isValid()) {
-            autoDriveSubsystem.setPose(new Pose(result.getBotpose().getPosition().x, result.getBotpose().getPosition().y, result.getBotpose().getOrientation().getYaw(AngleUnit.RADIANS)));
+            autoDriveSubsystem.setPose(new Pose(result.getBotpose().getPosition().x*39.3701, autoDriveSubsystem.getPose().getY(), result.getBotpose().getOrientation().getYaw(AngleUnit.RADIANS)));
         }
     }
     @Override

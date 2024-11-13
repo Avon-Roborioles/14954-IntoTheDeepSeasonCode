@@ -47,20 +47,21 @@ public class FtcLibAuto1 extends FtcLibAutoBase {
 
         toScan = new Path((new BezierCurve(new Point(startPose), new Point(scanPose))));
         toScan.setLinearHeadingInterpolation(startPose.getHeading(), scanPose.getHeading());
-        toScan.setPathEndTimeoutConstraint(1000);
+        toScan.setPathEndTimeoutConstraint(1500);
+
         toFirst = new Path((new BezierCurve(new Point(scanPose), new Point(firstPose))));
         toFirst.setLinearHeadingInterpolation(scorePose.getHeading(), firstPose.getHeading());
         toFirst.setPathEndTimeoutConstraint(3000);
-        fromFirst = new Path((new BezierCurve(new Point(firstPose), new Point(startPose))));
-        fromFirst.setLinearHeadingInterpolation(firstPose.getHeading() , startPose.getHeading());
-        fromFirst.setPathEndTimeoutConstraint(3000);
+        fromFirst = new Path((new BezierCurve(new Point(firstPose), new Point(scorePose))));
+        fromFirst.setLinearHeadingInterpolation(firstPose.getHeading() , scorePose.getHeading());
+        fromFirst.setPathEndTimeoutConstraint(1000);
         toSecond = new Path((new BezierCurve(new Point(scorePose), new Point(secondPose))));
         toSecond.setLinearHeadingInterpolation(scorePose.getHeading(), secondPose.getHeading());
         toSecond.setPathEndTimeoutConstraint(3000);
         fromSecond = new Path((new BezierCurve(new Point(secondPose), new Point(scorePose))));
         fromSecond.setLinearHeadingInterpolation(secondPose.getHeading(), scorePose.getHeading());
         fromSecond.setPathEndTimeoutConstraint(3000);
-        toThird = new Path((new BezierCurve(new Point(scorePose), new Point(thirdPose))));
+        toThird = new Path((new BezierCurve(new Point(scorePose), new Point(thirdPose), new Point(new Pose(-60, -32, PI)))));
         toThird.setLinearHeadingInterpolation(scorePose.getHeading(), thirdPose.getHeading());
         toThird.setPathEndTimeoutConstraint(3000);
         fromThird = new Path((new BezierCurve(new Point(thirdPose), new Point(scorePose))));
@@ -110,16 +111,17 @@ public class FtcLibAuto1 extends FtcLibAutoBase {
         Command camera = new ParallelCommandGroup(new WaitCommand(1000), cameraAjustCommand);
 
 
+
         schedule(new SequentialCommandGroup(
                 autoSetStartCommand,
                 setPathToScan, autoDriveCommand,
                 camera,
                 setPathToFirst, autoDriveCommand,
-                setPathFromFirst, autoDriveCommand
-//                setPathToSecond, autoDriveCommand,
-//                setPathFromSecond, autoDriveCommand,
-//                setPathToThird, autoDriveCommand,
-//                setPathFromThird, autoDriveCommand
+                setPathFromFirst, autoDriveCommand,
+                setPathToSecond, autoDriveCommand,
+                setPathFromSecond, autoDriveCommand,
+                setPathToThird, autoDriveCommand,
+                setPathFromThird, autoDriveCommand
         ));
 //        schedule(autoDriveCommand);
 
