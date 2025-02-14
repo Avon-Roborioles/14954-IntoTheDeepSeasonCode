@@ -32,7 +32,7 @@ import org.firstinspires.ftc.teamcode.commandBased.Subsystems.TelemetrySubsystem
 import org.firstinspires.ftc.teamcode.pedroPathing.follower.Follower;
 
 
-@TeleOp(name = "pedroDrive")
+@TeleOp(name = "26 Practice")
 public class PedroDriveTest extends CommandOpMode {
     private Motor leftFront, rightFront, leftRear, rightRear;
 
@@ -68,8 +68,8 @@ public class PedroDriveTest extends CommandOpMode {
         telePedroDriveCommand = new TelePedroDriveCommand(pedroDriveSubsystem, telemetry, driverOp::getLeftY, driverOp::getLeftX, driverOp::getRightX, true);
         cameraAdjustTeleCommand = new CameraAdjustTeleCommand(pedroDriveSubsystem);
 
-        a = (new GamepadButton(driverOp, GamepadKeys.Button.A))
-                .whenPressed(cameraAdjustTeleCommand);
+//        a = (new GamepadButton(driverOp, GamepadKeys.Button.A))
+//                .whenPressed(cameraAdjustTeleCommand);
         register(pedroDriveSubsystem, pedroDriveSubsystem);
 
         pedroDriveSubsystem.setDefaultCommand(telePedroDriveCommand);
